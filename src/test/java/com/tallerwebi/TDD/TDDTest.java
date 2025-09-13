@@ -35,7 +35,7 @@ public class TDDTest {
 
     @Test
     public void debeDevolverFUERTE_cuandoLaContraseñaTiene4NumerosUnArrobay3Letras(){
-        String contraseñaDe8Caracteres = "1234@abc";
+        String contraseñaDe8Caracteres = "123p8pp@abc";
         String fortalezaDeLaContraseña = TDD.validarFortaleza(contraseñaDe8Caracteres);
 
         assertThat(fortalezaDeLaContraseña, equalToIgnoringCase("FUERTE"));
