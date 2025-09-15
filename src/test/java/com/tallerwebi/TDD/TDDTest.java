@@ -9,8 +9,9 @@ public class TDDTest {
     @Test
     public void debeDevolverINVALIDA_cuandoLaContraseñaTieneMenosde8Caracteres() {
 
+        TDD obj = new TDD();
         String contraseñaDe3Caracteres = "abc";
-        String fortalezaDeLaContraseña = TDD.validarFortaleza(contraseñaDe3Caracteres);
+        String fortalezaDeLaContraseña = obj.validarFortaleza(contraseñaDe3Caracteres);
 
         assertThat(fortalezaDeLaContraseña, equalToIgnoringCase("INVALIDA"));
     }
@@ -18,8 +19,9 @@ public class TDDTest {
     @Test
     public void debeDevolverDEBIL_cuandoLaContraseñaTiene8Caracteres() {
 
+        TDD obj = new TDD();
         String contraseñaDe8Caracteres = "abcdefgh";
-        String fortalezaDeLaContraseña = TDD.validarFortaleza(contraseñaDe8Caracteres);
+        String fortalezaDeLaContraseña = obj.validarFortaleza(contraseñaDe8Caracteres);
 
         assertThat(fortalezaDeLaContraseña, equalToIgnoringCase("DEBIL"));
     }
@@ -27,16 +29,18 @@ public class TDDTest {
     @Test
     public void debeDevolverMEDIANA_cuandoLaContraseñaTiene4CaracteresYUnArrobaEspecial() {
 
+        TDD obj = new TDD();
         String contraseñaDe8Caracteres = "abc@";
-        String fortalezaDeLaContraseña = TDD.validarFortaleza(contraseñaDe8Caracteres);
+        String fortalezaDeLaContraseña = obj.validarFortaleza(contraseñaDe8Caracteres);
 
         assertThat(fortalezaDeLaContraseña, equalToIgnoringCase("MEDIANA"));
     }
 
     @Test
     public void debeDevolverFUERTE_cuandoLaContraseñaTiene4NumerosUnArrobay3Letras(){
+        TDD obj = new TDD();
         String contraseñaDe8Caracteres = "123p8pp@abc";
-        String fortalezaDeLaContraseña = TDD.validarFortaleza(contraseñaDe8Caracteres);
+        String fortalezaDeLaContraseña = obj.validarFortaleza(contraseñaDe8Caracteres);
 
         assertThat(fortalezaDeLaContraseña, equalToIgnoringCase("FUERTE"));
     }

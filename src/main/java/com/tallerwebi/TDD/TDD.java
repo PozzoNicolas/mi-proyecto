@@ -2,7 +2,7 @@ package com.tallerwebi.TDD;
 
 public class TDD {
 
-    public static String validarFortaleza(String contraseña) {
+    public String validarFortaleza(String contraseña) {
 
         if (contraseña.length() < 8 && !tieneCaraterEspecial(contraseña)) {
             return "INVALIDA";
