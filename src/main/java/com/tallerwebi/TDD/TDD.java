@@ -1,5 +1,8 @@
 package com.tallerwebi.TDD;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class TDD {
 
     public String validarFortaleza(String contraseña) {
