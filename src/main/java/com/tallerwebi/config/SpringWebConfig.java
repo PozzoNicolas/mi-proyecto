@@ -13,6 +13,8 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 
+import com.tallerwebi.TDD.TDD;
+
 @EnableWebMvc
 @Configuration
 @ComponentScan({"com.tallerwebi.presentacion", "com.tallerwebi.dominio", "com.tallerwebi.infraestructura"})
@@ -69,6 +71,11 @@ public class SpringWebConfig implements WebMvcConfigurer {
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine(templateEngine());
         return viewResolver;
+    }
+
+     @Bean
+    public TDD tdd() {
+        return new TDD();
     }
 
 }
