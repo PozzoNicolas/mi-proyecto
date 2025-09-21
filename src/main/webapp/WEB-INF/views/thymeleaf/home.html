@@ -16,19 +16,60 @@
 
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-  <a class="navbar-brand" href="#">UNLAM</a>
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-md navbar-dark fixed-top shadow">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="#">VetConnect</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>
+                <li class="nav-item"><a class="nav-link" href="#turnos">Turnos</a></li>
+                <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+            </ul>
+        </div>
+    </div>
 </nav>
 
-<main role="main" class="container">
-  <div class = "container">
-    <h1>Bienvenidos a Taller Web 1</h1>
+<main class="main-body">
+    <h1 class="fw-bold">Bienvenidos a <span class="text-success">VetConnect</span></h1>
+    <h3>Tu plataforma de confianza para conectar con veterinarios y cuidar de tus mascotas</h3>
+    <p>
+        En VetConnect, entendemos lo importante que es la salud y el bienestar de tus mascotas.
+        Nuestra plataforma está diseñada para facilitarte la búsqueda y conexión con veterinarios
+        calificados en tu área. Ya sea que necesites una consulta de rutina, atención de emergencia
+        o asesoramiento especializado, estamos aquí para ayudarte.
+    </p>
+    <p>
+        Explora nuestro directorio de veterinarios, lee reseñas de otros dueños de mascotas y agenda
+        citas en línea con facilidad.
+    </p>
+    <a href="login.html" class="btn btn-success btn-lg mt-3">Iniciar sesion</a>
 
-    <a href="login.html" class="btn btn-lg btn-primary btn-block">Volver</a>
-  </div>
+    <div class="mt-4">
+        <img src="./img/mascotas-home.png"
+             alt="mascotas" class="img-fluid main-img">
+    </div>
 </main>
 <!-- /.container -->
-
+<!-- FOOTER -->
+<footer>
+    <div>
+        <h6>Integrantes:</h6>
+        <h6>Diego Contreras</h6>
+        <h6>Nicolas Pozzo</h6>
+        <h6>Andrea Callejas</h6>
+        <h6>Alan Rojas</h6>
+        <h6>Mauricio Medina</h6>
+        <h6>Joaquin A. Diaz</h6>
+    </div>
+    <div>
+        <h6>Fundación Futuro - 2024</h6>
+        <h6>Taller Web I - Universidad Nacional de La Matanza</h6>
+    </div>
+</footer>
 <!-- Boostrap core js -->
 <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
 </body>
