@@ -2,6 +2,7 @@ package com.tallerwebi.TDD;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.hasItem;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Collection;
 
@@ -50,6 +51,42 @@ public class ServicioClienteTest {
 
     }
 
+    @Test
+    public void queNoPermitaRegistrarUnClienteConUnCorreoExistenteEnLaListaDeClientes (){
+
+        ServicioClienteImpl servicio = new ServicioClienteImpl ();
+        Cliente c1 = new Cliente (null, "Nicolas","Pozzo","npozzo@gmail.com", "1152297244");
+        Cliente c2 = new Cliente (null, "Nicolas","Pozzo","npozzo@gmail.com", "1152297244");
+
+        servicio.registrarCliente (c1);
+        try {
+            servicio.registrarCliente(c2);
+        } catch (IllegalArgumentException e) {
+            // ok, lanzó la excepción esperada
+        }
+
+        Collection<Cliente> clientes = servicio.listarTodos();
+        int largoDeLista = 3;
+        int largoDeClientes = clientes.size();
+
+        assertThat(largoDeClientes, is(largoDeLista));
+
+    }
+
+    @Test
+    public void queLanceExcepcionAlRegistrarUnClienteConCorreoExistente() {
+        ServicioClienteImpl servicio = new ServicioClienteImpl();
+
+        Cliente clienteNuevo1 = new Cliente(null, "Nicolas","Pozzo","npozzo@gmail.com", "1152297244");
+        Cliente clienteNuevo2 = new Cliente(null, "Nicolas","Pozzo","npozzo@gmail.com", "1152297244");
+
+        servicio.registrarCliente(clienteNuevo1);
+
+        // 🚀 acá validamos que se lance la excepción
+        assertThrows(IllegalArgumentException.class, () -> {
+            servicio.registrarCliente(clienteNuevo2);
+        });
+    }
 
 
 

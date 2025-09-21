@@ -25,6 +25,13 @@ public class ServicioClienteImpl implements ServicioCliente {
 
     @Override
     public Cliente registrarCliente(Cliente cliente) {
+
+        // Verifico si ya existe un cliente con el mismo correo
+        boolean existeCorreo = storage.values().stream().anyMatch(c -> c.getCorreo().equalsIgnoreCase(cliente.getCorreo()));
+
+        if (existeCorreo) {
+            throw new IllegalArgumentException("Ya existe un cliente con el correo: " + cliente.getCorreo());
+        }
         if (cliente.getId() == null) {
             cliente.setId(nextId());
         }
