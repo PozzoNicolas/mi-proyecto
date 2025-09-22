@@ -1,8 +1,11 @@
 package com.tallerwebi.TDD;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+
+import com.tallerwebi.dominio.Turno;
 
 public class TDDTest {
 
@@ -44,4 +47,16 @@ public class TDDTest {
 
         assertThat(fortalezaDeLaContraseña, equalToIgnoringCase("FUERTE"));
     }
+
+    //Parte turnos
+    /*
+    @Test
+    public void crearTurnoConDatosBasicos() {
+        //Datos a modificar
+        Turno turno = new Turno(1, "Consulta", "2025-09-22");
+        assertTrue(turno.getId() == 1);
+        assertTrue(turno.getDescripcion()== "Consulta");
+        assertTrue(turno.getFecha()== "2025-09-22"); 
+    }
+    */
 }

@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Taller Web I</title>
+
+  <!-- Boostrap core css -->
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+
+  <!-- custom style -->
+  <link rel="stylesheet" th:href="@{/css/main.css}"/>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+  <a class="navbar-brand" href="#">UNLAM</a>
+</nav>
+
+<main role="main" class="container">
+  <div class = "container">
+    <h1>Resultados</h1>
+    
+    <p>Turnos de <span th:text="${turno.especialidad}"></span> para: <span th:text="${turno.practica}"></span> En: <span th:text="${turno.lugar}"></span></p>
+
+    <!--
+<form th:action="@{/seleccionar-turno}" th:object="${horarioSeleccionado}" method="post">
+    <label for="turnos">Seleccione un turno:</label>
+    <select id="turnos" th:field="*{horario}">
+        <option value="" th:text="'-- Seleccione --'"></option>
+        <option value="11:00">11:00 Con doctor</option>
+        <option value="14:00">14:00 Con doctor 2</option>
+        <option value="17:00">17:00 Con doctor 3</option>
+    </select>
+
+    <button type="submit">Reservar</button>
+</form> 
+
+      <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}">
+No pude hacer un form con opciones del tipo radio :(-->
+    <a href="turnos.html" class="btn btn-lg btn-primary btn-block">Nuevo Turno</a>
+    <a href="login.html" class="btn btn-lg btn-primary btn-block">Volver</a>
+  </div>
+</main>
+<!-- /.container -->
+
+<!-- Boostrap core js -->
+<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+</body>
+</html>

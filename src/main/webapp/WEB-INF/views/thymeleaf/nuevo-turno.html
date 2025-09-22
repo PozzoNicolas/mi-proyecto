@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Taller Web I</title>
+
+  <!-- Boostrap core css -->
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+
+  <!-- custom style -->
+  <link rel="stylesheet" th:href="@{/css/main.css}"/>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+  <a class="navbar-brand" href="#">UNLAM</a>
+</nav>
+
+<main role="main" class="container">
+  <div class = "container">
+    <h1>Nuevo turno</h1>
+
+    <form action="#" th:action="@{/validar-datos-turno}" method="post" th:object="${datosBusqueda}">
+      <label for="especialidad">Especialidad:</label>
+      <select id="especialidad" th:field="*{especialidad}">
+        <option value="" th:text="'-- Seleccione --'" selected> </option>
+        <option value="vacuna">Vacuna</option>
+        <option value="estudio">Estudio</option>
+        <option value="control">Control</option>
+      </select>
+      <!--Las opciones dependerian de la especialidad:
+      Vacuna->vacunas dispo
+      Estudio->Estudios dispo-->
+      <label for="pactica">Practica:</label>
+      <select id="practica" th:field="*{practica}">
+        <option value="" th:text="'-- Seleccione --'" selected> </option>
+        <option value="Practica a">Practica A</option>
+        <option value="Practica B">Practica B</option>
+        <option value="Practica C">Practica C</option>
+      </select>
+
+      <label for="lugar">Lugar:</label>
+      <select id="lugar" th:field="*{lugar}">
+        <option value="" th:text="'-- Seleccione --'" selected></option>
+        <option value="Lugar A">Lugar A</option>
+        <option value="Lugar B">Lugar B</option>
+      </select>
+
+      <button type="submit">Buscar disponibles</button>
+
+      <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}">
+      </p>
+    </form>
+
+    <a href="turnos.html" class="btn btn-lg btn-primary btn-block">Turnos</a>
+    <a href="login.html" class="btn btn-lg btn-primary btn-block">Volver</a>
+  </div>
+</main>
+<!-- /.container -->
+
+<!-- Boostrap core js -->
+<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+</body>
+</html>
