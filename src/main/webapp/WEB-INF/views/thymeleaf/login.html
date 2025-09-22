@@ -11,13 +11,12 @@
 
     <!-- custom style -->
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
-
 </head>
 
 <body>
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#">UNLAM</a>
+    <a class="navbar-brand" href="home.html">UNLAM</a>
 </nav>
 
 <main role="main" class="container">
@@ -36,7 +35,7 @@
                 <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}">
                 </p>
             </form>
-            <a id="btn-register" href="nuevo-usuario">Registrarme</a>
+            <a id="btn-register" href="nuevo-usuario.html">Registrarme</a>
         </div>
     </div>
 </main>

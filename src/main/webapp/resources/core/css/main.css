@@ -68,7 +68,7 @@ h2 {
 .navbar-nav .nav-link {
     display: flex;
     flex-direction: row;
-    color: greenyellow !important;
+    color: white !important;
     transition: color 0.3s ease;
 }
 
