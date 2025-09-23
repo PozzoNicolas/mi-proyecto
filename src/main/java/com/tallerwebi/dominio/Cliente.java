@@ -1,5 +1,10 @@
 package com.tallerwebi.dominio;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+
 public class Cliente {
 
     private Integer id;
@@ -7,6 +12,7 @@ public class Cliente {
     private String apellido;
     private String correo;
     private String telefono;
+    private List<Mascota> mascotas = new ArrayList<Mascota>();
 
     public Cliente () {
     }
@@ -50,8 +56,13 @@ public class Cliente {
                 + ", telefono=" + telefono + "]";
     }
 
-    
 
-    
+    public List<Mascota> getMascotas() {
+        return mascotas;
+    }
+
+    public void agregarMascota(Mascota mascota) {
+        mascotas.add(mascota);
+    }
 
 }

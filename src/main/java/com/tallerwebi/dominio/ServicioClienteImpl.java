@@ -1,11 +1,13 @@
 package com.tallerwebi.dominio;
 
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-
+@Service
 public class ServicioClienteImpl implements ServicioCliente {
 
       private final Map<Integer, Cliente> storage = new LinkedHashMap<>();  
@@ -46,7 +48,8 @@ public class ServicioClienteImpl implements ServicioCliente {
 
     @Override
     public Cliente buscarClientePorId(Integer id) {
-        return storage.get(id);        
+
+        return storage.get(id);
     }
 
 
