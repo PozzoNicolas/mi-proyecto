@@ -1,7 +1,6 @@
 package com.tallerwebi.dominio;
 
 public class Turno {
-    //Atributos a cambiar
     private int id;
     private String especialidad;
     private String practica;

@@ -16,23 +16,31 @@ public class ControladorResultadosTurnos {
     
     @Autowired
     private ServicioTurnos servicioTurnos;
- /*
+
 @GetMapping("/resultado-turno")
-public ModelAndView mostrarFormulario() {
+public ModelAndView mostrarFormulario(@ModelAttribute("turno") Turno turno) {
     ModelMap modelo = new ModelMap();
-    modelo.put("horarioSeleccionado", new Turno()); 
+    modelo.put("turno", new Turno()); 
     return new ModelAndView("resultado-turno", modelo);
 }
 
 
 @PostMapping("/seleccionar-turno")
-public ModelAndView registrarTurno(@ModelAttribute("horarioSeleccionado") Turno turno) {
-    System.out.println("Horario seleccionado: " + turno.getHorario()); // Debug
+public ModelAndView seleccionarTurno(@ModelAttribute Turno turno) {
+    ModelMap modelo = new ModelMap();
+
+    if (turno.getHorario() == null || turno.getHorario().isEmpty()) {
+        modelo.put("error", "Debe seleccionar un horario");
+        modelo.put("turno", turno);
+        return new ModelAndView("seleccionar-horario", modelo);
+    }
+
+    // register turno
     servicioTurnos.registrarTurno(turno);
 
-    ModelMap modelo = new ModelMap();
-    modelo.put("turnos", servicioTurnos.getTurnos());
-    return new ModelAndView("turnos", modelo); 
-} */
+    // redirect to avoid duplicate submission
+    return new ModelAndView("redirect:/turnos");
+}
+
 
 }

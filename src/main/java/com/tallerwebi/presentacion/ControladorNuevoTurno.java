@@ -33,7 +33,6 @@ public class ControladorNuevoTurno {
 
         modelo.put("turno", turno);
         return new ModelAndView("resultado-turno", modelo);
-
     }
 
 }

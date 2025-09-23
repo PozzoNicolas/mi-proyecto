@@ -28,12 +28,11 @@
       <p>No hay turnos disponibles</p>
     </div>
     <div th:if="${!#lists.isEmpty(turnos)}">
-      <p>Tenes un turno programado... cuando? donde? no se programarlo</p>
-      <!---->
       <ul>
         <li th:each="turno : ${turnos}">
-          fecha: <span th:text="${turno.fecha}"></span> <br>
           Especialidad: <span th:text="${turno.especialidad}"></span>
+          Fecha: <span th:text="${turno.fecha}"></span>
+          Horario: <span th:text="${turno.horario}"></span> <br>
         </li>
       </ul>
     </div>

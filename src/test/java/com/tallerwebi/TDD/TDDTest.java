@@ -1,9 +1,9 @@
 package com.tallerwebi.TDD;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.tallerwebi.dominio.Turno;
 
@@ -48,15 +48,33 @@ public class TDDTest {
         assertThat(fortalezaDeLaContraseña, equalToIgnoringCase("FUERTE"));
     }
 
-    //Parte turnos
-    /*
     @Test
-    public void crearTurnoConDatosBasicos() {
-        //Datos a modificar
-        Turno turno = new Turno(1, "Consulta", "2025-09-22");
-        assertTrue(turno.getId() == 1);
-        assertTrue(turno.getDescripcion()== "Consulta");
-        assertTrue(turno.getFecha()== "2025-09-22"); 
+    public void testTurnoGetters() {
+        Turno turno = new Turno(1, "vacuna", "Rabia", "consultorio 1", "2025-11-12", "10:00");
+        assertEquals(Integer.toString(1), Integer.toString(turno.getId()));
+        assertEquals("vacuna", turno.getEspecialidad());
+        assertEquals("Rabia", turno.getPractica());
+        assertEquals("consultorio", turno.getLugar());
+        assertEquals("2025-11-12", turno.getFecha());
+        assertEquals("10:00", turno.getHorario());
     }
-    */
+
+    @Test
+    public void testTrunoSetters() {
+        Turno turno = new Turno(); 
+
+        turno.setId(1);
+        turno.setEspecialidad("vacuna");
+        turno.setPractica("Rabia");
+        turno.setLugar("consultorio");
+        turno.setFecha("2025-11-12");
+        turno.setHorario("11:30");
+
+        assertEquals(Integer.toString(1), Integer.toString(turno.getId()));
+        assertEquals("vacuna", turno.getEspecialidad());
+        assertEquals("Rabia", turno.getPractica());
+        assertEquals("consultorio", turno.getLugar());
+        assertEquals("2025-11-12", turno.getFecha());
+        assertEquals("11:30", turno.getHorario());
+    }
 }
