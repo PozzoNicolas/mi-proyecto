@@ -2,7 +2,22 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head><meta charset="UTF-8"/><title>Clientes</title></head>
 <link rel="stylesheet" th:href="@{/css/main.css}"/>
+<link rel="stylesheet" th:href="@{/css/mascotas.css}"/>
+
 <body>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-success fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="/">VetConnect</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</nav>
+
 <h1>Clientes</h1>
 
 <form th:action="@{/clientes}" th:object="${nuevoCliente}" method="post">
@@ -14,7 +29,7 @@
 </form>
 
 <h2>Lista</h2>
-<ul>
+<ul class="list-group container mt-3" >
     <li th:each="c : ${clientes}">
         <span th:text="${c.id}">ID</span> -
         <span th:text="${c.nombre}">Nombre</span>
