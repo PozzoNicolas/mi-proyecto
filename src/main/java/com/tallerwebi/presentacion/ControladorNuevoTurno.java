@@ -21,12 +21,6 @@ public class ControladorNuevoTurno {
 
     @PostMapping("/validar-datos-turno")
     public ModelAndView validarDatos(@ModelAttribute("datosBusqueda") Turno turno) {
-
-        System.out.println("especialidad: '" + turno.getEspecialidad() + "'");
-        System.out.println("practica: '" + turno.getPractica() + "'");
-        System.out.println("lugar: '" + turno.getLugar() + "'");
-
-
         ModelMap modelo = new ModelMap();
         if (turno.getEspecialidad() == null || turno.getEspecialidad().isEmpty() ||
         turno.getPractica() == null || turno.getPractica().isEmpty() ||
