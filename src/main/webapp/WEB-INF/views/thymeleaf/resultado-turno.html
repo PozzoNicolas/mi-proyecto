@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Taller Web I</title>
+
+  <!-- Boostrap core css -->
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+
+  <!-- custom style -->
+  <link rel="stylesheet" th:href="@{/css/main.css}"/>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+  <a class="navbar-brand" href="#">UNLAM</a>
+</nav>
+
+<main role="main" class="container">
+  <div class = "container">
+    <h1>Resultados</h1>
+    
+    <p>Turnos de <span th:text="${turno.especialidad}"></span>
+      para: <span th:text="${turno.practica}"></span>
+      En: <span th:text="${turno.lugar}"></span>
+    </p>
+
+    <form th:action="@{/seleccionar-dia}" th:object="${turno}" method="post">
+        <label for="fecha">Seleccione el día:</label>
+        <input type="date" th:field="*{fecha}" required
+        th:attr="min=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"/>
+
+        <input type="hidden" th:field="*{especialidad}" />
+        <input type="hidden" th:field="*{practica}" />
+        <input type="hidden" th:field="*{lugar}" />
+
+        <button type="submit">Ver turnos disponibles</button>
+    </form>
+
+
+    <form th:action="@{/seleccionar-turno}" th:object="${turno}" method="post">
+        <label for="horario">Seleccione el horario y doctor:</label>
+        <select id="horario" th:field="*{horario}" required>
+            <option value="">-- Seleccione --</option>
+            <option th:each="h : ${horarioTurnos}" th:value="${h}" th:text="${h}"></option>
+        </select>
+
+        <input type="hidden" th:field="*{especialidad}" />
+        <input type="hidden" th:field="*{practica}" />
+        <input type="hidden" th:field="*{lugar}" />
+        <input type="hidden" th:field="*{fecha}" />
+
+        <button type="submit">Reservar turno</button>
+    </form>
+
+
+    <!--No funciona, si saco los required`s obtengo otros problemas-->
+    <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}">
+    <a href="turnos.html" class="btn btn-lg btn-primary btn-block">Nuevo Turno</a>
+    <a href="login.html" class="btn btn-lg btn-primary btn-block">Volver</a>
+  </div>
+</main>
+<!-- /.container -->
+
+<!-- Boostrap core js -->
+<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+</body>
+</html>
