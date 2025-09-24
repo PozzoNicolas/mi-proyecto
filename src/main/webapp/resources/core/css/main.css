@@ -1,19 +1,110 @@
+/* === General === */
 body {
-  padding-top: 5rem;
-}
-.starter-template {
-  padding: 3rem 1.5rem;
-  text-align: center;
-}
-
-h1{
-	color:#0000FF;
+    padding-top: 70px; /* evita que la navbar tape contenido */
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4fdf6; /* verde muy suave */
+    color: #333;
 }
 
-h2{
-	color:#FF0000;
+/* === Titulos === */
+h1 {
+    color: #2e7d32; /* verde veterinario */
+    font-weight: bold;
 }
 
-.navbar-brand{
-    margin:0 2rem;
+h2 {
+    color: #2e7d32; /* azul secundario */
+}
+
+/* === Hero / Main === */
+.main-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+}
+
+.main-body h3 {
+    color: #444;
+    margin: 1rem 0;
+}
+
+.main-body p {
+    max-width: 800px;
+}
+
+/* Imagen principal */
+.main-img {
+    max-width: 300px;
+    border-radius: 50%;
+    margin-top: 1rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+}
+
+.main-img:hover {
+    transform: scale(1.05);
+}
+
+/* === Navbar === */
+.navbar {
+    display: flex;
+    flex-direction: row;
+    background: linear-gradient(90deg, #2e7d32, #43a047);
+}
+
+.navbar-brand {
+    margin: 0 2rem;
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+
+.navbar-nav .nav-link {
+    display: flex;
+    flex-direction: row;
+    color: white !important;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #dcedc8 !important;
+}
+
+/* === Botones === */
+.btn-success {
+    background-color: #2e7d32;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-size: 1.1rem;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+}
+
+.btn-success:hover {
+    background-color: #1b5e20;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* === Footer === */
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    text-align: center;
+    background-color: #2e7d32;
+    color: white;
+    padding: 2rem;
+}
+
+footer h6 {
+    margin: 0.3rem 0;
+    font-weight: normal;
 }
