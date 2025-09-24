@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="UTF-8"/><title>Clientes</title></head>
-<link rel="stylesheet" th:href="@{/css/main.css}"/>
-<link rel="stylesheet" th:href="@{/css/mascotas.css}"/>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Clientes - VetConnect</title>
 
+    <!-- Bootstrap -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/clientes.css}"/>
+</head>
 <body>
 
-
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-success fixed-top">
     <div class="container-fluid">
         <a class="navbar-brand fw-bold" href="/">VetConnect</a>
@@ -18,27 +25,46 @@
     </div>
 </nav>
 
-<h1>Clientes</h1>
+<!-- Encabezado -->
+<div class="container text-center mt-5">
+    <h1>Clientes</h1>
+    <p class="text-muted">Administra y registra tus clientes fácilmente</p>
+</div>
 
-<form th:action="@{/clientes}" th:object="${nuevoCliente}" method="post">
-    <input th:field="*{nombre}" placeholder="Nombre" required/>
-    <input th:field="*{apellido}" placeholder="Apellido" required/>
-    <input th:field="*{correo}" placeholder="Email"/>
-    <input th:field="*{telefono}" placeholder="Teléfono"/>
-    <button type="submit">Registrar cliente</button>
-</form>
+<!-- Formulario -->
+<div class="container mt-4">
+    <form th:action="@{/clientes}" th:object="${nuevoCliente}" method="post" class="shadow-sm">
+        <div class="mb-3">
+            <input class="form-control" th:field="*{nombre}" placeholder="Nombre" required/>
+        </div>
+        <div class="mb-3">
+            <input class="form-control" th:field="*{apellido}" placeholder="Apellido" required/>
+        </div>
+        <div class="mb-3">
+            <input class="form-control" th:field="*{correo}" placeholder="Email"/>
+        </div>
+        <div class="mb-3">
+            <input class="form-control" th:field="*{telefono}" placeholder="Teléfono"/>
+        </div>
+        <button type="submit" class="btn btn-success w-100">Registrar cliente</button>
+    </form>
+</div>
 
-<h2>Lista</h2>
-<ul class="list-group container mt-3" >
-    <li th:each="c : ${clientes}">
-        <span th:text="${c.id}">ID</span> -
-        <span th:text="${c.nombre}">Nombre</span>
-        <span th:text="${c.apellido}">Apellido</span> -
-        <span th:text="${c.correo}">Correo</span>
-    </li>
-</ul>
+<!-- Lista -->
+<div class="container mt-5">
+    <h2 class="text-center">Lista de clientes</h2>
+    <ul class="list-group mt-3">
+        <li class="list-group-item" th:each="c : ${clientes}">
+            <span class="fw-bold text-success" th:text="${c.id}">ID</span> -
+            <span th:text="${c.nombre}">Nombre</span>
+            <span th:text="${c.apellido}">Apellido</span> -
+            <span class="text-muted" th:text="${c.correo}">Correo</span>
+        </li>
+    </ul>
+</div>
 
-<footer>
+<!-- Footer -->
+<footer class="mt-5">
     <div>
         <h6>Integrantes:</h6>
         <h6>Diego Contreras</h6>
@@ -53,5 +79,8 @@
         <h6>Taller Web I - Universidad Nacional de La Matanza</h6>
     </div>
 </footer>
+
+<!-- Bootstrap JS -->
+<script th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>
