@@ -1,0 +1,223 @@
+/* ==============================
+   Estilos generales
+============================== */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding-top: 4rem;
+    background-color: #f9fdf9;
+    color: #333;
+}
+
+/* ==============================
+   Header
+============================== */
+.header {
+    background-color: #198754; /* Verde Bootstrap */
+    color: #fff;
+    padding: 0.5rem 1rem;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#logo-header {
+    height: 40px;
+}
+
+#menu-toggle {
+    font-size: 1.5rem;
+    border: none;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    margin-right: 1rem;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+#icono-perfil,
+#icono-salida {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+}
+
+/* ==============================
+   Menú lateral
+============================== */
+.opciones {
+    position: fixed;
+    top: 4rem;
+    left: 0;
+    width: 200px;
+    height: calc(100% - 4rem);
+    background-color: #f1fdf1;
+    padding: 1rem;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.opciones-article {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin: 1rem 0;
+}
+
+#icono-opciones {
+    width: 28px;
+    height: 28px;
+}
+
+#span-opciones {
+    color: #198754;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+#span-opciones:hover {
+    text-decoration: underline;
+}
+
+/* ==============================
+   Main / Cajas
+============================== */
+.main {
+    margin-left: 220px;
+    padding: 2rem;
+}
+
+.cajas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Tarjetas generales */
+.cajas article {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Citas */
+#box-turnos {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#left-turnos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: bold;
+    color: #198754;
+    margin-right: 1rem;
+}
+
+#boton-cancelar {
+    background-color: #dc3545;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+}
+
+#boton-cancelar:hover {
+    background-color: #bb2d3b;
+}
+
+/* Historial */
+.secciones-datos {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+.datos-internos {
+    text-align: center;
+    margin: 1rem;
+}
+
+.datos-internos img {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 0.5rem;
+}
+
+/* Credencial */
+.credencial {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f1fdf1;
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+#logo-credencial {
+    width: 40px;
+}
+
+#icono-credencial {
+    width: 32px;
+}
+
+#span-credencial {
+    font-weight: 500;
+    color: #198754;
+    cursor: pointer;
+}
+
+/* Clínica */
+#info-localizacion {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#icono-localizacion {
+    width: 20px;
+    margin-right: 0.5rem;
+}
+
+#mapa {
+    margin-top: 1rem;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* ==============================
+   Footer
+============================== */
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    text-align: center;
+    background-color: #2e7d32;
+    color: white;
+    padding: 2rem;
+}
+
+footer h6 {
+    margin: 0.3rem 0;
+    font-weight: normal;
+}

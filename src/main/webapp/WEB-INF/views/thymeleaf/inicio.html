@@ -1,0 +1,173 @@
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title> Inicio - VetConnect</title>
+
+    <!-- Boostrap core css -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+
+    <!-- custom style -->
+    <link rel="stylesheet" th:href="@{/css/inicio.css}"/>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-md navbar-dark fixed-top shadow">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="inicio.html">VetConnect</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="turnos.html">Turnos</a></li>
+                <li class="nav-item"><a class="nav-link" href="inicio.html">Contacto</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<header class="header">
+    <section class="header-section">
+        <article class="header-left">
+            <button id="menu-toggle" aria-label="Abrir menú">☰</button>
+            <a href="inicio.html">
+                <img src="../img/logo_vetconnect.png" alt="Logo VetConnect" id="logo-header">
+            </a>
+        </article>
+        <article class="header-right">
+            <span id="nombre-usuario">Bienvenido, Diego</span>
+            <img src="../img/perfil.png" alt="icono-perfil" id="icono-perfil">
+            <a href="../login.html">
+                <img src="../img/logout.png" alt="salida" id="icono-salida">
+            </a>
+        </article>
+    </section>
+</header>
+
+<!-- MAIN -->
+<main class="main">
+    <!-- Menú lateral -->
+    <section class="opciones">
+        <article class="opciones-article">
+            <img src="../img/calendar.png" alt="turnos" id="icono-opciones">
+            <a href="turnos.html" id="span-opciones">Citas</a>
+        </article>
+        <article class="opciones-article">
+            <img src="../img/paw.png" alt="mascotas" id="icono-opciones">
+            <a href="mascotas.html" id="span-opciones">Mis Mascotas</a>
+        </article>
+        <article class="opciones-article">
+            <img src="../img/vaccine.png" alt="vacunas" id="icono-opciones">
+            <a href="historial.html" id="span-opciones">Vacunas e Historial</a>
+        </article>
+        <article class="opciones-article">
+            <img src="../img/contact.png" alt="contacto" id="icono-opciones">
+            <a href="contacto.html" id="span-opciones">Contacto</a>
+        </article>
+    </section>
+
+    <!-- Contenido principal -->
+    <section class="cajas">
+
+        <!-- Citas -->
+        <article class="box-turnos-article">
+            <h2>Citas de mi mascota</h2>
+            <div id="box-turnos">
+                <div id="left-turnos">
+                    <span id="dia-turno">Viernes</span>
+                    <span id="numero-dia-turno">20</span>
+                    <span id="mes-año-turno">SEP 2025</span>
+                </div>
+                <div id="separaciones">
+                    <div id="hora-editar">
+                        <h4>Hora: 10:30 hs</h4>
+                        <a href="turnos.html">
+                            <img src="../img/edit.png" alt="icono-editar" id="icono-editar">
+                        </a>
+                    </div>
+                    <div id="datos-turno">
+                        <span id="nombre-usuario-turno">Max</span>
+                        <span>Consulta general</span>
+                        <span>Dr. López</span>
+                    </div>
+                    <div>
+                        <button id="boton-cancelar">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Historial -->
+        <article class="datos-medicos">
+            <h2>Historial de mi mascota</h2>
+            <div class="secciones-datos">
+                <div class="datos-internos">
+                    <img src="../img/vaccine.png" alt="vacunas">
+                    <span>Vacunas</span>
+                </div>
+                <div class="datos-internos">
+                    <img src="../img/report.png" alt="consultas">
+                    <span>Consultas previas</span>
+                </div>
+                <div class="datos-internos">
+                    <img src="../img/lab.png" alt="analisis">
+                    <span>Análisis de laboratorio</span>
+                </div>
+                <div class="datos-internos">
+                    <img src="../img/info.png" alt="informes">
+                    <span>Informes médicos</span>
+                </div>
+            </div>
+        </article>
+
+        <!-- Perfil Mascota -->
+        <article class="mi-credencial">
+            <h2>Perfil de mi mascota</h2>
+            <article class="credencial">
+                <img src="../img/paw.png" alt="logo mascota" id="logo-credencial">
+                <span id="nombre-credencial">Max (Caniche)</span>
+                <img src="../img/id.png" alt="icono-credencial" id="icono-credencial">
+                <span id="span-credencial">Ver Perfil</span>
+            </article>
+        </article>
+
+        <!-- Clínica -->
+        <article id="Sede">
+            <h2>Clínica VetConnect</h2>
+            <div id="info-localizacion">
+                <span id="span-centro">Centro Veterinario VetConnect</span>
+                <span><img src="../img/location.png" alt="ubicacion" id="icono-localizacion">
+                        MERLO | Av. Siempreviva 123</span>
+                <img src="../img/mapa.png" alt="Mapa clínica" id="mapa">
+            </div>
+        </article>
+    </section>
+</main>
+
+
+<!-- FOOTER -->
+<footer>
+    <div>
+        <h6>Integrantes:</h6>
+        <h6>Diego Contreras</h6>
+        <h6>Nicolas Pozzo</h6>
+        <h6>Andrea Callejas</h6>
+        <h6>Alan Rojas</h6>
+        <h6>Mauricio Medina</h6>
+        <h6>Joaquin A. Diaz</h6>
+    </div>
+    <div>
+        <h6>Fundación Futuro - 2025</h6>
+        <h6>Taller Web I - Universidad Nacional de La Matanza</h6>
+    </div>
+</footer>
+<!-- Boostrap core js -->
+<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+</body>
+</html>
