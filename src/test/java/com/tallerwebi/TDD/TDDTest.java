@@ -50,7 +50,7 @@ public class TDDTest {
 
     @Test
     public void testTurnoGetters() {
-        Turno turno = new Turno(1, "vacuna", "Rabia", "consultorio 1", "2025-11-12", "10:00");
+        Turno turno = new Turno(1, "vacuna", "Rabia", "consultorio", "2025-11-12", "10:00");
         assertEquals(Integer.toString(1), Integer.toString(turno.getId()));
         assertEquals("vacuna", turno.getEspecialidad());
         assertEquals("Rabia", turno.getPractica());
