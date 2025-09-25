@@ -1,45 +1,85 @@
-
-
 /* ==============================
    Estilos generales
 ============================== */
 body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
-    padding-top: 4rem;
+    padding-top: 6rem; /* deja espacio para navbar + header fijo */
     background-color: #f9fdf9;
     color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-#menu-toggle {
-    font-size: 1.5rem;
-    border: none;
-    background: transparent;
+/* ==============================
+   Header
+============================== */
+.header {
+    background-color: #198754; /* Verde Bootstrap */
     color: #fff;
-    cursor: pointer;
-    margin-right: 1rem;
+    padding: 0.8rem 1.5rem;
+    position: fixed;
+    top: 3.5rem; /* debajo del navbar */
+    width: 100%;
+    z-index: 1000;
 }
 
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-#icono-perfil,
-#icono-salida {
+/* ==============================
+   Imágenes e íconos
+============================== */
+#logo-header {
+    width: 120px;
+    height: auto;
+}
+
+.icono-opciones {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+
+.icono-pequeño {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+.icono-mediano {
     width: 32px;
     height: 32px;
-    cursor: pointer;
+    object-fit: contain;
 }
 
+.icono-grande {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+/* ==============================
+   Menú lateral
+============================== */
+.main-content {
+    display: flex;
+    flex: 1;
+}
 
 .opciones {
     position: sticky;
-    top: 6rem; /* queda debajo del navbar */
-    left: 6rem;
-    width: 220px;
+    top: 6rem;
+    width: 200px;
     background-color: #f1fdf1;
     padding: 1rem;
     border-radius: 8px;
     box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
-    height: fit-content; /* se ajusta al contenido */
-
+    height: fit-content;
 }
 
 .opciones-article {
@@ -49,18 +89,13 @@ body {
     margin: 1rem 0;
 }
 
-#icono-opciones {
-    width: 28px;
-    height: 28px;
-}
-
-#span-opciones {
+.span-opciones {
     color: #198754;
     font-weight: 500;
     text-decoration: none;
 }
 
-#span-opciones:hover {
+.span-opciones:hover {
     text-decoration: underline;
 }
 
@@ -68,7 +103,7 @@ body {
    Main / Cajas
 ============================== */
 .main {
-    margin-left: 220px;
+    flex: 1;
     padding: 2rem;
 }
 
@@ -78,7 +113,6 @@ body {
     gap: 1.5rem;
 }
 
-/* Tarjetas generales */
 .cajas article {
     background: #fff;
     border-radius: 12px;
@@ -86,7 +120,7 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Citas */
+/* Turnos */
 #box-turnos {
     display: flex;
     align-items: center;
@@ -128,12 +162,6 @@ body {
     margin: 1rem;
 }
 
-.datos-internos img {
-    width: 40px;
-    height: 40px;
-    margin-bottom: 0.5rem;
-}
-
 /* Credencial */
 .credencial {
     display: flex;
@@ -146,21 +174,17 @@ body {
 
 #logo-credencial {
     width: 40px;
+    height: 40px;
 }
 
 #icono-credencial {
     width: 32px;
+    height: 32px;
 }
 
-#icono-editar{
-    width:40px;
-    height:40px;
-}
-
-#span-credencial {
-    font-weight: 500;
-    color: #198754;
-    cursor: pointer;
+#icono-editar {
+    width: 32px;
+    height: 32px;
 }
 
 /* Clínica */
@@ -168,11 +192,6 @@ body {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-}
-
-#icono-localizacion {
-    width: 20px;
-    margin-right: 0.5rem;
 }
 
 #mapa {
@@ -194,6 +213,7 @@ footer {
     background-color: #2e7d32;
     color: white;
     padding: 2rem;
+    margin-top: auto;
 }
 
 footer h6 {

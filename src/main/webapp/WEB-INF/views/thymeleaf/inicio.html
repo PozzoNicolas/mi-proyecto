@@ -1,152 +1,108 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="UTF-8">
+    <title>Inicio - VetConnect</title>
 
-    <title> Inicio - VetConnect</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}">
 
-    <!-- Boostrap core css -->
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
-
-    <!-- custom style -->
-    <link rel="stylesheet" th:href="@{/css/main.css}"/>
-    <link rel="stylesheet" th:href="@{/css/inicio.css}"/>
-
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" th:href="@{/css/inicio.css}">
 </head>
-
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar navbar-expand-md navbar-dark fixed-top shadow">
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-success fixed-top">
     <div class="container-fluid">
-        <a class="navbar-brand fw-bold" href="inicio.html">VetConnect</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="clientes.html">Clientes</a></li>
-                <li class="nav-item"><a class="nav-link" href="turnos.html">Turnos</a></li>
-                <li class="nav-item"><a class="nav-link" href="inicio.html">Contacto</a></li>
-            </ul>
-        </div>
+        <a class="navbar-brand fw-bold" href="/">
+            <img src="/img/logo.png" alt="VetConnect" id="logo-header">
+        </a>
     </div>
 </nav>
 
-<!--<header class="header">-->
-<!--    <section class="header-section">-->
-<!--        <article class="header-left">-->
-<!--            <button id="menu-toggle" aria-label="Abrir menú">☰</button>-->
-<!--            <a href="inicio.html">-->
-<!--                <img src="../img/logo_vetconnect.png" alt="Logo VetConnect" id="logo-header">-->
-<!--            </a>-->
-<!--        </article>-->
-<!--        <article class="header-right">-->
-<!--            <span id="nombre-usuario">Bienvenido, Diego</span>-->
-<!--            <img th:src="@{img/perfil.png}" alt="icono-perfil" id="icono-perfil">-->
-<!--            <a href="../login.html">-->
-<!--                <img src="../img/logout.png" alt="salida" id="icono-salida">-->
-<!--            </a>-->
-<!--        </article>-->
-<!--    </section>-->
-<!--</header>-->
+<!-- Header -->
+<header class="header">
+    <div class="header-section">
+        <span>Bienvenido, Diego</span>
+        <div class="header-right">
+            <img th:src="@{img/perfil.com}" alt="Perfil" class="icono-mediano">
+            <img src="/img/salida.png" alt="Salir" class="icono-mediano">
+        </div>
+    </div>
+</header>
 
-<!-- MAIN -->
-<main class="main">
+<!-- Layout principal -->
+<div class="main-content">
     <!-- Menú lateral -->
-    <section class="opciones">
+    <aside class="opciones">
         <article class="opciones-article">
-            <img th:src="@{img/calendario.png}" alt="turnos" id="icono-opciones">
-            <a href="turnos.html" id="span-opciones">Citas</a>
+            <img src="/img/huella.png" alt="Clientes" class="icono-opciones">
+            <a href="clientes.html" class="span-opciones">Clientes</a>
         </article>
         <article class="opciones-article">
-            <img th:src="@{img/mascotas-inicio.png}" alt="mascotas" id="icono-opciones">
-            <a href="mascotas.html" id="span-opciones">Mis Mascotas</a>
+            <img th:src="@{img/mascotas-inicio.png}" alt="Mascotas" class="icono-opciones">
+            <a href="/mascotas.html" class="span-opciones">Mascotas</a>
         </article>
         <article class="opciones-article">
-            <img th:src="@{img/vacuna.png}" alt="vacunas" id="icono-opciones">
-            <a href="historial.html" id="span-opciones">Vacunas e Historial</a>
+            <img th:src="@{img/calendario.png}" alt="Turnos" class="icono-opciones">
+            <a href="turnos.html" class="span-opciones">Turnos</a>
         </article>
-    </section>
+        <article class="opciones-article">
+            <img th:src="@{img/vacuna.png}" alt="Vacunas" class="icono-opciones">
+            <a href="vacunas.html" class="span-opciones">Vacunas</a>
+        </article>
+    </aside>
 
     <!-- Contenido principal -->
-    <section class="cajas">
-
-        <!-- Citas -->
-        <article class="box-turnos-article">
-            <h2>Citas de mi mascota</h2>
-            <div id="box-turnos">
-                <div id="left-turnos">
-                    <span id="dia-turno">Viernes</span>
-                    <span id="numero-dia-turno">20</span>
-                    <span id="mes-año-turno">SEP 2025</span>
-                </div>
-                <div id="separaciones">
-                    <div id="hora-editar">
-                        <h4>Hora: 10:30 hs</h4>
-                        <a href="turnos.html">
-                            <img th:src="@{img/editar.png}" alt="icono-editar" id="icono-editar">
-                        </a>
-                    </div>
-                    <div id="datos-turno">
-                        <span id="nombre-usuario-turno">Max</span>
-                        <span>Consulta General</span>
-                        <span>Dr. Lopez</span>
+    <main class="main">
+        <section class="cajas">
+            <article>
+                <h3>Pr&oacute;ximos turnos</h3>
+                <div id="box-turnos">
+                    <div id="left-turnos">
+                        <span>24</span>
+                        <span>SEP</span>
                     </div>
                     <div>
+                        <p>Consulta con Dr. Pérez</p>
                         <button id="boton-cancelar">Cancelar</button>
                     </div>
                 </div>
-            </div>
-        </article>
-
-        <!-- Historial -->
-        <article class="datos-medicos">
-            <h2>Historial de mi mascota</h2>
-            <div class="secciones-datos">
-                <div class="datos-internos">
-                    <img th:src="@{img/vacuna.png}">
-                    <span>Vacunas</span>
-                </div>
-                <div class="datos-internos">
-                    <img th:src="@{img/consultas.png}">
-                    <span>Consultas previas</span>
-                </div>
-                <div class="datos-internos">
-                    <img th:src="@{img/laboratorios.png}" >
-                    <span>Análisis de laboratorio</span>
-                </div>
-                <div class="datos-internos">
-                    <img th:src="@{img/informes.png}" alt="informes">
-                    <span>Informes medicos</span>
-                </div>
-            </div>
-        </article>
-
-        <!-- Perfil Mascota -->
-        <article class="mi-credencial">
-            <h2>Perfil de mi mascota</h2>
-            <article class="credencial">
-                <img th:src="@{img/mascotas-inicio.png}" alt="logo mascota" id="logo-credencial">
-                <span id="nombre-credencial">Max (Caniche)</span>
-                <img th:src="@{img/credecial.png}" alt="icono-credencial" id="icono-credencial">
-                <span id="span-credencial">Ver Perfil</span>
             </article>
-        </article>
 
-        <!-- Clínica -->
-        <article id="Sede">
-            <h2>Clinica de VetConnect</h2>
-            <div id="info-localizacion">
-                <span id="span-centro">Centro Veterinario cercanos</span>
-            </div>
-        </article>
-    </section>
-</main>
+            <article>
+                <h3>Historial</h3>
+                <div class="secciones-datos">
+                    <div class="datos-internos">
+                        <img th:src="@{img/vacuna.png}" alt="Vacuna" class="icono-grande">
+                        <p>Vacunaci&oacute;n</p>
+                    </div>
+                    <div class="datos-internos">
+                        <img th:src="@{img/laboratorios.png}" alt="Chequeo" class="icono-grande">
+                        <p>Chequeo general</p>
+                    </div>
+                </div>
+            </article>
 
+            <article class="credencial">
+                <img th:src="@{img/credecial.png}" alt="VetConnect" id="logo-credencial">
+                <span id="span-credencial">Mi Credencial</span>
+                <img th:src="@{img/editar.png}" alt="Editar" id="icono-editar">
+            </article>
 
-<!-- FOOTER -->
+            <article>
+                <h3>Cl&iacute;nica</h3>
+                <div id="info-localizacion">
+                    <span><img src="/img/localizacion.png" alt="Mapa" class="icono-pequeño"> Av. Siempreviva 123</span>
+                    <img src="/img/mapa.png" alt="Mapa" id="mapa">
+                </div>
+            </article>
+        </section>
+    </main>
+</div>
+
+<!-- Footer -->
 <footer>
     <div>
         <h6>Integrantes:</h6>
@@ -158,11 +114,12 @@
         <h6>Joaquin A. Diaz</h6>
     </div>
     <div>
-        <h6>Fundación Futuro - 2025</h6>
+        <h6>Fundaci&oacute;n Futuro - 2025</h6>
         <h6>Taller Web I - Universidad Nacional de La Matanza</h6>
     </div>
 </footer>
-<!-- Boostrap core js -->
-<script type="text/javascript" th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+
+<!-- Bootstrap JS -->
+<script th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>
