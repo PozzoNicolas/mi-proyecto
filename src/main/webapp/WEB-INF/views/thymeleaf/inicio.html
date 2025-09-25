@@ -56,7 +56,18 @@
 <main class="main">
     <!-- Menú lateral -->
     <section class="opciones">
-        
+        <article class="opciones-article">
+            <img th:src="@{img/calendario.png}" alt="turnos" id="icono-opciones">
+            <a href="turnos.html" id="span-opciones">Citas</a>
+        </article>
+        <article class="opciones-article">
+            <img th:src="@{img/mascotas-inicio.png}" alt="mascotas" id="icono-opciones">
+            <a href="mascotas.html" id="span-opciones">Mis Mascotas</a>
+        </article>
+        <article class="opciones-article">
+            <img th:src="@{img/vacuna.png}" alt="vacunas" id="icono-opciones">
+            <a href="historial.html" id="span-opciones">Vacunas e Historial</a>
+        </article>
     </section>
 
     <!-- Contenido principal -->
@@ -103,12 +114,12 @@
                     <span>Consultas previas</span>
                 </div>
                 <div class="datos-internos">
-                    <img >
+                    <img th:src="@{img/laboratorios.png}" >
                     <span>Análisis de laboratorio</span>
                 </div>
                 <div class="datos-internos">
-                    <img src="../img/info.png" alt="informes">
-                    <span>Informes médicos</span>
+                    <img th:src="@{img/informes.png}" alt="informes">
+                    <span>Informes medicos</span>
                 </div>
             </div>
         </article>
@@ -117,21 +128,18 @@
         <article class="mi-credencial">
             <h2>Perfil de mi mascota</h2>
             <article class="credencial">
-                <img src="../img/paw.png" alt="logo mascota" id="logo-credencial">
+                <img th:src="@{img/mascotas-inicio.png}" alt="logo mascota" id="logo-credencial">
                 <span id="nombre-credencial">Max (Caniche)</span>
-                <img src="../img/id.png" alt="icono-credencial" id="icono-credencial">
+                <img th:src="@{img/credecial.png}" alt="icono-credencial" id="icono-credencial">
                 <span id="span-credencial">Ver Perfil</span>
             </article>
         </article>
 
         <!-- Clínica -->
         <article id="Sede">
-            <h2>Clínica VetConnect</h2>
+            <h2>Clinica de VetConnect</h2>
             <div id="info-localizacion">
-                <span id="span-centro">Centro Veterinario VetConnect</span>
-                <span><img src="../img/location.png" alt="ubicacion" id="icono-localizacion">
-                        MERLO | Av. Siempreviva 123</span>
-                <img src="../img/mapa.png" alt="Mapa clínica" id="mapa">
+                <span id="span-centro">Centro Veterinario cercanos</span>
             </div>
         </article>
     </section>
