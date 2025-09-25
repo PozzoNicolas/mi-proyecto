@@ -11,29 +11,6 @@ body {
     color: #333;
 }
 
-/* ==============================
-   Header
-============================== */
-.header {
-    background-color: #198754; /* Verde Bootstrap */
-    color: #fff;
-    padding: 0.5rem 1rem;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-}
-
-.header-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-#logo-header {
-    height: 40px;
-}
-
 #menu-toggle {
     font-size: 1.5rem;
     border: none;
@@ -43,11 +20,6 @@ body {
     margin-right: 1rem;
 }
 
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
 
 #icono-perfil,
 #icono-salida {
@@ -56,18 +28,18 @@ body {
     cursor: pointer;
 }
 
-/* ==============================
-   Menú lateral
-============================== */
+
 .opciones {
-    position: fixed;
-    top: 4rem;
-    left: 0;
-    width: 200px;
-    height: calc(100% - 4rem);
+    position: sticky;
+    top: 6rem; /* queda debajo del navbar */
+    left: 6rem;
+    width: 220px;
     background-color: #f1fdf1;
     padding: 1rem;
+    border-radius: 8px;
     box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    height: fit-content; /* se ajusta al contenido */
+
 }
 
 .opciones-article {
