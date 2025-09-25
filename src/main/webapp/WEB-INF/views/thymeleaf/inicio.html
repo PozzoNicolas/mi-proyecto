@@ -26,6 +26,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="clientes.html">Clientes</a></li>
                 <li class="nav-item"><a class="nav-link" href="turnos.html">Turnos</a></li>
                 <li class="nav-item"><a class="nav-link" href="inicio.html">Contacto</a></li>
             </ul>
@@ -43,7 +44,7 @@
         </article>
         <article class="header-right">
             <span id="nombre-usuario">Bienvenido, Diego</span>
-            <img src="../img/perfil.png" alt="icono-perfil" id="icono-perfil">
+            <img th:src="@{img/perfil.png}" alt="icono-perfil" id="icono-perfil">
             <a href="../login.html">
                 <img src="../img/logout.png" alt="salida" id="icono-salida">
             </a>
@@ -74,13 +75,13 @@
                     <div id="hora-editar">
                         <h4>Hora: 10:30 hs</h4>
                         <a href="turnos.html">
-                            <img src="../img/edit.png" alt="icono-editar" id="icono-editar">
+                            <img th:src="@{img/editar.png}" alt="icono-editar" id="icono-editar">
                         </a>
                     </div>
                     <div id="datos-turno">
                         <span id="nombre-usuario-turno">Max</span>
-                        <span>Consulta general</span>
-                        <span>Dr. López</span>
+                        <span>Consulta General</span>
+                        <span>Dr. Lopez</span>
                     </div>
                     <div>
                         <button id="boton-cancelar">Cancelar</button>
@@ -94,15 +95,15 @@
             <h2>Historial de mi mascota</h2>
             <div class="secciones-datos">
                 <div class="datos-internos">
-                    <img src="../img/vaccine.png" alt="vacunas">
+                    <img th:src="@{img/vacuna.png}">
                     <span>Vacunas</span>
                 </div>
                 <div class="datos-internos">
-                    <img src="../img/report.png" alt="consultas">
+                    <img th:src="@{img/consultas.png}">
                     <span>Consultas previas</span>
                 </div>
                 <div class="datos-internos">
-                    <img src="../img/lab.png" alt="analisis">
+                    <img >
                     <span>Análisis de laboratorio</span>
                 </div>
                 <div class="datos-internos">
