@@ -60,7 +60,7 @@ public class TDDTest {
     }
 
     @Test
-    public void testTrunoSetters() {
+    public void testTurnoSetters() {
         Turno turno = new Turno(); 
 
         turno.setId(1);
