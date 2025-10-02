@@ -16,17 +16,29 @@
 
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-  <a class="navbar-brand" href="#">UNLAM</a>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top shadow">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="#">VetConnect</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>
+                <li class="nav-item"><a class="nav-link" href="#turnos">Turnos</a></li>
+                <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+            </ul>
+        </div>
+    </div>
 </nav>
 
 <main role="main" class="container">
   <div class = "container">
     <h1>Resultados</h1>
     
-    <p>Turnos de <span th:text="${turno.especialidad}"></span>
-      para: <span th:text="${turno.practica}"></span>
-      En: <span th:text="${turno.lugar}"></span>
+    <p>Turnos de <span th:text="${turno.especialidad.getDesc()}"></span>
+      para: <span th:text="${turno.practica.getDesc()}"></span>
+      En: <span th:text="${turno.getVeterinaria()}"></span>
     </p>
 
     <form th:action="@{/seleccionar-dia}" th:object="${turno}" method="post">
@@ -36,7 +48,7 @@
 
         <input type="hidden" th:field="*{especialidad}" />
         <input type="hidden" th:field="*{practica}" />
-        <input type="hidden" th:field="*{lugar}" />
+        <input type="hidden" th:field="*{veterinaria}" />
 
         <button type="submit">Ver turnos disponibles</button>
     </form>
@@ -51,7 +63,7 @@
 
         <input type="hidden" th:field="*{especialidad}" />
         <input type="hidden" th:field="*{practica}" />
-        <input type="hidden" th:field="*{lugar}" />
+        <input type="hidden" th:field="*{veterinaria}" />
         <input type="hidden" th:field="*{fecha}" />
 
         <button type="submit">Reservar turno</button>
@@ -65,7 +77,21 @@
   </div>
 </main>
 <!-- /.container -->
-
+<footer>
+    <div>
+        <h6>Integrantes:</h6>
+        <h6>Diego Contreras</h6>
+        <h6>Nicolas Pozzo</h6>
+        <h6>Andrea Callejas</h6>
+        <h6>Alan Rojas</h6>
+        <h6>Mauricio Medina</h6>
+        <h6>Joaquin A. Diaz</h6>
+    </div>
+    <div>
+        <h6>Fundación Futuro - 2025</h6>
+        <h6>Taller Web I - Universidad Nacional de La Matanza</h6>
+    </div>
+</footer>
 <!-- Boostrap core js -->
 <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
 </body>

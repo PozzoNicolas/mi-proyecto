@@ -9,14 +9,14 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List; 
 
 import com.tallerwebi.dominio.Turno;
-import com.tallerwebi.dominio.ServicioTurnos;
+import com.tallerwebi.dominio.ServicioTurnosImpl;
 
 
 @Controller
 public class ControladorDiaTurno {
 
     @Autowired
-    private ServicioTurnos servicioTurnos; 
+    private ServicioTurnosImpl servicioTurnos; 
 
     @PostMapping("/seleccionar-dia")
     public ModelAndView seleccionarDia(@ModelAttribute Turno turno) {

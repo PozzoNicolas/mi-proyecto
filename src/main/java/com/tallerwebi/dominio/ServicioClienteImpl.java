@@ -48,7 +48,6 @@ public class ServicioClienteImpl implements ServicioCliente {
 
     @Override
     public Cliente buscarClientePorId(Integer id) {
-
         return storage.get(id);
     }
 

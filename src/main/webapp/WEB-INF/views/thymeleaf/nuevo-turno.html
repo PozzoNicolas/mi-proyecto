@@ -16,41 +16,89 @@
 
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-  <a class="navbar-brand" href="#">UNLAM</a>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top shadow">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="#">VetConnect</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>
+                <li class="nav-item"><a class="nav-link" href="#turnos">Turnos</a></li>
+                <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+            </ul>
+        </div>
+    </div>
 </nav>
+
 
 <main role="main" class="container">
   <div class = "container">
     <h1>Nuevo turno</h1>
 
     <form action="#" th:action="@{/validar-datos-turno}" method="post" th:object="${datosBusqueda}">
-      <label for="especialidad">Especialidad:</label>
-      <select id="especialidad" th:field="*{especialidad}">
-        <option value="" th:text="'-- Seleccione --'" selected> </option>
-        <option value="Vacuna">Vacuna</option>
-        <option value="Estudio">Estudio</option>
-        <option value="Control">Control</option>
-      </select>
-      <!--Las opciones dependerian de la especialidad:
-      Vacuna->vacunas dispo
-      Estudio->Estudios dispo-->
-      <label for="pactica">Practica:</label>
-      <select id="practica" th:field="*{practica}">
-        <option value="" th:text="'-- Seleccione --'" selected> </option>
-        <option value="Practica a">Practica A</option>
-        <option value="Practica B">Practica B</option>
-        <option value="Practica C">Practica C</option>
-      </select>
+    <label for="especialidad">Especialidad:</label>
+    <select id="especialidad" th:field="*{especialidad}" onchange="mostrarPracticas(this.value)">
+      <option value="" th:text="'-- Seleccione --'" selected></option>
+      <option th:each="esp : ${especialidades}"
+              th:value="${esp}"
+              th:text="${esp.getDesc()}">
+      </option>
+    </select>
+
+    <label for="practica">Práctica:</label>
+    <select id="practica" th:field="*{practica}">
+        <option value="">-- Seleccione una especialidad primero --</option>
+    </select>
+
+    <div id="practicas-data" style="display:none">
+      <div th:each="esp : ${especialidades}" th:attr="data-esp=${esp.name()}">
+          <span th:each="pr : ${esp.practicas}"
+                th:attr="data-name=${pr.name()},data-desc=${pr.desc}">
+          </span>
+      </div>
+    </div>
 
       <label for="lugar">Lugar:</label>
-      <select id="lugar" th:field="*{lugar}">
-        <option value="" th:text="'-- Seleccione --'" selected></option>
-        <option value="Lugar A">Lugar A</option>
-        <option value="Lugar B">Lugar B</option>
+      <select id="lugar" th:field="*{veterinaria}">
+        <option value="" selected>-- Seleccione --</option>
+        <option value="0">Indiferente</option>
+        <option th:each="vet : ${veterinarias}" 
+                th:value="${vet.id}" 
+                th:text="${vet.nombre}">
+        </option>
       </select>
 
       <button type="submit">Buscar disponibles</button>
+
+    <script>
+    function mostrarPracticas(especialidad) {
+        let practicaSelect = document.getElementById("practica");
+        practicaSelect.innerHTML = "";
+
+        if (!especialidad) {
+            let opt = document.createElement("option");
+            opt.value = ""; // vacío porque no hay práctica seleccionada
+            opt.textContent = "-- Seleccione una especialidad primero --";
+            practicaSelect.appendChild(opt);
+            return;
+        }
+
+        let dataBlock = document.querySelector(`#practicas-data [data-esp='${especialidad}']`);
+        if (dataBlock) {
+            let spans = dataBlock.querySelectorAll("span");
+            spans.forEach(span => {
+                let opt = document.createElement("option");
+                opt.value = span.dataset.name; // ⚠ CORRECTO
+                opt.textContent = span.dataset.desc;
+                practicaSelect.appendChild(opt);
+            });
+        }
+    }
+    </script>
+
+
 
       <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}">
       </p>
@@ -61,6 +109,21 @@
   </div>
 </main>
 <!-- /.container -->
+<footer>
+    <div>
+        <h6>Integrantes:</h6>
+        <h6>Diego Contreras</h6>
+        <h6>Nicolas Pozzo</h6>
+        <h6>Andrea Callejas</h6>
+        <h6>Alan Rojas</h6>
+        <h6>Mauricio Medina</h6>
+        <h6>Joaquin A. Diaz</h6>
+    </div>
+    <div>
+        <h6>Fundación Futuro - 2025</h6>
+        <h6>Taller Web I - Universidad Nacional de La Matanza</h6>
+    </div>
+</footer>
 
 <!-- Boostrap core js -->
 <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
