@@ -6,17 +6,30 @@ import java.util.List;
 import java.util.Map;
 //import java.util.concurrent.atomic.AtomicInteger;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ServicioVeterinariaImpl implements ServicioVeterinaria {
 
     private final Map<Integer, Veterinaria> storage = new LinkedHashMap<>();  
-    //private final AtomicInteger idGenerator = new AtomicInteger(1);
+    private final ServicioProfesional servicioProfesional; 
 
-    public ServicioVeterinariaImpl() {
-        Veterinaria v1 = new Veterinaria(001,"VetUno");
-        Veterinaria v2 = new Veterinaria(002, "Vete Dos"); 
+    @Autowired
+    public ServicioVeterinariaImpl(ServicioProfesional servicioProfesional) {
+        this.servicioProfesional = servicioProfesional;
+        //Veterinarias Hardcodeadas
+        Veterinaria v1 = new Veterinaria(1,"VetUno");
+        Veterinaria v2 = new Veterinaria(2, "Vete Dos"); 
+
+        //Profesionales En horarios hardcodeados para podes sacar turos: 
+        v1.agregarProfesionalEnHorario("10:00", servicioProfesional.buscarPorDni(111));
+        v1.agregarProfesionalEnHorario("10:00", servicioProfesional.buscarPorDni(222));
+        v1.agregarProfesionalEnHorario("11:00", servicioProfesional.buscarPorDni(111));
+
+        v2.agregarProfesionalEnHorario("14:00", servicioProfesional.buscarPorDni(333));
+        v2.agregarProfesionalEnHorario("15:00", servicioProfesional.buscarPorDni(333));
+
         storage.put(v1.getId(), v1);
         storage.put(v2.getId(), v2); 
     }

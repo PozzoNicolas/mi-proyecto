@@ -13,6 +13,7 @@ import com.tallerwebi.dominio.Cliente;
 import com.tallerwebi.dominio.ServicioCliente;
 import com.tallerwebi.dominio.ServicioVeterinaria;
 import com.tallerwebi.dominio.Turno;
+import com.tallerwebi.dominio.Veterinaria;
 import com.tallerwebi.dominio.enums.Especialidad;
 
 @Controller
@@ -45,15 +46,20 @@ public class ControladorNuevoTurno {
         modelo.addAttribute("especialidades",Especialidad.values());
         //Integer vetId = turno.getVeterinaria();
         //Veterinaria v = (vetId != null && vetId != 0) ? servicioVeterinaria.buscarPorId(vetId) : null;
-        if (turno.getEspecialidad() == null || 
-            turno.getPractica() == null) {
+        if (turno.getEspecialidad() == null || turno.getPractica() == null) {
             modelo.put("error", "Debe seleccionar especialidad y práctica");
             modelo.put("datosBusqueda", turno);
             return new ModelAndView("nuevo-turno", modelo);
         }
 
-
+        Veterinaria v = servicioVeterinaria.buscarPorId(turno.getVeterinaria());
+        if (v == null) {
+            // Crear un objeto vacío para no romper la vista
+            v = new Veterinaria();
+        }
+        modelo.put("veterinaria", v);
         modelo.put("turno", turno);
+
         return new ModelAndView("resultado-turno", modelo);
     }
 

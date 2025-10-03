@@ -10,6 +10,7 @@ public class Turno {
     private Integer veterinaria; 
     private String fecha;
     private String horario;
+    private String profesional;
 
     public Turno() {}
 
@@ -28,11 +29,13 @@ public class Turno {
     public Integer getVeterinaria() {return this.veterinaria;}
     public String getFecha() {return this.fecha;}
     public String getHorario() {return this.horario;}
+    public String getProfesional() {return this.profesional;}
 
     public void setId(int n) {this.id = n;}
     public void setEspecialidad(Especialidad n) {this.especialidad = n;}
     public void setPractica(Practica n) {this.practica = n;}
-    public void setLugar(Integer n) {this.veterinaria = n;}
+    public void setVeterinaria(Integer n) {this.veterinaria = n;}
     public void setFecha(String n) {this.fecha = n;}
     public void setHorario(String n) {this.horario = n;}
+    public void setProfesional(String n) {this.profesional = n;}
 }

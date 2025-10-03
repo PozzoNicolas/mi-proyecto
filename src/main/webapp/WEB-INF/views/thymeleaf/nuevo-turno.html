@@ -62,8 +62,7 @@
 
       <label for="lugar">Lugar:</label>
       <select id="lugar" th:field="*{veterinaria}">
-        <option value="" selected>-- Seleccione --</option>
-        <option value="0">Indiferente</option>
+        <option value="0">-- Indiferente --</option>
         <option th:each="vet : ${veterinarias}" 
                 th:value="${vet.id}" 
                 th:text="${vet.nombre}">
