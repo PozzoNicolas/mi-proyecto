@@ -27,6 +27,7 @@
         <div class="header-right">
             <img th:src="@{img/perfil.com}" alt="Perfil" class="icono-mediano">
             <img src="/img/salida.png" alt="Salir" class="icono-mediano">
+
         </div>
     </div>
 </header>
@@ -36,7 +37,7 @@
     <!-- Menú lateral -->
     <aside class="opciones">
         <article class="opciones-article">
-            <img src="/img/huella.png" alt="Clientes" class="icono-opciones">
+            <img th:src="@{img/clientes.png}" alt="Clientes" class="icono-opciones">
             <a href="clientes.html" class="span-opciones">Clientes</a>
         </article>
         <article class="opciones-article">
@@ -64,7 +65,7 @@
                         <span>SEP</span>
                     </div>
                     <div>
-                        <p>Consulta con Dr. Pérez</p>
+                        <p>Consulta con Dr. P&eacute;erez</p>
                         <button id="boton-cancelar">Cancelar</button>
                     </div>
                 </div>
