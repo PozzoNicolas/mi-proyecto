@@ -29,7 +29,7 @@
 
     <div th:if="${mascotas == null or #lists.isEmpty(mascotas)}">
         <p class="text-muted">Sin mascotas</p>
-        <a href="mascotas.html"> Agregar Mascotas </a>
+        <a href="mascotas.html"> Agregar </a>
     </div>
 
     <div class="row" th:each="m : ${mascotas}">

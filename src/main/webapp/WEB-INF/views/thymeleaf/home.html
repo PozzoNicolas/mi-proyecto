@@ -1,17 +1,17 @@
 <!DOCTYPE HTML>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Bienvenidos a VetConnect</title>
 
-  <title>Taller Web I</title>
+    <!-- Bootstrap core css -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
 
-  <!-- Boostrap core css -->
-  <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
-
-  <!-- custom style -->
-  <link rel="stylesheet" th:href="@{/css/main.css}"/>
-
+    <!-- Custom styles -->
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/flickity.css}"/>
+    <link rel="stylesheet" th:href="@{/css/flickity.min.css}"/>
 </head>
 
 <body>
@@ -19,23 +19,72 @@
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-md navbar-dark fixed-top shadow">
     <div class="container-fluid">
-        <a class="navbar-brand fw-bold" href="#">VetConnect</a>
+        <a class="navbar-brand fw-bold" href="home.html">VetConnect</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>
-                <li class="nav-item"><a class="nav-link" href="./turnos">Turnos</a></li>
-                <li class="nav-item"><a class="nav-link" href="./mascotas">Mascotas</a></li>
-                <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+                <li class="nav-item">
+                    <a href="login.html" class="btn btn-success btn-lg mt-3">Iniciar sesi&oacute;n</a>
+                </li>
             </ul>
         </div>
     </div>
 </nav>
 
-<main class="main-body">
+<!-- TITULO PRINCIPAL -->
+<section class="text-center mt-5 pt-5">
     <h1 class="fw-bold">Bienvenidos a <span class="text-success">VetConnect</span></h1>
+   <h3>¿Por qu&eacute; elegirnos? </h3>
+</section>
+
+<!-- CARRUSEL -->
+<div class="carousel" data-flickity='{ "freeScroll": true, "wrapAround": true, "autoPlay": 5000 }'>
+
+    <div class="carousel-cell">
+        <div class="carousel-cell__content">
+            <div class="carousel-cell__text">
+                <p>Mapas de Veterinarias cercanas a tu hogar</p>
+            </div>
+            <img class="carousel-cell__img" src="../img/dengue.jpg" alt="Mosquito">
+            <button class="button">Conocer m&aacute;s</button>
+        </div>
+    </div>
+
+    <div class="carousel-cell">
+        <div class="carousel-cell__content">
+            <div class="carousel-cell__text">
+                <p>Medicina Centralizada para tus mascotas</p>
+            </div>
+            <img class="carousel-cell__img" src="../img/Imagen-destacada-Blog3-1.png" alt="Viruela del Mono">
+            <button class="button">Conocer m&aacute;s</button>
+        </div>
+    </div>
+
+    <div class="carousel-cell">
+        <div class="carousel-cell__content">
+            <div class="carousel-cell__text">
+                <p>Informaci&oacute;n importante sobre tu mascotas, recordatorios y m&aacute;s </p>
+            </div>
+            <img class="carousel-cell__img" src="../img/vacuna-fiebre-amarilla-san-juanjpg.jpg" alt="Fiebre Amarilla">
+            <button class="button">Conocer m&aacute;s</button>
+        </div>
+    </div>
+
+    <div class="carousel-cell">
+        <div class="carousel-cell__content">
+            <div class="carousel-cell__text">
+                <p>Inteligencia Articial para diagnosticar a tu mascota </p>
+            </div>
+            <img class="carousel-cell__img" src="../img/joven-aplica-crema-solar-espalda_98.jpg" alt="Protección solar">
+            <button class="button">Conocer m&aacute;s</button>
+        </div>
+    </div>
+</div> <!-- ✅ Cierre correcto del carrusel -->
+
+<!-- SECCIÓN PRINCIPAL -->
+<main class="main-body text-center container mt-5">
     <h3>Tu plataforma de confianza para conectar con veterinarios y cuidar de tus mascotas</h3>
     <p>
         En VetConnect, entendemos lo importante que es la salud y el bienestar de tus mascotas.
@@ -44,17 +93,15 @@
         o asesoramiento especializado, estamos aqu&iacute; para ayudarte.
     </p>
     <p>
-        Explora nuestro directorio de veterinarios, lee rese&ntilde;as de otros due&ntilde;os de mascotas y agenda
+        Explor&aacute; nuestro directorio de veterinarios, lee rese&ntilde;as de otros due&ntilde;os de mascotas y agenda
         citas en l&iacute;nea con facilidad.
     </p>
-    <a href="login.html" class="btn btn-success btn-lg mt-3">Iniciar sesion</a>
-
 
     <div class="mt-4">
-        <img th:src="@{/img/mascotas-home.png}" alt="mascotas" class="img-fluid main-img">
+        <img th:src="@{/img/mascotas-home.png}" alt="Mascotas" class="img-fluid main-img">
     </div>
 </main>
-<!-- /.container -->
+
 <!-- FOOTER -->
 <footer>
     <div>
@@ -62,7 +109,6 @@
         <h6>Diego Contreras</h6>
         <h6>Nicolas Pozzo</h6>
         <h6>Andrea Callejas</h6>
-        <h6>Alan Rojas</h6>
         <h6>Mauricio Medina</h6>
         <h6>Joaquin A. Diaz</h6>
     </div>
@@ -71,7 +117,11 @@
         <h6>Taller Web I - Universidad Nacional de La Matanza</h6>
     </div>
 </footer>
-<!-- Boostrap core js -->
-<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+
+<!-- Bootstrap core js -->
+<script type="text/javascript" th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+<script type="text/javascript" th:src="@{/js/flickity.pkgd.min.js}"></script>
+
 </body>
 </html>
