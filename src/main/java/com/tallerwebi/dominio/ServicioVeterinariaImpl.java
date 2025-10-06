@@ -19,8 +19,8 @@ public class ServicioVeterinariaImpl implements ServicioVeterinaria {
     public ServicioVeterinariaImpl(ServicioProfesional servicioProfesional) {
         this.servicioProfesional = servicioProfesional;
         //Veterinarias Hardcodeadas
-        Veterinaria v1 = new Veterinaria(1,"VetUno");
-        Veterinaria v2 = new Veterinaria(2, "Vete Dos"); 
+        Veterinaria v1 = new Veterinaria(1,"VetUno","Rivadavia 9128");
+        Veterinaria v2 = new Veterinaria(2, "Vete Dos", "Juan b. Justo"); 
 
         //Profesionales En horarios hardcodeados para podes sacar turos: 
         v1.agregarProfesionalEnHorario("10:00", servicioProfesional.buscarPorDni(111));

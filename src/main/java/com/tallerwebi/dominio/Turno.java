@@ -12,6 +12,9 @@ public class Turno {
     private String horario;
     private String profesional;
 
+    //Campo temporal para form en resultado-turnos.
+    private String seleccion;
+
     public Turno() {}
 
     public Turno(Integer id, Especialidad especialidad, Practica practica, Integer veterinaria, String fecha, String horario) {
@@ -30,6 +33,7 @@ public class Turno {
     public String getFecha() {return this.fecha;}
     public String getHorario() {return this.horario;}
     public String getProfesional() {return this.profesional;}
+    public String getSeleccion() {return this.seleccion;}
 
     public void setId(int n) {this.id = n;}
     public void setEspecialidad(Especialidad n) {this.especialidad = n;}
@@ -38,4 +42,5 @@ public class Turno {
     public void setFecha(String n) {this.fecha = n;}
     public void setHorario(String n) {this.horario = n;}
     public void setProfesional(String n) {this.profesional = n;}
+    public void setSeleccion(String n) {this.seleccion = n;}
 }

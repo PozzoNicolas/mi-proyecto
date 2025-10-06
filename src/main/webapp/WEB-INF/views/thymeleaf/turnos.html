@@ -42,9 +42,11 @@
     <div th:if="${!#lists.isEmpty(turnos)}">
       <ul>
         <li th:each="turno : ${turnos}">
-          Especialidad: <span th:text="${turno.especialidad}"></span>
-          Fecha: <span th:text="${turno.fecha}"></span>
-          Horario: <span th:text="${turno.horario}"></span> <br>
+          Especialidad: <span th:text="${turno.especialidad.getDesc()}"></span>,
+          <span th:text="${turno.practica.getDesc()}"></span> <br>
+          El día:<span th:text="${turno.fecha}"></span>,
+          <span th:text="${turno.horario}"></span> <br>
+          Profesional: <span th:text="${turno.profesional}"></span>
         </li>
       </ul>
     </div>
