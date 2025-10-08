@@ -33,7 +33,7 @@ public class ServicioTurnosImpl implements ServicioTurnos {
 
     @Override
     public void guardarTurno(Cliente cliente, Turno turno) {
-        cliente.getTurnos().add(turno); 
+        cliente.agregarTurno(turno);; 
     }
 
     @Override

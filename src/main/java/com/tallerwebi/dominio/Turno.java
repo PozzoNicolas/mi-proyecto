@@ -35,12 +35,12 @@ public class Turno {
     public String getProfesional() {return this.profesional;}
     public String getSeleccion() {return this.seleccion;}
 
-    public void setId(int n) {this.id = n;}
-    public void setEspecialidad(Especialidad n) {this.especialidad = n;}
-    public void setPractica(Practica n) {this.practica = n;}
-    public void setVeterinaria(Integer n) {this.veterinaria = n;}
-    public void setFecha(String n) {this.fecha = n;}
-    public void setHorario(String n) {this.horario = n;}
-    public void setProfesional(String n) {this.profesional = n;}
+    public void setId(int id) {this.id = id;}
+    public void setEspecialidad(Especialidad especialidad) {this.especialidad = especialidad;}
+    public void setPractica(Practica practica) {this.practica = practica;}
+    public void setVeterinaria(Integer veterinariaId) {this.veterinaria = veterinariaId;}
+    public void setFecha(String fecha) {this.fecha = fecha;}
+    public void setHorario(String horario) {this.horario = horario;}
+    public void setProfesional(String profesional) {this.profesional = profesional;}
     public void setSeleccion(String n) {this.seleccion = n;}
 }

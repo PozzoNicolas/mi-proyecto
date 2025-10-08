@@ -23,7 +23,6 @@ public class ControladorTurnos {
     public String mostrarTurnos(Model modelo) {
         Cliente clienteActual = servicioCliente.buscarClientePorId(101);
         modelo.addAttribute("turnos", new ArrayList<>(clienteActual.getTurnos()));
-        //modelo.addAttribute("cliente", clienteActual); //En caso de ser necesario.
         return "turnos";
     }
 
