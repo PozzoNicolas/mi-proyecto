@@ -52,9 +52,6 @@
         <input type="hidden" th:field="*{veterinaria}" />
 
         <button type="submit">Ver turnos disponibles</button>
-
-        <p th:if="${errorDia != null}" class="alert alert-danger" th:text="'Error ' + ${errorDia}">
-      </p>
     </form> 
 
     <form th:if="${turno.fecha != null}" th:action="@{/seleccionar-horario-profesional}" th:object="${turno}" method="post">
@@ -102,7 +99,6 @@
         <input type="hidden" th:field="*{veterinaria}" />
         <input type="hidden" th:field="*{fecha}" />
 
-        <p th:if="${errorProf != null}" class="alert alert-danger" th:text="'Error ' + ${errorProf}">
         <button type="submit">Reservar turno</button>
     </form>
 

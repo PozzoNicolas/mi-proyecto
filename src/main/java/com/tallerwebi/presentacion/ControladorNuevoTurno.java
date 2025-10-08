@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.tallerwebi.dominio.Cliente;
 import com.tallerwebi.dominio.ServicioCliente;
+import com.tallerwebi.dominio.ServicioTurnos;
 import com.tallerwebi.dominio.ServicioVeterinaria;
 import com.tallerwebi.dominio.Turno;
 import com.tallerwebi.dominio.Veterinaria;
@@ -21,46 +21,43 @@ public class ControladorNuevoTurno {
 
     private final ServicioCliente servicioCliente; 
     private final ServicioVeterinaria servicioVeterinaria; 
+    private final ServicioTurnos servicioTurnos;
 
     @Autowired
-    public ControladorNuevoTurno(ServicioCliente servicioCliente, ServicioVeterinaria servicioVeterinaria) {
+    public ControladorNuevoTurno(ServicioCliente servicioCliente, ServicioVeterinaria servicioVeterinaria, ServicioTurnos servicioTurnos) {
         this.servicioCliente = servicioCliente; 
         this.servicioVeterinaria = servicioVeterinaria; 
+        this.servicioTurnos = servicioTurnos; 
+    }
+
+    @ModelAttribute
+    public void setAtributosComunes(ModelMap modelo) {
+        modelo.addAttribute("veterinarias", servicioVeterinaria.listarVeterinarias());
+        modelo.addAttribute("cliente", servicioCliente.buscarClientePorId(101));
+        modelo.addAttribute("especialidades",Especialidad.values());
     }
 
     @GetMapping("/nuevo-turno")
     public String mostrarNuevosTurnos(Model modelo) {
-        Cliente clienteActual = servicioCliente.buscarClientePorId(101); 
         modelo.addAttribute("datosBusqueda", new Turno());
-        modelo.addAttribute("veterinarias", servicioVeterinaria.listarVeterinarias());
-        modelo.addAttribute("cliente", clienteActual); 
-        modelo.addAttribute("especialidades",Especialidad.values());
         return "nuevo-turno";
     }
 
     @PostMapping("/validar-datos-turno")
     public ModelAndView validarDatos(@ModelAttribute("datosBusqueda") Turno turno) {
         ModelMap modelo = new ModelMap();
-        modelo.addAttribute("veterinarias", servicioVeterinaria.listarVeterinarias());
-        modelo.addAttribute("cliente", servicioCliente.buscarClientePorId(101));
-        modelo.addAttribute("especialidades",Especialidad.values());
-        //Integer vetId = turno.getVeterinaria();
-        //Veterinaria v = (vetId != null && vetId != 0) ? servicioVeterinaria.buscarPorId(vetId) : null;
-        if (turno.getEspecialidad() == null || turno.getPractica() == null) {
+
+        if(!servicioTurnos.esTurnoValido(turno)) {
             modelo.put("error", "Debe seleccionar especialidad y práctica");
             modelo.put("datosBusqueda", turno);
             return new ModelAndView("nuevo-turno", modelo);
         }
 
         Veterinaria v = servicioVeterinaria.buscarPorId(turno.getVeterinaria());
-        if (v == null) {
-            // Crear un objeto vacío para no romper la vista
-            v = new Veterinaria();
-        }
+
         modelo.put("veterinaria", v);
         modelo.put("turno", turno);
 
         return new ModelAndView("resultado-turno", modelo);
     }
-
 }

@@ -1,30 +1,54 @@
 package com.tallerwebi.dominio;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-public class ServicioTurnosImpl {
+public class ServicioTurnosImpl implements ServicioTurnos {
     
-    private final List<Turno> turnos = new ArrayList<>();
+    private final ServicioVeterinaria servicioVeterinaria;
 
-    public List<Turno> getTurnos() {
-        return this.turnos;
+    @Autowired
+    public ServicioTurnosImpl(ServicioVeterinaria servicioVeterinaria) {
+        this.servicioVeterinaria = servicioVeterinaria; 
     }
 
-    public void registrarTurno(Turno turno) {
-        this.turnos.add(turno);
+    @Override
+    public boolean esTurnoValido(Turno turno) {
+        return turno.getEspecialidad() != null && turno.getPractica() != null;
     }
 
-    public List<String> getHorariosDisponibles(String fecha) {
-        //Hardcodeado:
-        List<String> horarios = new ArrayList<>();
-        horarios.add("11:00");
-        horarios.add("14:00");
-        horarios.add("15:00");
-        horarios.add("17:00");
-        return horarios; 
+    @Override
+    public List<Veterinaria> listarVeterinariasIndiferente() {
+        return servicioVeterinaria.listarVeterinarias();
+    }
+
+    @Override
+    public Veterinaria obtenerVeterinariaPorTurno(Turno turno) {
+        Veterinaria v = servicioVeterinaria.buscarPorId(turno.getVeterinaria());
+        return (v != null) ? v : new Veterinaria();
+    }
+
+    @Override
+    public void guardarTurno(Cliente cliente, Turno turno) {
+        cliente.getTurnos().add(turno); 
+    }
+
+    @Override
+    public void procesarSeleccion(Turno turno) {
+        if (turno.getSeleccion() != null) {
+            String[] partes = turno.getSeleccion().split("\\|\\|");
+
+            if (partes.length == 3) { // Caso "Indiferente"
+                turno.setVeterinaria(Integer.parseInt(partes[0]));
+                turno.setHorario(partes[1]);
+                turno.setProfesional(partes[2]);
+            } else if (partes.length == 2) { // Veterinaria específica
+                turno.setHorario(partes[0]);
+                turno.setProfesional(partes[1]);
+            }
+        }
     }
 }

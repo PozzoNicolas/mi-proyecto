@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-//import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,12 +12,9 @@ import org.springframework.stereotype.Service;
 public class ServicioVeterinariaImpl implements ServicioVeterinaria {
 
     private final Map<Integer, Veterinaria> storage = new LinkedHashMap<>();  
-    private final ServicioProfesional servicioProfesional; 
 
     @Autowired
     public ServicioVeterinariaImpl(ServicioProfesional servicioProfesional) {
-        this.servicioProfesional = servicioProfesional;
-        //Veterinarias Hardcodeadas
         Veterinaria v1 = new Veterinaria(1,"VetUno","Rivadavia 9128");
         Veterinaria v2 = new Veterinaria(2, "Vete Dos", "Juan b. Justo"); 
 
@@ -41,7 +37,11 @@ public class ServicioVeterinariaImpl implements ServicioVeterinaria {
 
     @Override
     public Veterinaria buscarPorId(Integer id) {
-        return storage.get(id); 
+        Veterinaria v = storage.get(id);
+        if (v == null) {
+            v = new Veterinaria();
+        }
+        return v; 
     }
 
 }
