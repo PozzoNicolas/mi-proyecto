@@ -30,8 +30,8 @@ public class ServicioVeterinariaTest {
         List<Veterinaria> veterinarias = servicioVeterinaria.listarVeterinarias();
 
         assertEquals(2, veterinarias.size());
-        assertEquals("VetUno", veterinarias.get(1).getNombre());
-        assertEquals("Vete Dos", veterinarias.get(2).getNombre());
+        assertEquals("VetUno", veterinarias.get(0).getNombre());
+        assertEquals("Vete Dos", veterinarias.get(1).getNombre());
     }
 
     @Test
