@@ -1,9 +1,7 @@
 package com.tallerwebi.dominio;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 public class Cliente {
 
@@ -13,6 +11,7 @@ public class Cliente {
     private String correo;
     private String telefono;
     private List<Mascota> mascotas = new ArrayList<Mascota>();
+    private List<Turno> turnos = new ArrayList<Turno>(); 
 
     public Cliente () {
     }
@@ -63,6 +62,14 @@ public class Cliente {
 
     public void agregarMascota(Mascota mascota) {
         mascotas.add(mascota);
+    }
+
+    public List<Turno> getTurnos() {
+        return this.turnos;
+    }
+
+    public void agregarTurno(Turno turno) {
+        turnos.add(turno);
     }
 
 }

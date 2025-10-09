@@ -8,39 +8,58 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tallerwebi.dominio.Cliente;
+import com.tallerwebi.dominio.ServicioCliente;
 import com.tallerwebi.dominio.ServicioTurnos;
+import com.tallerwebi.dominio.ServicioVeterinaria;
 import com.tallerwebi.dominio.Turno;
 
 @Controller
 public class ControladorResultadosTurnos {
-    
+
+    public final ServicioVeterinaria servicioVeterinaria;
+    public final ServicioCliente servicioCliente; 
+    public final ServicioTurnos servicioTurno;
+
     @Autowired
-    private ServicioTurnos servicioTurnos;
-
-@GetMapping("/resultado-turno")
-public ModelAndView mostrarFormulario(@ModelAttribute("turno") Turno turno) {
-    ModelMap modelo = new ModelMap();
-    modelo.put("turno", new Turno()); 
-    return new ModelAndView("resultado-turno", modelo);
-}
-
-
-@PostMapping("/seleccionar-turno")
-public ModelAndView seleccionarTurno(@ModelAttribute Turno turno) {
-    ModelMap modelo = new ModelMap();
-
-    if (turno.getHorario() == null || turno.getHorario().isEmpty()) {
-        modelo.put("error", "Debe seleccionar un horario");
-        modelo.put("turno", turno);
-        return new ModelAndView("seleccionar-horario", modelo);
+    public ControladorResultadosTurnos(ServicioVeterinaria servicioVeterinaria, ServicioCliente servicioCliente, ServicioTurnos servicioTurnos) {
+        this.servicioVeterinaria = servicioVeterinaria;
+        this.servicioCliente = servicioCliente; 
+        this.servicioTurno = servicioTurnos; 
     }
 
-    // register turno
-    servicioTurnos.registrarTurno(turno);
+    @GetMapping("/resultado-turno")
+    public ModelAndView mostrarVeterinarias() {
+        ModelMap modelo = new ModelMap();
+        Turno turno = new Turno(); 
+        modelo.addAttribute("turno", turno);
+        return new ModelAndView("resultado-turno", modelo);
+    }
 
-    // redirect to avoid duplicate submission
-    return new ModelAndView("redirect:/turnos");
-}
 
+    @PostMapping("/seleccionar-dia")
+    public ModelAndView seleccionarDia(@ModelAttribute("turno") Turno turno) {
+        ModelMap modelo = new ModelMap();
+
+        if (servicioVeterinaria.buscarPorId(turno.getVeterinaria()).getNombre() == null) {
+            modelo.addAttribute("veterinarias", servicioTurno.listarVeterinariasIndiferente());
+        } else {
+            modelo.addAttribute("veterinaria", servicioTurno.obtenerVeterinariaPorTurno(turno));
+        }
+
+        modelo.addAttribute("turno", turno);
+        return new ModelAndView("resultado-turno", modelo);
+    }
+
+    @PostMapping("/seleccionar-horario-profesional")
+    public String seleccionarHorarioProfesional(@ModelAttribute("turno") Turno turno) {
+        
+        servicioTurno.procesarSeleccion(turno);
+
+        Cliente clienteActual = servicioCliente.buscarClientePorId(101); //log-in hardcodeado
+        servicioTurno.guardarTurno(clienteActual, turno); 
+
+        return "redirect:/turnos";
+    }
 
 }

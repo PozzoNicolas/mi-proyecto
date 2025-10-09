@@ -16,17 +16,30 @@
 
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-  <a class="navbar-brand" href="./home">VetConnect</a>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top shadow">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="#">VetConnect</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>
+                <li class="nav-item"><a class="nav-link" href="#turnos">Turnos</a></li>
+                <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+            </ul>
+        </div>
+    </div>
 </nav>
 
 <main role="main" class="container">
   <div class = "container">
     <h1>Resultados</h1>
     
-    <p>Turnos de <span th:text="${turno.especialidad}"></span>
-      para: <span th:text="${turno.practica}"></span>
-      En: <span th:text="${turno.lugar}"></span>
+    <!--Cambiar redaccion según especialidad...?-->
+    <p>Turnos de <span th:text="${turno.especialidad.getDesc()}"></span>
+      para: <span th:text="${turno.practica.getDesc()}"></span>
+      En: <span th:text="${veterinaria != null && !#strings.isEmpty(veterinaria.nombre) ? veterinaria.nombre : 'Indiferente'}"></span>
     </p>
 
     <form th:action="@{/seleccionar-dia}" th:object="${turno}" method="post">
@@ -36,26 +49,60 @@
 
         <input type="hidden" th:field="*{especialidad}" />
         <input type="hidden" th:field="*{practica}" />
-        <input type="hidden" th:field="*{lugar}" />
+        <input type="hidden" th:field="*{veterinaria}" />
 
         <button type="submit">Ver turnos disponibles</button>
-    </form>
+    </form> 
 
+    <form th:if="${turno.fecha != null}" th:action="@{/seleccionar-horario-profesional}" th:object="${turno}" method="post">
+        <p>Seleccione el horario y profesional:</p>
+        <!-- Caso veterinaria específica -->
+        <div th:if="${veterinaria != null && veterinaria.profesionalesEnHorario != null && !#strings.isEmpty(veterinaria.nombre)}">
+            <div th:each="entry : ${veterinaria.profesionalesEnHorario}">
+                <p><strong th:text="${entry.key}">Horario</strong></p>
+                <ul>
+                    <li th:each="prof : ${entry.value}">
+                        <label>
+                            <input type="radio" th:field="*{seleccion}" 
+                                th:value="${entry.key + '||' + prof.nombre}" required />
+                            <span th:text="${prof.nombre}"></span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
 
-    <form th:action="@{/seleccionar-turno}" th:object="${turno}" method="post">
-        <label for="horario">Seleccione el horario y doctor:</label>
-        <select id="horario" th:field="*{horario}" required>
-            <option value="">-- Seleccione --</option>
-            <option th:each="h : ${horarioTurnos}" th:value="${h}" th:text="${h}"></option>
-        </select>
+        <!-- Caso "Indiferente": todas las veterinarias -->
+        <div th:if="${veterinarias != null}">
+            <div th:each="vet : ${veterinarias}">
+            <h3>
+                <span th:text="${vet.nombre}"></span> - 
+                <span th:text="${vet.direccion}"></span>
+            </h3>
+                <div th:each="entry : ${vet.profesionalesEnHorario}">
+                    <p><strong th:text="${entry.key}">Horario</strong></p>
+                    <ul>
+                        <li th:each="prof : ${entry.value}">
+                            <label>
+                                <input type="radio" th:field="*{seleccion}" 
+                                    th:value="${vet.id + '||' + entry.key + '||' + prof.nombre}" required />
+                                <span th:text="${prof.nombre}"></span>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
         <input type="hidden" th:field="*{especialidad}" />
         <input type="hidden" th:field="*{practica}" />
-        <input type="hidden" th:field="*{lugar}" />
+        <input type="hidden" th:field="*{veterinaria}" />
         <input type="hidden" th:field="*{fecha}" />
 
         <button type="submit">Reservar turno</button>
     </form>
+
+
 
 
     <!--No funciona, si saco los required`s obtengo otros problemas-->
@@ -65,7 +112,21 @@
   </div>
 </main>
 <!-- /.container -->
-
+<footer>
+    <div>
+        <h6>Integrantes:</h6>
+        <h6>Diego Contreras</h6>
+        <h6>Nicolas Pozzo</h6>
+        <h6>Andrea Callejas</h6>
+        <h6>Alan Rojas</h6>
+        <h6>Mauricio Medina</h6>
+        <h6>Joaquin A. Diaz</h6>
+    </div>
+    <div>
+        <h6>Fundación Futuro - 2025</h6>
+        <h6>Taller Web I - Universidad Nacional de La Matanza</h6>
+    </div>
+</footer>
 <!-- Boostrap core js -->
 <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
 </body>

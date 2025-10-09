@@ -16,8 +16,20 @@
 
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-  <a class="navbar-brand" href="./home">VetConnect</a>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top shadow">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="#">VetConnect</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Turnos</a></li>
+                <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+            </ul>
+        </div>
+    </div>
 </nav>
 
 <main role="main" class="container">
@@ -30,9 +42,12 @@
     <div th:if="${!#lists.isEmpty(turnos)}">
       <ul>
         <li th:each="turno : ${turnos}">
-          Especialidad: <span th:text="${turno.especialidad}"></span>
-          Fecha: <span th:text="${turno.fecha}"></span>
-          Horario: <span th:text="${turno.horario}"></span> <br>
+          Especialidad: <span th:text="${turno.especialidad.getDesc()}"></span>,
+          <span th:text="${turno.practica.getDesc()}"></span> <br>
+          El día: <span th:text="${turno.fecha}"></span>,
+          <span th:text="${turno.horario}"></span> <br>
+          Profesional: <span th:text="${turno.profesional}"></span> <br>
+          <!--Veterinaria: <span th:text="${turno.veterinaria}"></span> -->
         </li>
       </ul>
     </div>
@@ -42,6 +57,22 @@
   </div>
 </main>
 <!-- /.container -->
+
+<footer>
+    <div>
+        <h6>Integrantes:</h6>
+        <h6>Diego Contreras</h6>
+        <h6>Nicolas Pozzo</h6>
+        <h6>Andrea Callejas</h6>
+        <h6>Alan Rojas</h6>
+        <h6>Mauricio Medina</h6>
+        <h6>Joaquin A. Diaz</h6>
+    </div>
+    <div>
+        <h6>Fundación Futuro - 2025</h6>
+        <h6>Taller Web I - Universidad Nacional de La Matanza</h6>
+    </div>
+</footer>
 
 <!-- Boostrap core js -->
 <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
