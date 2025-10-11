@@ -15,9 +15,7 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-success fixed-top">
     <div class="container-fluid">
-        <a class="navbar-brand fw-bold" href="/">
-            <img src="/img/logo.png" alt="VetConnect" id="logo-header">
-        </a>
+        <a class="navbar-brand fw-bold" href="/inicio"> VetConnect  </a>
     </div>
 </nav>
 
@@ -26,8 +24,11 @@
     <div class="header-section">
         <span>Bienvenido, Diego</span>
         <div class="header-right">
-            <img th:src="@{img/perfil.com}" alt="Perfil" class="icono-mediano">
-            <img src="/img/salida.png" alt="Salir" class="icono-mediano">
+            <img th:src="@{img/perfil.png}" alt="Perfil" class="icono-mediano">
+            <a href ="perfil.html" class = "span-opciones"> Perfil </a>
+            <img th:src="@{img/salida.png}" alt="Salir" class="icono-mediano" >
+            <a href ="home.html" class = "span-opciones"> Salir </a>
+
         </div>
     </div>
 </header>
@@ -37,12 +38,12 @@
     <!-- Menú lateral -->
     <aside class="opciones">
         <article class="opciones-article">
-            <img src="/img/huella.png" alt="Clientes" class="icono-opciones">
+            <img th:src="@{img/clientes.png}" alt="Clientes" class="icono-opciones">
             <a href="clientes.html" class="span-opciones">Clientes</a>
         </article>
         <article class="opciones-article">
             <img th:src="@{img/mascotas-inicio.png}" alt="Mascotas" class="icono-opciones">
-            <a href="/mascotas.html" class="span-opciones">Mis Mascotas</a>
+            <a href="mis-mascotas.html" class="span-opciones">Mis Mascotas</a>
         </article>
         <article class="opciones-article">
             <img th:src="@{img/calendario.png}" alt="Turnos" class="icono-opciones">
@@ -64,8 +65,10 @@
                         <span>24</span>
                         <span>SEP</span>
                     </div>
+
+
                     <div>
-                        <p>Consulta con Dr. Pérez</p>
+                        <p>Consulta con Dr. P&eacute;rez</p>
                         <button id="boton-cancelar">Cancelar</button>
                     </div>
                 </div>
@@ -109,7 +112,6 @@
         <h6>Diego Contreras</h6>
         <h6>Nicolas Pozzo</h6>
         <h6>Andrea Callejas</h6>
-        <h6>Alan Rojas</h6>
         <h6>Mauricio Medina</h6>
         <h6>Joaquin A. Diaz</h6>
     </div>
@@ -121,5 +123,8 @@
 
 <!-- Bootstrap JS -->
 <script th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/inicio.js}"></script>
+
+
 </body>
 </html>

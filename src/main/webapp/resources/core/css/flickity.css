@@ -1,0 +1,161 @@
+/* ==============================
+   Estilos globales
+============================== */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: 'Poppins', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+
+/* ==============================
+   Footer
+============================== */
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    text-align: center;
+    background-color: #2e7d32;
+    color: white;
+    padding: 2rem;
+    font-size: 0.9rem;
+}
+
+/* ==============================
+   Carrusel principal
+============================== */
+.carousel {
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 1rem 0;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
+    margin: 2rem auto;
+    max-width: 90%;
+}
+
+/* Celda individual del carrusel */
+.carousel-cell {
+    width: 60%;
+    height: 380px;
+    margin-right: 15px;
+    background: #697d6b;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.carousel-cell:hover {
+    transform: scale(1.02);
+}
+
+/* Contenedor interno */
+.carousel-cell__content {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/* Imagen */
+.carousel-cell__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+}
+
+.carousel-cell__img:hover {
+    opacity: 1;
+}
+
+/* Texto superpuesto */
+.carousel-cell__text {
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    background: rgba(46, 125, 50, 0.9);
+    padding: 0.8rem 1.4rem;
+    border-radius: 25px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: center;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    max-width: 80%;
+    line-height: 1.4;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+    transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+}
+
+.carousel-cell:hover .carousel-cell__text {
+    background-color: rgba(56, 142, 60, 0.95);
+    transform: translateX(-50%);
+}
+
+
+/* ==============================
+   Adaptabilidad (Responsive)
+============================== */
+
+/* Tablets */
+@media (max-width: 1024px) {
+    .carousel-cell {
+        width: 75%;
+        height: 320px;
+    }
+
+    .carousel-cell__text {
+        font-size: 1.1rem;
+    }
+
+    .button {
+        font-size: 0.9rem;
+    }
+}
+
+/* Celulares grandes */
+@media (max-width: 768px) {
+    .carousel-cell {
+        width: 85%;
+        height: 300px;
+    }
+
+    .carousel-cell__text {
+        font-size: 1rem;
+    }
+
+    .button {
+        font-size: 0.8rem;
+    }
+}
+
+/* Celulares pequeños */
+@media (max-width: 480px) {
+    .carousel-cell {
+        width: 95%;
+        height: 250px;
+    }
+
+    .carousel-cell__text {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .button {
+        font-size: 0.7rem;
+        padding: 0.4rem 0.8rem;
+    }
+}
