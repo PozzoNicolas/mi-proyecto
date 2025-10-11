@@ -15,8 +15,7 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-success fixed-top">
     <div class="container-fluid">
-        <a class="navbar-brand fw-bold" href="/inicio"> VetConnect
-        </a>
+        <a class="navbar-brand fw-bold" href="/inicio"> VetConnect  </a>
     </div>
 </nav>
 
@@ -25,8 +24,10 @@
     <div class="header-section">
         <span>Bienvenido, Diego</span>
         <div class="header-right">
-            <img th:src="@{img/perfil.com}" alt="Perfil" class="icono-mediano">
-            <img src="/img/salida.png" alt="Salir" class="icono-mediano">
+            <img th:src="@{img/perfil.png}" alt="Perfil" class="icono-mediano">
+            <a href ="perfil.html" class = "span-opciones"> Perfil </a>
+            <img th:src="@{img/salida.png}" alt="Salir" class="icono-mediano" >
+            <a href ="home.html" class = "span-opciones"> Salir </a>
 
         </div>
     </div>
@@ -64,6 +65,8 @@
                         <span>24</span>
                         <span>SEP</span>
                     </div>
+
+
                     <div>
                         <p>Consulta con Dr. P&eacute;rez</p>
                         <button id="boton-cancelar">Cancelar</button>
@@ -120,5 +123,8 @@
 
 <!-- Bootstrap JS -->
 <script th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/inicio.js}"></script>
+
+
 </body>
 </html>
