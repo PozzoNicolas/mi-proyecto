@@ -3,10 +3,16 @@ import com.tallerwebi.dominio.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 @Controller
 @RequestMapping("/mascotas")
@@ -30,7 +36,16 @@ public class ControladorMascota {
     }
 
     @PostMapping
-    public String crear(@ModelAttribute("nuevaMascota") MascotaDto dto) {
+    //El @Valid le pide a Spring que valide las notaciones que pusimo en el dto (notblank, min, max).
+    //El Bindingresult guarda los errores de la validación.
+    public String crear(@Valid @ModelAttribute("nuevaMascota") MascotaDto dto, BindingResult resultado, Model model) {
+        //el .hasError devuelve true si alguna validación no cumplió con las reglas.
+        if(resultado.hasErrors()) {
+            Cliente clienteActual = servicioCliente.buscarClientePorId(100);
+            model.addAttribute("mascotas", clienteActual.getMascotas());
+            return "mascotas";
+        }
+
         Cliente clienteActual = servicioCliente.buscarClientePorId(100); // Simulamos login
         Mascota mascota = new Mascota(dto.getNombre(), dto.getTipoDeMascota(), dto.getRaza(), dto.getEdad());
         servicioMascota.registrarMascota(clienteActual.getId(), mascota);
@@ -39,9 +54,15 @@ public class ControladorMascota {
 
     // DTO para formulario
     public static class MascotaDto {
+        @NotBlank(message = "El nombre es obligatorio")
         private String nombre;
+        @NotBlank(message = "El tipo de mascota es obligatorio")
         private String tipoDeMascota;
+        //Lo hacemos obligatorio ?
         private String raza;
+
+        @Min(value = 0, message = "La edad no puede ser negativa")
+        @Max(value = 40, message = "La edad máxima permitida es 40 años")
         private Integer edad;
         private Cliente duenio;
 

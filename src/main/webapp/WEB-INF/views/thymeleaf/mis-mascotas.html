@@ -38,12 +38,17 @@
                 <div class="card-body">
                     <h5 class="card-title" th:text="${m.nombre}">Nombre</h5>
                     <p class="card-text">
-                        <strong>Especie:</strong> <span th:text="${m.especie}">Perro</span><br>
+                        <strong>Especie:</strong> <span th:text="${m.tipoDeMascota}">Perro</span><br>
                         <strong>Raza:</strong> <span th:text="${m.raza}">Mestizo</span><br>
                         <strong>Edad:</strong> <span th:text="${m.edad}">3</span> años
                     </p>
                 </div>
             </div>
+        </div>
+        <div>
+            <a href="mascotas.html">
+                <button type="button">Agregar Mascota</button>
+            </a>
         </div>
     </div>
 </main>

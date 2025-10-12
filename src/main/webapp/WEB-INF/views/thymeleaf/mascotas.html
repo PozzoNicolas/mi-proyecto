@@ -34,17 +34,26 @@
 
     <!-- Formulario -->
     <form th:action="@{/mascotas}" th:object="${nuevaMascota}" method="post" class="mascotas-form mx-auto">
+
         <div class="mb-3">
-            <input class="form-control" th:field="*{nombre}" placeholder="Nombre" required />
+            <input class="form-control" th:field="*{nombre}" placeholder="Nombre" />
+<!--            verifico si hay errores en el campo 'nombre', en el caso de que si, ejecuto la anotacion NotBlank-->
+            <div th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
         </div>
+
         <div class="mb-3">
-            <input class="form-control" th:field="*{tipoDeMascota}" placeholder="Tipo (perro, gato...)" required />
+            <input class="form-control" th:field="*{tipoDeMascota}" placeholder="Tipo (perro, gato...)"  />
+            <div th:if="${#fields.hasErrors('tipoDeMascota')}" th:errors="*{tipoDeMascota}"></div>
         </div>
+
+
         <div class="mb-3">
-            <input class="form-control" th:field="*{raza}" placeholder="Raza" required />
+            <input class="form-control" th:field="*{raza}" placeholder="Raza" />
         </div>
+
         <div class="mb-3">
-            <input class="form-control" th:field="*{edad}" type="number" placeholder="Edad (en años)" required />
+            <input class="form-control" th:field="*{edad}" type="number" placeholder="Edad (en años)" />
+            <div th:if="${#fields.hasErrors('edad')}" th:errors="*{edad}"></div>
         </div>
         <div class="mb-3">
             <label for="foto" class="form-label">Foto de la mascota</label>
