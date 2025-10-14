@@ -52,7 +52,7 @@
         </div>
 
         <div class="mb-3">
-            <input class="form-control" th:field="*{edad}" type="number" placeholder="Edad (en años)" />
+            <input class="form-control" th:field="*{edad}" min="0" type="number" placeholder="Edad (en años)" />
             <div th:if="${#fields.hasErrors('edad')}" th:errors="*{edad}"></div>
         </div>
         <div class="mb-3">
