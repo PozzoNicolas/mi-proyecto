@@ -37,6 +37,10 @@ public class Cliente {
         return nombre;
     }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
     public String getApellido() {
         return apellido;
     }
@@ -72,4 +76,17 @@ public class Cliente {
         turnos.add(turno);
     }
 
+    public boolean cancelarTurno(Integer idTurno) {
+        if(turnos.removeIf(turno -> turno.getId() == idTurno)) {
+            return true;
+        } else throw new IllegalArgumentException("Turno no encontrado o no eliminado");
+    }
+
+    public Turno getTurnoPorId(Integer turnoId) {
+        Turno turno = this.getTurnos().stream()
+                .filter(t -> t.getId().equals(turnoId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Turno no encontrado"));
+        return turno; 
+    }
 }

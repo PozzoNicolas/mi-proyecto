@@ -41,6 +41,14 @@ public class Veterinaria {
         return profesionalesEnHorario;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre; 
+    }
+
     public void setDireccion(String direccion) {
         this.direccion = direccion; 
     }
