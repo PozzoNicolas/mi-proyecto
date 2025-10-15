@@ -101,6 +101,12 @@ body {
     text-decoration: none;
 }
 
+.span-opciones-header {
+    color: white;
+    font-weight: 500;
+    text-decoration: none;
+}
+
 .span-opciones:hover {
     text-decoration: underline;
 }
