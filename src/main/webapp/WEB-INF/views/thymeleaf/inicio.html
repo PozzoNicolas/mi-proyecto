@@ -6,6 +6,7 @@
 
     <!-- Bootstrap -->
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
     <!-- Estilos personalizados -->
     <link rel="stylesheet" th:href="@{/css/inicio.css}">
@@ -25,10 +26,14 @@
     <div class="header-section">
         <span>Bienvenido, Diego</span>
         <div class="header-right">
-            <img th:src="@{img/perfil.png}" alt="Perfil" class="icono-mediano">
-            <a href ="perfil.html" class = "span-opciones"> Perfil </a>
-            <img th:src="@{img/salida.png}" alt="Salir" class="icono-mediano" >
-            <a href ="home.html" class = "span-opciones"> Salir </a>
+            <i class="bi bi-bell"></i>
+            <a class="span-opciones-header" data-bs-toggle="offcanvas" href="#offcanvasNotificaciones" role="button" aria-controls="offcanvasNotificaciones">
+                Notificaciones
+            </a>
+            <i class="bi bi-person-circle"></i>
+            <a href ="perfil.html" class = "span-opciones-header"> Perfil </a>
+            <i class="bi bi-box-arrow-in-left"></i>
+            <a href ="home.html" class = "span-opciones-header"> Salir </a>
 
         </div>
     </div>
@@ -56,6 +61,29 @@
         </article>
     </aside>
 
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNotificaciones" aria-labelledby="offcanvasNotificacionesLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasNotificacionesLabel">Notificaciones</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div th:if="${#lists.isEmpty(turnos)}">
+                <p>No hay Notificaciones</p>
+            </div>
+            <div th:if="${!#lists.isEmpty(turnos)}">
+                <div th:each="turno : ${turnos}" class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"> <span th:text="${turno.especialidad.getDesc()}"></span> </h5>
+                        <h6 class="card-subtitle mb-2 text-muted"><span th:text="${turno.practica.getDesc()}"></span></h6>
+                        <p class="card-text">Fecha <span th:text="${turno.fecha}"></span>, <span th:text="${turno.horario}"></span> <br>
+                            Profesional: <span th:text="${turno.profesional}"></span></p>
+                        <a href="./turnos" class="card-link">Ver Turnos</a>
+                        <a href="#" class="card-link">Cancelar Turno</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Contenido principal -->
     <main class="main">
         <section class="cajas">
