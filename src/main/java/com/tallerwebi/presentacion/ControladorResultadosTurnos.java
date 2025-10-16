@@ -61,7 +61,7 @@ public class ControladorResultadosTurnos {
                                             HttpServletRequest request) {        
         servicioTurno.procesarSeleccion(turno);
 
-        Cliente clienteActual = servicioCliente.buscarClientePorId(102);
+        Cliente clienteActual = servicioCliente.buscarClientePorId(101);
         servicioTurno.guardarTurno(clienteActual, turno); 
         String emailPorLogin = (String) request.getSession().getAttribute("EMAIL");
 

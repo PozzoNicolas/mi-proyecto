@@ -45,7 +45,7 @@ public class ControladorTurnos {
 
         String emailPorLogin = (String) request.getSession().getAttribute("EMAIL");
 
-        Cliente clienteActual = servicioCliente.buscarClientePorId(102);
+        Cliente clienteActual = servicioCliente.buscarClientePorId(101);
         // Cliente =/= Usuario
         servicioMail.enviarCancelacionDeTurno(clienteActual, turnoId, emailPorLogin);
         servicioCliente.cancelarTurno(clienteActual, turnoId);  
