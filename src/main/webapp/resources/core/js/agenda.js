@@ -60,4 +60,4 @@ function mostrarFechaActual() {
     cartel.textContent = `Hoy es ${fechaFormateada.charAt(0).toUpperCase() + fechaFormateada.slice(1)}`;
 }
 
-mostrarFechaActual();
+
