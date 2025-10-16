@@ -249,7 +249,7 @@ body.modal-activo {
 }
 
 /* Caja principal del contenido */
-.modal-contenido {
+.modal-content {
     background-color: #ffffff;
     border-radius: 15px;
     padding: 2rem;
@@ -283,5 +283,30 @@ body.modal-activo {
 
 .btn-agenda:hover {
     background-color: #1b5e20;
+}
+/* Cartel de fecha actual */
+.fecha-actual {
+    background: linear-gradient(90deg, #2e7d32, #43a047);
+    color: #fff;
+    font-weight: 600;
+    text-align: center;
+    border-radius: 12px;
+    padding: 0.8rem 1rem;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    width: fit-content;
+    margin: 1rem auto;
+    animation: aparecerFecha 0.8s ease;
+}
+
+@keyframes aparecerFecha {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 

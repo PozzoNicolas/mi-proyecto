@@ -9,6 +9,7 @@
 
     <!-- Estilos personalizados -->
     <link rel="stylesheet" th:href="@{/css/inicio.css}">
+    <link rel="stylesheet" th:href="@{/css/agenda.css}">
 </head>
 <body>
 
@@ -62,17 +63,90 @@
                 <h3>Pr&oacute;ximos turnos</h3>
                 <div id="box-turnos">
                     <div id="left-turnos">
-                        <span>24</span>
-                        <span>SEP</span>
+                        <div id="cartelFecha" class="fecha-actual"></div>
+                        <button id="boton-agenda">Abrir Agenda</button>
                     </div>
-
-
                     <div>
                         <p>Consulta con Dr. P&eacute;rez</p>
                         <button id="boton-cancelar">Cancelar</button>
                     </div>
                 </div>
             </article>
+            <!-- Modal de Agenda -->
+            <div id="modalAgenda" class="modal">
+                <div class="modal-content">
+                    <span class="cerrar" id="cerrarAgenda">&times;</span>
+
+                    <!-- Calendario original -->
+                    <div class="container">
+                        <div class="calendar">
+                            <div class="front">
+                                <div class="current-date">
+                                    <h1>Martes 15th</h1>
+                                    <h1>Octubre 2025</h1>
+                                </div>
+
+                                <div class="current-month">
+                                    <ul class="week-days">
+                                        <li>LUN</li><li>MAR</li><li>MIE</li><li>JUE</li><li>VIE</li><li>SAB</li><li>DOM</li>
+                                    </ul>
+                                    <div class="weeks">
+                                        <div class="first">
+                                            <span class="last-month">28</span>
+                                            <span class="last-month">29</span>
+                                            <span class="last-month">30</span>
+                                            <span class="last-month">31</span>
+                                            <span>01</span><span>02</span><span>03</span>
+                                        </div>
+                                        <div class="second">
+                                            <span>04</span><span>05</span><span class="event">06</span>
+                                            <span>07</span><span>08</span><span>09</span><span>10</span>
+                                        </div>
+                                        <div class="third">
+                                            <span>11</span><span>12</span><span>13</span><span>14</span>
+                                            <span class="active">15</span><span>16</span><span>17</span>
+                                        </div>
+                                        <div class="fourth">
+                                            <span>18</span>
+                                            <span>19</span>
+                                            <span>20</span>
+                                            <span>21</span>
+                                            <span>22</span>
+                                            <span>23</span>
+                                            <span>24</span>
+                                        </div>
+
+                                        <div class="fifth">
+                                            <span>25</span>
+                                            <span>26</span>
+                                            <span>27</span>
+                                            <span>28</span>
+                                            <span>29</span>
+                                            <span>30</span>
+                                            <span>31</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="back">
+                                <input placeholder="&iquest;Qu&Eacute; evento quer&eacute;s agregar?">
+                                <div class="info">
+                                    <div class="date">
+                                        <p class="info-date">Fecha: <span>15 Sep 2025</span></p>
+                                        <p class="info-time">Hora: <span>10:00 AM</span></p>
+                                    </div>
+                                </div>
+
+                                <div class="actions">
+                                    <button class="save">Guardar</button>
+                                    <button class="dismiss">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <article>
                 <h3>Historial</h3>
@@ -105,6 +179,7 @@
     </main>
 </div>
 
+
 <!-- Footer -->
 <footer>
     <div>
@@ -123,7 +198,7 @@
 
 <!-- Bootstrap JS -->
 <script th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.bundle.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/inicio.js}"></script>
+<script type="text/javascript" th:src="@{/js/agenda.js}"></script>
 
 
 </body>
