@@ -3,8 +3,10 @@ package com.tallerwebi.dominio;
 import com.tallerwebi.dominio.enums.Especialidad;
 import com.tallerwebi.dominio.enums.Practica;
 
+
 public class Turno {
     private Integer id;
+    private static int contadorIds = 1; 
     private Especialidad especialidad;
     private Practica practica;
     private Integer veterinaria; 
@@ -15,10 +17,12 @@ public class Turno {
     //Campo temporal para form en resultado-turnos.
     private String seleccion;
 
-    public Turno() {}
+    public Turno() {
+        this.id = contadorIds++; //A cambiar
+    }
 
-    public Turno(Integer id, Especialidad especialidad, Practica practica, Integer veterinaria, String fecha, String horario) {
-        this.id = id;
+    public Turno(Especialidad especialidad, Practica practica, Integer veterinaria, String fecha, String horario) {
+        this.id = contadorIds++; //A cambiar
         this.especialidad = especialidad;
         this.practica = practica;
         this.veterinaria = veterinaria; 

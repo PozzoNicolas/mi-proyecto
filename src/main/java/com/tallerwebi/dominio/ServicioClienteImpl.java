@@ -51,5 +51,9 @@ public class ServicioClienteImpl implements ServicioCliente {
         return storage.get(id);
     }
 
+    @Override
+    public void cancelarTurno(Cliente cliente, Integer id) {
+        cliente.cancelarTurno(id); 
+    }
 
 }

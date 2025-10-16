@@ -47,14 +47,18 @@
           El d&iacute;a: <span th:text="${turno.fecha}"></span>,
           <span th:text="${turno.horario}"></span> <br>
           Profesional: <span th:text="${turno.profesional}"></span> <br>
-          <!--Veterinaria: <span th:text="${turno.veterinaria}"> </span> -->
+          <form th:action="@{/cancelar-turno}" method="post">
+            <input type="hidden" name="turnoId" th:value="${turno.id}"/>
+            <input type="hidden" name="turnoFecha" th:value="${turno.fecha}">
+            <button type="submit">Cancelar turno</button>
+          </form>
         </li>
       </ul>
     </div>
     <a href="./nuevo-turno" class="btn btn-lg btn-primary btn-block">Nuevo Turno</a>
     <a href="./inicio" class="btn btn-lg btn-primary btn-block">Volver</a>
-  </div>
-</main>
+  </div> 
+</main> 
 <!-- /.container -->
 
 <footer>

@@ -89,7 +89,7 @@
             let spans = dataBlock.querySelectorAll("span");
             spans.forEach(span => {
                 let opt = document.createElement("option");
-                opt.value = span.dataset.name; // ⚠ CORRECTO
+                opt.value = span.dataset.name;
                 opt.textContent = span.dataset.desc;
                 practicaSelect.appendChild(opt);
             });
@@ -103,8 +103,7 @@
       </p>
     </form>
 
-    <a href="./turnos" class="btn btn-lg btn-primary btn-block">Turnos</a>
-    <a href="inicio.html" class="btn btn-lg btn-primary btn-block">Volver</a>
+    <a href="turnos.html" class="btn btn-lg btn-primary btn-block">Volver</a>
   </div>
 </main>
 <!-- /.container -->
