@@ -33,7 +33,7 @@ public class ControladorTurnos {
             return "redirect:/login";
         }
 
-        Cliente clienteActual = servicioCliente.buscarClientePorId(102);
+        Cliente clienteActual = servicioCliente.buscarClientePorId(101);
         modelo.addAttribute("email", email);
         modelo.addAttribute("turnos", new ArrayList<>(clienteActual.getTurnos()));
         return "turnos";
