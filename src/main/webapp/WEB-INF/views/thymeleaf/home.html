@@ -14,6 +14,32 @@
     <link rel="stylesheet" th:href="@{/css/flickity.min.css}"/>
 </head>
 
+<div id="chat-container">
+    <div id="chat-box"></div>
+    <input type="text" id="mensaje" placeholder="Escribí tu pregunta..." />
+    <button id="enviar">Enviar</button>
+</div>
+
+<script>
+    document.getElementById("enviar").addEventListener("click", async () => {
+        const mensaje = document.getElementById("mensaje").value;
+        const chatBox = document.getElementById("chat-box");
+
+        chatBox.innerHTML += `<div class='usuario'>🐾 ${mensaje}</div>`;
+        document.getElementById("mensaje").value = "";
+
+        const response = await fetch("/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `mensaje=${encodeURIComponent(mensaje)}`
+        });
+        const texto = await response.text();
+
+        chatBox.innerHTML += `<div class='bot'>💬 ${texto}</div>`;
+    });
+</script>
+
+
 <body>
 
 <!-- NAVBAR -->
