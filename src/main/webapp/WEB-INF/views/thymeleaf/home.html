@@ -14,28 +14,36 @@
     <link rel="stylesheet" th:href="@{/css/flickity.min.css}"/>
 </head>
 
-<div id="chat-container">
-    <div id="chat-box"></div>
-    <input type="text" id="mensaje" placeholder="Escribí tu pregunta..." />
-    <button id="enviar">Enviar</button>
-</div>
-
 <script>
-    document.getElementById("enviar").addEventListener("click", async () => {
-        const mensaje = document.getElementById("mensaje").value;
+    document.addEventListener("DOMContentLoaded", function() {
+        const modal = document.getElementById("modalChatGPT");
+        const abrir = document.getElementById("abrirChatGPT");
+        const cerrar = document.getElementById("cerrarChatGPT");
+        const enviar = document.getElementById("enviarChatGPT");
+        const input = document.getElementById("mensajeChatGPT");
         const chatBox = document.getElementById("chat-box");
 
-        chatBox.innerHTML += `<div class='usuario'>🐾 ${mensaje}</div>`;
-        document.getElementById("mensaje").value = "";
+        abrir.onclick = () => modal.style.display = "flex";
+        cerrar.onclick = () => modal.style.display = "none";
+        window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
 
-        const response = await fetch("/chat", {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: `mensaje=${encodeURIComponent(mensaje)}`
-        });
-        const texto = await response.text();
+        enviar.onclick = async () => {
+            const mensaje = input.value.trim();
+            if (!mensaje) return;
 
-        chatBox.innerHTML += `<div class='bot'>💬 ${texto}</div>`;
+            chatBox.innerHTML += `<p><strong>Tú:</strong> ${mensaje}</p>`;
+            input.value = "";
+
+            const respuesta = await fetch("/api/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(mensaje)
+            });
+
+            const texto = await respuesta.text();
+            chatBox.innerHTML += `<p><strong>VetConnect:</strong> ${texto}</p>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+        };
     });
 </script>
 
@@ -53,6 +61,21 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     <a href="login.html" class="btn btn-success btn-lg mt-3">Iniciar sesi&oacute;n</a>
+                </li>
+                <li>
+                    <!-- Botón flotante -->
+                    <button id="abrirChatGPT" class="btn-chatgpt">Asistente Virtual</button>
+
+                    <!-- Modal del chat -->
+                    <div id="modalChatGPT" class="modal">
+                        <div class="modal-content chat-container">
+                            <span id="cerrarChatGPT" class="cerrar">&times;</span>
+                            <h3>Asistente Virtual </h3>
+                            <div id="chat-box"></div>
+                            <input type="text" id="mensajeChatGPT" placeholder="Escrib&iacute; tu pregunta...">
+                            <button id="enviarChatGPT">Enviar</button>
+                        </div>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -132,6 +155,9 @@
     </div>
 </main>
 
+
+
+
 <!-- FOOTER -->
 <footer>
     <div>
@@ -152,6 +178,8 @@
 <script type="text/javascript" th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.bundle.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/main.js}"></script>
 <script type="text/javascript" th:src="@{/js/flickity.pkgd.min.js}"></script>
+
+
 
 </body>
 </html>

@@ -1,34 +1,37 @@
 package com.tallerwebi.dominio;
 
+import com.theokanning.openai.service.OpenAiService;
+import com.theokanning.openai.completion.chat.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import com.openai.OpenAI;
-import com.openai.models.ChatCompletionCreateParams;
-import com.openai.models.ChatCompletionMessage;
-import com.openai.models.ChatCompletionMessageRole;
+import java.util.List;
 
 @Service
 public class ServicioChatGPT {
 
+
     @Value("${OPENAI_API_KEY}")
     private String apiKey;
 
-    public String enviarMensaje(String mensajeUsuario) {
-        OpenAI client = new OpenAI(apiKey);
+    private final OpenAiService openAiService;
 
-        ChatCompletionCreateParams params = ChatCompletionCreateParams.builder()
+    public ServicioChatGPT() {
+        String apiKey = System.getenv("OPENAI_API_KEY");
+        this.openAiService = new OpenAiService(apiKey);
+    }
+
+    public String obtenerRespuesta(String preguntaUsuario) {
+        ChatCompletionRequest request = ChatCompletionRequest.builder()
                 .model("gpt-3.5-turbo")
-                .messages(
-                        ChatCompletionMessage.builder()
-                                .role(ChatCompletionMessageRole.USER)
-                                .content(mensajeUsuario)
-                                .build()
-                )
+                .messages(List.of(
+                        new ChatMessage("system", "Sos un asistente especializado en salud animal y veterinaria."),
+                        new ChatMessage("user", preguntaUsuario)
+                ))
                 .maxTokens(200)
-                .temperature(0.7)
+                .temperature(0.8)
                 .build();
 
-        return client.chatCompletions().create(params)
-                .getChoices().get(0).getMessage().getContent();
+        ChatCompletionResult resultado = openAiService.createChatCompletion(request);
+        return resultado.getChoices().get(0).getMessage().getContent();
     }
 }
