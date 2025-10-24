@@ -23,7 +23,7 @@
 <!-- Header -->
 <header class="header">
     <div class="header-section">
-        <span>Bienvenido, Diego</span>
+        <span th:text="'Bienvenido, ' + ${nombreUsuario}">Bienvenido</span>
         <div class="header-right">
             <i class="bi bi-bell"></i>
             <a class="span-opciones-header" data-bs-toggle="offcanvas" href="#offcanvasNotificaciones" role="button" aria-controls="offcanvasNotificaciones">

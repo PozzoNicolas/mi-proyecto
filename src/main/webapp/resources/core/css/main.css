@@ -1,88 +1,34 @@
-/* ==========================================================
-   🟢 RESET Y CONFIGURACIÓN GENERAL
-========================================================== */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-html, body {
-    height: 100%;
+/* === General === */
+body {
+    padding-top: 70px; /* evita que la navbar tape contenido */
     font-family: 'Poppins', sans-serif;
-    background-color: #f4fdf6;
+    background-color: #f4fdf6; /* verde muy suave */
     color: #333;
-    display: flex;
-    flex-direction: column;
+    height: 100%;
+    min-height: 100vh;
 }
 
-/* Permite que el footer quede siempre abajo */
 main {
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
-/* ==========================================================
-   🟢 TIPOGRAFÍA Y TÍTULOS
-========================================================== */
-h1, h2, h3, h4 {
-    color: #2e7d32;
-    font-weight: bold;
-}
-
+/* === Titulos === */
 h1 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
+    color: #2e7d32; /* verde veterinario */
+    font-weight: bold;
 }
 
 h2 {
-    font-size: 1.6rem;
-    margin-bottom: 0.8rem;
+    color: #2e7d32; /* azul secundario */
 }
 
-/* ==========================================================
-   🟢 NAVBAR
-========================================================== */
-.navbar {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    background: linear-gradient(90deg, #2e7d32, #43a047);
-    padding: 0.6rem 1.5rem;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 10;
-}
-
-.navbar-brand {
-    font-weight: bold;
-    font-size: 1.4rem;
-    color: #fff;
-    margin-right: 2rem;
-}
-
-.navbar-nav .nav-link {
-    color: #fff !important;
-    margin: 0 0.8rem;
-    transition: color 0.3s ease;
-}
-
-.navbar-nav .nav-link:hover {
-    color: #dcedc8 !important;
-}
-
-/* ==========================================================
-   🟢 SECCIÓN PRINCIPAL / HOME
-========================================================== */
+/* === Hero / Main === */
 .main-body {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    margin: 5rem auto 3rem auto;
+    margin: 2rem auto;
     padding: 2rem;
     border-radius: 20px;
     background-color: #ffffff;
@@ -97,7 +43,6 @@ h2 {
 
 .main-body p {
     max-width: 800px;
-    line-height: 1.6;
 }
 
 /* Imagen principal */
@@ -113,17 +58,37 @@ h2 {
     transform: scale(1.05);
 }
 
-/* ==========================================================
-   🟢 BOTONES
-========================================================== */
+/* === Navbar === */
+.navbar {
+    display: flex;
+    flex-direction: row;
+    background: linear-gradient(90deg, #2e7d32, #43a047);
+}
+
+.navbar-brand {
+    margin: 0 2rem;
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+
+.navbar-nav .nav-link {
+    display: flex;
+    flex-direction: row;
+    color: white !important;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #dcedc8 !important;
+}
+
+/* === Botones === */
 .btn-success {
     background-color: #2e7d32;
     border: none;
     padding: 0.8rem 1.5rem;
     font-size: 1.1rem;
     border-radius: 30px;
-    color: #fff;
-    cursor: pointer;
     transition: all 0.3s ease;
 }
 
@@ -133,9 +98,25 @@ h2 {
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
-/* ==========================================================
-   🟢 MODAL CHATGPT
-========================================================== */
+/* === Footer === */
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    text-align: center;
+    background-color: #2e7d32;
+    color: white;
+    padding: 2rem;
+    margin-top: auto;
+}
+
+footer h6 {
+    margin: 0.3rem 0;
+    font-weight: normal;
+}
+
+/* ChatGPT modal */
 .btn-chatgpt {
     position: fixed;
     bottom: 20px;
@@ -148,7 +129,6 @@ h2 {
     font-size: 1.4rem;
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    z-index: 1000;
 }
 
 .modal {
@@ -200,51 +180,3 @@ h2 {
     cursor: pointer;
 }
 
-/* ==========================================================
-   🟢 FOOTER
-========================================================== */
-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    text-align: center;
-    background-color: #2e7d32;
-    color: white;
-    padding: 2rem;
-    margin-top: auto;
-    width: 100%;
-}
-
-footer h6 {
-    margin: 0.3rem 0;
-    font-weight: normal;
-}
-
-footer p, footer span {
-    font-size: 0.9rem;
-}
-
-/* ==========================================================
-   🟢 RESPONSIVE DESIGN
-========================================================== */
-@media (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .main-body {
-        margin: 6rem 1rem;
-        padding: 1.5rem;
-    }
-
-    .chat-container {
-        width: 90%;
-    }
-
-    footer {
-        flex-direction: column;
-        text-align: center;
-    }
-}
