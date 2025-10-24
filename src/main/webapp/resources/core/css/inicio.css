@@ -323,7 +323,7 @@ body.modal-activo {
 .fecha-actual {
     background: linear-gradient(90deg, #2e7d32, #43a047);
     color: #fff;
-    font-weight: 600;
+    font-weight: 300;
     text-align: center;
     border-radius: 12px;
     padding: 0.8rem 1rem;

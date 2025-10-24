@@ -87,18 +87,26 @@
     <main class="main">
         <section class="cajas">
             <article>
-                <h3>Pr&oacute;ximos turnos</h3>
-                <div id="box-turnos">
+                <h3>Agenda</h3>
                     <div id="left-turnos">
                         <div id="cartelFecha" class="fecha-actual"></div>
-                        <button id="boton-agenda">Abrir Agenda</button>
+                        <button id="boton-agenda">Abrir</button>
                     </div>
-                    <div>
-                        <p>Consulta con Dr. P&eacute;rez</p>
-                        <button id="boton-cancelar">Cancelar</button>
-                    </div>
-                </div>
             </article>
+
+            <script>
+                // === Mostrar la fecha actual ===
+                function mostrarFechaActual() {
+                    const cartel = document.getElementById('cartelFecha');
+                    const hoy = new Date();
+
+                    const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                    const fechaFormateada = hoy.toLocaleDateString('es-ES', opciones);
+
+                    cartel.textContent = `Hoy es ${fechaFormateada.charAt(0).toUpperCase() + fechaFormateada.slice(1)}`;
+                }
+
+            </script>
             <!-- Modal de Agenda -->
             <div id="modalAgenda" class="modal">
                 <div class="modal-content">
@@ -213,7 +221,6 @@
         <h6>Integrantes:</h6>
         <h6>Diego Contreras</h6>
         <h6>Nicolas Pozzo</h6>
-        <h6>Andrea Callejas</h6>
         <h6>Mauricio Medina</h6>
         <h6>Joaquin A. Diaz</h6>
     </div>
