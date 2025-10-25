@@ -1,37 +1,33 @@
 package com.tallerwebi.dominio;
 
-import com.theokanning.openai.service.OpenAiService;
 import com.theokanning.openai.completion.chat.*;
+import com.theokanning.openai.service.OpenAiService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
 public class ServicioChatGPT {
 
-
-    @Value("${OPENAI_API_KEY}")
-    private String apiKey;
-
     private final OpenAiService openAiService;
 
-    public ServicioChatGPT() {
-        String apiKey = System.getenv("OPENAI_API_KEY");
+    public ServicioChatGPT(@Value("${OPENAI_API_KEY}") String apiKey) {
         this.openAiService = new OpenAiService(apiKey);
     }
 
-    public String obtenerRespuesta(String preguntaUsuario) {
+    public String obtenerRespuesta(String mensajeUsuario) {
         ChatCompletionRequest request = ChatCompletionRequest.builder()
                 .model("gpt-3.5-turbo")
                 .messages(List.of(
-                        new ChatMessage("system", "Sos un asistente especializado en salud animal y veterinaria."),
-                        new ChatMessage("user", preguntaUsuario)
+                        new ChatMessage("system", "Sos un asistente veterinario amigable, empático y profesional llamado VetGPT. Ayudás a los usuarios a cuidar a sus mascotas, brindando información de salud, vacunas y bienestar animal."),
+                        new ChatMessage("user", mensajeUsuario)
                 ))
-                .maxTokens(200)
+                .maxTokens(250)
                 .temperature(0.8)
                 .build();
 
-        ChatCompletionResult resultado = openAiService.createChatCompletion(request);
-        return resultado.getChoices().get(0).getMessage().getContent();
+        ChatCompletionResult result = openAiService.createChatCompletion(request);
+        return result.getChoices().get(0).getMessage().getContent();
     }
 }

@@ -13,6 +13,7 @@ public class Usuario {
     private Long id;
     private String nombreUsuario;
     private String apellidoUsuario;
+    private Long telefonoUsuario;
     private String email;
     private String password;
     private String rol;
@@ -49,6 +50,9 @@ public class Usuario {
         this.activo = activo;
     }
     public String getNombreUsuario() {return nombreUsuario;}
+    public Long getTelefonoUsuario() {return telefonoUsuario;}
+    public void setTelefonoUsuario(Long telefonoUsuario) {this.telefonoUsuario = telefonoUsuario;}
+
 
     public void setNombre(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
