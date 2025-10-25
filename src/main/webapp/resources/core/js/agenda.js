@@ -49,15 +49,5 @@ var app = {
 
 app.init();
 
-// === Mostrar la fecha actual ===
-function mostrarFechaActual() {
-    const cartel = document.getElementById('cartelFecha');
-    const hoy = new Date();
-
-    const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const fechaFormateada = hoy.toLocaleDateString('es-ES', opciones);
-
-    cartel.textContent = `Hoy es ${fechaFormateada.charAt(0).toUpperCase() + fechaFormateada.slice(1)}`;
-}
 
 

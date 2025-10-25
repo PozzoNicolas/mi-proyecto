@@ -48,7 +48,7 @@ footer {
     width: 60%;
     height: 380px;
     margin-right: 15px;
-    background: #697d6b;
+    background: #ffffff;
     border-radius: 12px;
     overflow: hidden;
     position: relative;
@@ -70,7 +70,7 @@ footer {
 /* Imagen */
 .carousel-cell__img {
     width: 100%;
-    height: 100%;
+    height: 90%;
     object-fit: cover;
     opacity: 0.9;
     transition: opacity 0.3s ease;

@@ -26,7 +26,25 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
+                    <a href="nuevo-usuario.html" class="btn btn-success btn-lg mt-3">Registrarse</a>
+                </li>
+                <li class="nav-item">
                     <a href="login.html" class="btn btn-success btn-lg mt-3">Iniciar sesi&oacute;n</a>
+                </li>
+                <li>
+                    <!-- Botón flotante -->
+                    <button id="abrirChatGPT" class="btn-chatgpt"> VetIA</button>
+
+                    <!-- Modal del chat -->
+                    <div id="modalChatGPT" class="modal">
+                        <div class="modal-content chat-container">
+                            <span id="cerrarChatGPT" class="cerrar">&times;</span>
+                            <h3>VetIA - Nuestra Inteligencia Artificial</h3>
+                            <div id="chat-box"></div>
+                            <input type="text" id="mensajeChatGPT" placeholder="Escrib&iacute; tu pregunta...">
+                            <button id="enviarChatGPT">Enviar</button>
+                        </div>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -106,13 +124,15 @@
     </div>
 </main>
 
+
+
+
 <!-- FOOTER -->
 <footer>
     <div>
         <h6>Integrantes:</h6>
         <h6>Diego Contreras</h6>
         <h6>Nicolas Pozzo</h6>
-        <h6>Andrea Callejas</h6>
         <h6>Mauricio Medina</h6>
         <h6>Joaquin A. Diaz</h6>
     </div>
@@ -126,6 +146,9 @@
 <script type="text/javascript" th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.bundle.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/main.js}"></script>
 <script type="text/javascript" th:src="@{/js/flickity.pkgd.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/API-IA.js}"></script>
+
+
 
 </body>
 </html>

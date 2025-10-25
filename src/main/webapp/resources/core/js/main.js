@@ -6,3 +6,5 @@ const flkty = new Flickity(carousel, {
     wrapAround: true,
     autoPlay: 1500,
 });
+
+

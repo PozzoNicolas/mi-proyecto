@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>Taller Web I</title>
+  <title>Turnos</title>
 
   <!-- Boostrap core css -->
   <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
 
   <!-- custom style -->
-  <link rel="stylesheet" th:href="@{/css/main.css}"/>
+  <link rel="stylesheet" th:href="@{/css/estilo2.css}"/>
 
 </head>
 
@@ -18,17 +18,10 @@
 
 <nav class="navbar navbar-expand-md navbar-dark fixed-top shadow">
     <div class="container-fluid">
-        <a class="navbar-brand fw-bold" href="#">VetConnect</a>
+        <a class="navbar-brand fw-bold" href="inicio.html">VetConnect</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>
-                <li class="nav-item"><a class="nav-link" href="#turnos">Turnos</a></li>
-                <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
-            </ul>
-        </div>
     </div>
 </nav>
 
@@ -43,7 +36,7 @@
     </p>
 
     <form th:action="@{/seleccionar-dia}" th:object="${turno}" method="post">
-        <label for="fecha">Seleccione el día:</label>
+        <label for="fecha">Seleccione el d&iacute;a:</label>
         <input type="date" th:field="*{fecha}" required
         th:attr="min=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"/>
 
@@ -112,12 +105,15 @@
   </div>
 </main>
 <!-- /.container -->
+<br>
+<br>
+<br>
+<br>
 <footer>
     <div>
         <h6>Integrantes:</h6>
         <h6>Diego Contreras</h6>
         <h6>Nicolas Pozzo</h6>
-        <h6>Andrea Callejas</h6>
         <h6>Mauricio Medina</h6>
         <h6>Joaquin A. Diaz</h6>
     </div>

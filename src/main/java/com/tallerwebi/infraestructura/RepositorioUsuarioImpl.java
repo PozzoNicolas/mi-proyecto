@@ -45,4 +45,9 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
         sessionFactory.getCurrentSession().update(usuario);
     }
 
+    public Usuario save(Usuario usuario) {
+        return usuario;
+    }
+
+
 }
