@@ -148,18 +148,7 @@ body {
     margin-right: 1rem;
 }
 
-#boton-cancelar {
-    background-color: #dc3545;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    color: white;
-    cursor: pointer;
-}
 
-#boton-cancelar:hover {
-    background-color: #bb2d3b;
-}
 
 /* Historial */
 .secciones-datos {
@@ -206,11 +195,12 @@ body {
     gap: 0.5rem;
 }
 
-#mapa {
-    margin-top: 1rem;
-    border-radius: 8px;
-    width: 100%;
-    max-width: 400px;
+/*Recomendaciones*/
+
+#info-recomendaciones-personalizandas {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 /* ==============================

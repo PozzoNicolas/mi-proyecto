@@ -8,6 +8,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository("repositorioUsuario")
 public class RepositorioUsuarioImpl implements RepositorioUsuario {
 
@@ -43,6 +45,26 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
     @Override
     public void modificar(Usuario usuario) {
         sessionFactory.getCurrentSession().update(usuario);
+    }
+
+    @Override
+    public void actualizar(Usuario usuario) {
+
+    }
+
+    @Override
+    public List<Usuario> listarTodos() {
+        return List.of();
+    }
+
+    @Override
+    public Usuario buscarPorId(Long id) {
+        return null;
+    }
+
+    @Override
+    public void eliminar(Usuario usuario) {
+
     }
 
     public Usuario save(Usuario usuario) {

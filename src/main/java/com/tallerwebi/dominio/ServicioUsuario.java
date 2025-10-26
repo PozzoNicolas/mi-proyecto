@@ -3,11 +3,15 @@ package com.tallerwebi.dominio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-public class ServicioUsuario {
+public abstract class ServicioUsuario {
 
     @Autowired
     private com.tallerwebi.infraestructura.RepositorioUsuarioImpl repositorioUsuario;
+
+    public abstract Usuario buscarPorEmail(String email);
 
     public Usuario registrarUsuario(Usuario usuario) {
         usuario.setActivo(true);
@@ -22,4 +26,9 @@ public class ServicioUsuario {
 
     }
 
+    public abstract void actualizarUsuario(Usuario usuario);
+
+    public abstract List<Usuario> listarUsuarios();
+
+    public abstract void eliminarUsuario(Long id);
 }
