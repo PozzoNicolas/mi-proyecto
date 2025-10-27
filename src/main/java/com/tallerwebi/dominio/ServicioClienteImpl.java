@@ -10,13 +10,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Service
 public class ServicioClienteImpl implements ServicioCliente {
 
-      private final Map<Integer, Cliente> storage = new LinkedHashMap<>();  
+      private final Map<Long, Cliente> storage = new LinkedHashMap<>();
       private final AtomicInteger idGenerator = new AtomicInteger(1);
     
     // Constructor: algunos clientes hardcodeados para pruebas
     public ServicioClienteImpl() {
-        Cliente c1 = new Cliente(100, "Juan", "Perez", "juan.perez@mail.com", "1160000000");
-        Cliente c2 = new Cliente(101, "María", "González", "maria@mail.com", "1161111111");
+        Cliente c1 = new Cliente(100L, "Juan", "Perez", "juan.perez@mail.com", "1160000000");
+        Cliente c2 = new Cliente(101L, "María", "González", "maria@mail.com", "1161111111");
         storage.put(c1.getId(), c1);
         storage.put(c2.getId(), c2);
     }
@@ -34,9 +34,6 @@ public class ServicioClienteImpl implements ServicioCliente {
         if (existeCorreo) {
             throw new IllegalArgumentException("Ya existe un cliente con el correo: " + cliente.getCorreo());
         }
-        if (cliente.getId() == null) {
-            cliente.setId(nextId());
-        }
         storage.put(cliente.getId(), cliente);
         return cliente;
     }
@@ -47,7 +44,7 @@ public class ServicioClienteImpl implements ServicioCliente {
     }
 
     @Override
-    public Cliente buscarClientePorId(Integer id) {
+    public Cliente buscarClientePorId(Long id) {
         return storage.get(id);
     }
 

@@ -6,6 +6,6 @@ public interface ServicioCliente {
 
     Cliente registrarCliente(Cliente cliente);
     List<Cliente> listarTodos();
-    Cliente buscarClientePorId(Integer id);
+    Cliente buscarClientePorId(Long id);
     void cancelarTurno(Cliente cliente,Integer id); 
 }

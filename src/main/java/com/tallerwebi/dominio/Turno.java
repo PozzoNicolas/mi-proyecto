@@ -3,8 +3,16 @@ package com.tallerwebi.dominio;
 import com.tallerwebi.dominio.enums.Especialidad;
 import com.tallerwebi.dominio.enums.Practica;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+@Entity
 public class Turno {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private static int contadorIds = 1; 
     private Especialidad especialidad;

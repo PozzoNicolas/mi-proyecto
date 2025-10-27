@@ -29,7 +29,7 @@ public class ControladorMascota {
 
     @GetMapping
     public String listar(Model model) {
-        Cliente clienteActual = servicioCliente.buscarClientePorId(100); // Simulamos login: Juan
+        Cliente clienteActual = servicioCliente.buscarClientePorId(100L); // Simulamos login: Juan
         model.addAttribute("mascotas", clienteActual.getMascotas());
         model.addAttribute("nuevaMascota", new MascotaDto());
         return "mascotas";
@@ -41,12 +41,12 @@ public class ControladorMascota {
     public String crear(@Valid @ModelAttribute("nuevaMascota") MascotaDto dto, BindingResult resultado, Model model) {
         //el .hasError devuelve true si alguna validación no cumplió con las reglas.
         if(resultado.hasErrors()) {
-            Cliente clienteActual = servicioCliente.buscarClientePorId(100);
+            Cliente clienteActual = servicioCliente.buscarClientePorId(100L);
             model.addAttribute("mascotas", clienteActual.getMascotas());
             return "mascotas";
         }
 
-        Cliente clienteActual = servicioCliente.buscarClientePorId(100); // Simulamos login
+        Cliente clienteActual = servicioCliente.buscarClientePorId(100L); // Simulamos login
         Mascota mascota = new Mascota(dto.getNombre(), dto.getTipoDeMascota(), dto.getRaza(), dto.getEdad());
         servicioMascota.registrarMascota(clienteActual.getId(), mascota);
         return "redirect:/mascotas";
