@@ -195,12 +195,57 @@ body {
     gap: 0.5rem;
 }
 
-/*Recomendaciones*/
 
-#info-recomendaciones-personalizandas {
+/* === Recomendaciones === */
+.recomendaciones-card {
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 2rem auto;
+    text-align: center;
+    animation: aparecerCard 1s ease;
+}
+
+.recomendaciones-card h3 {
+    color: #2e7d32;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+#recomendaciones-container {
+    position: relative;
+    height: 80px; /* altura fija para evitar saltos */
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.recomendacion-item {
+    position: absolute;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: #333;
+    line-height: 1.4;
+    padding: 0 1rem;
+}
+
+.recomendacion-item.activa {
+    opacity: 1;
+}
+
+@keyframes aparecerCard {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ==============================

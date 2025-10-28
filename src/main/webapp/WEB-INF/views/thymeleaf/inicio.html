@@ -10,6 +10,7 @@
 
     <!-- Estilos personalizados -->
     <link rel="stylesheet" th:href="@{/css/inicio.css}">
+
 </head>
 <body>
 
@@ -212,10 +213,12 @@
                 </div>
             </article>
 
-            <article>
-                <h3>Recomendaciones</h3>
-                <div id="info-recomendaciones-personalizandas">
-
+            <article class="recomendaciones-card" >
+                <h3>Consejos para tu mascota</h3>
+                <div id="recomendaciones-container">
+                    <ul id="recomendaciones-list" th:if="${recomendaciones}">
+                        <li th:each="rec : ${recomendaciones}" th:text="${rec}" class="recomendacion-item"></li>
+                    </ul>
                 </div>
             </article>
         </section>
@@ -241,6 +244,7 @@
 <!-- Bootstrap JS -->
 <script th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.bundle.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/agenda.js}"></script>
+<script type="text/javascript" th:src="@{/js/recomendaciones.js}"></script>
 
 
 </body>
