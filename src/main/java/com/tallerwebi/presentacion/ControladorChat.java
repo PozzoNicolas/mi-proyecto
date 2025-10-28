@@ -8,7 +8,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/chat")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
 public class ControladorChat {
 
     @Autowired
@@ -20,4 +20,6 @@ public class ControladorChat {
         String respuesta = servicioChatGPT.obtenerRespuesta(mensaje);
         return Map.of("respuesta", respuesta);
     }
+
+
 }

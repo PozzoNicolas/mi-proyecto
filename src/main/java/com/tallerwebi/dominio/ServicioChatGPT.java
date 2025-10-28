@@ -8,15 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ServicioChatGPT {
+public interface ServicioChatGPT {
 
-    private final OpenAiService openAiService;
+    final OpenAiService openAiService = null;
 
-    public ServicioChatGPT(@Value("${OPENAI_API_KEY}") String apiKey) {
-        this.openAiService = new OpenAiService(apiKey);
-    }
-
-    public String obtenerRespuesta(String mensajeUsuario) {
+    public default String obtenerRespuesta(String mensajeUsuario) {
         ChatCompletionRequest request = ChatCompletionRequest.builder()
                 .model("gpt-3.5-turbo")
                 .messages(List.of(

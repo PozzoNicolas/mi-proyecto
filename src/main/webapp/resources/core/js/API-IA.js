@@ -19,7 +19,7 @@ document.getElementById("enviarChatGPT").addEventListener("click", async () => {
 
     try {
         // Hacemos la solicitud POST al backend
-        const response = await fetch("/api/chat", {
+        const response = await fetch("/spring/api/chat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ mensaje })
