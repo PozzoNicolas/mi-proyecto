@@ -148,8 +148,6 @@ body {
     margin-right: 1rem;
 }
 
-
-
 /* Historial */
 .secciones-datos {
     display: flex;
@@ -235,6 +233,23 @@ body {
 
 .recomendacion-item.activa {
     opacity: 1;
+}
+
+.cajas article.mapa-card {
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    margin: 2rem 0;
+    text-align: center;
+    grid-column: span 2;
+    animation: aparecerCard 1s ease;
+}
+
+#mi_mapa {
+    width: 100%;
+    height: 400px; 
 }
 
 @keyframes aparecerCard {
