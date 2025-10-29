@@ -1,6 +1,7 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.ServicioChatGPT;
+import com.tallerwebi.dominio.ServicioHuggingFace;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,16 +9,17 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/chat")
-@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
 public class ControladorChat {
 
     @Autowired
-    private ServicioChatGPT servicioChatGPT;
+    private ServicioHuggingFace servicioHuggingFace;
 
     @PostMapping
     public Map<String, String> conversar(@RequestBody Map<String, String> payload) {
         String mensaje = payload.get("mensaje");
-        String respuesta = servicioChatGPT.obtenerRespuesta(mensaje);
+        System.out.println(mensaje);
+        String respuesta = servicioHuggingFace.obtenerRespuesta(mensaje);
+        System.out.println(respuesta);
         return Map.of("respuesta", respuesta);
     }
 

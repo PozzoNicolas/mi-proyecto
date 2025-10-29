@@ -20,7 +20,7 @@ document.getElementById("enviarChatGPT").addEventListener("click", async () => {
     if (!mensaje) return;
 
     const chatBox = document.getElementById("chat-box");
-    chatBox.innerHTML += `<p><strong>T"\u00FA"</strong> ${mensaje}</p>`;
+    chatBox.innerHTML += `<p><strong>T\u00FA</strong> ${mensaje}</p>`;
     input.value = "";
     chatBox.scrollTop = chatBox.scrollHeight;
 

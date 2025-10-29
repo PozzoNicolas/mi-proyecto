@@ -1,0 +1,15 @@
+# Configuración de la base de datos MySQL
+MYSQL_ROOT_PASSWORD=rootpassword
+MYSQL_DATABASE=tallerwebi
+MYSQL_USER=user
+MYSQL_PASSWORD=user
+
+# Variables de entorno para la conexión a la base de datos (usadas por la aplicación)
+# DB_HOST=127.0.0.1 <--- Linea que nos dieron los profes
+DB_HOST=mysql # <--Linea que yo necesitaba, J.
+DB_PORT=3306
+DB_NAME=tallerwebi
+DB_USER=user
+DB_PASSWORD=user
+#Eliminar los espacios: 
+HUGGINGFACE_API_KEY=hf _ RLRIAJTbygRqXTYBjeZOSmpVXBMv PwoiQD
