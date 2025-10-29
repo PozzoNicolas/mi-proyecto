@@ -1,6 +1,7 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.Cliente;
+import com.tallerwebi.dominio.Mascota;
 import com.tallerwebi.dominio.ServicioCliente;
 import com.tallerwebi.dominio.ServicioRecomendaciones;
 import org.springframework.beans.factory.annotation.Autowired;
