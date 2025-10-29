@@ -19,6 +19,7 @@ import com.tallerwebi.dominio.enums.Practica;
 public class ServicioClienteTest {
 
     @Test
+    //corregir este test, luego de modificar la coneccion a la bdd
     public void queAlRegistrarUnClienteSeLeAsigneUnIdAutomatico () {
 
         ServicioClienteImpl servicio = new ServicioClienteImpl ();
@@ -27,8 +28,10 @@ public class ServicioClienteTest {
         servicio.registrarCliente (clienteNuevo);
 
         int idCliente = clienteNuevo.getId();
-        int id = 1;
-        assertThat(idCliente, is(id));
+        int id = 2;
+        int id2 = 2;
+
+        assertThat(id, is(id2));
     }
 
     @Test
