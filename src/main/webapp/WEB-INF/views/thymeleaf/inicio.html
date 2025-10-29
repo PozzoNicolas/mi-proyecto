@@ -10,6 +10,7 @@
 
     <!-- Estilos personalizados -->
     <link rel="stylesheet" th:href="@{/css/inicio.css}">
+
 </head>
 <body>
 
@@ -23,7 +24,7 @@
 <!-- Header -->
 <header class="header">
     <div class="header-section">
-        <span>Bienvenido, Diego</span>
+        <span th:text="'Bienvenido, ' + ${nombreUsuario}">Bienvenido</span>
         <div class="header-right">
             <i class="bi bi-bell"></i>
             <a class="span-opciones-header" data-bs-toggle="offcanvas" href="#offcanvasNotificaciones" role="button" aria-controls="offcanvasNotificaciones">
@@ -87,18 +88,26 @@
     <main class="main">
         <section class="cajas">
             <article>
-                <h3>Pr&oacute;ximos turnos</h3>
-                <div id="box-turnos">
+                <h3>Agenda</h3>
                     <div id="left-turnos">
                         <div id="cartelFecha" class="fecha-actual"></div>
-                        <button id="boton-agenda">Abrir Agenda</button>
+                        <button id="boton-agenda">Abrir</button>
                     </div>
-                    <div>
-                        <p>Consulta con Dr. P&eacute;rez</p>
-                        <button id="boton-cancelar">Cancelar</button>
-                    </div>
-                </div>
             </article>
+
+            <script>
+                // === Mostrar la fecha actual ===
+                function mostrarFechaActual() {
+                    const cartel = document.getElementById('cartelFecha');
+                    const hoy = new Date();
+
+                    const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                    const fechaFormateada = hoy.toLocaleDateString('es-ES', opciones);
+
+                    cartel.textContent = `Hoy es ${fechaFormateada.charAt(0).toUpperCase() + fechaFormateada.slice(1)}`;
+                }
+
+            </script>
             <!-- Modal de Agenda -->
             <div id="modalAgenda" class="modal">
                 <div class="modal-content">
@@ -198,8 +207,18 @@
             <article>
                 <h3>Cl&iacute;nica</h3>
                 <div id="info-localizacion">
-                    <span><img src="/img/localizacion.png" alt="Mapa" class="icono-pequeño"> Av. Siempreviva 123</span>
-                    <img src="/img/mapa.png" alt="Mapa" id="mapa">
+                    <div id="map" style="width:100%; height:420px; border-radius:8px;"></div>
+
+
+                </div>
+            </article>
+
+            <article class="recomendaciones-card" >
+                <h3>Consejos para tu mascota</h3>
+                <div id="recomendaciones-container">
+                    <ul id="recomendaciones-list" th:if="${recomendaciones}">
+                        <li th:each="rec : ${recomendaciones}" th:text="${rec}" class="recomendacion-item"></li>
+                    </ul>
                 </div>
             </article>
         </section>
@@ -213,7 +232,6 @@
         <h6>Integrantes:</h6>
         <h6>Diego Contreras</h6>
         <h6>Nicolas Pozzo</h6>
-        <h6>Andrea Callejas</h6>
         <h6>Mauricio Medina</h6>
         <h6>Joaquin A. Diaz</h6>
     </div>
@@ -226,6 +244,7 @@
 <!-- Bootstrap JS -->
 <script th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.bundle.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/agenda.js}"></script>
+<script type="text/javascript" th:src="@{/js/recomendaciones.js}"></script>
 
 
 </body>

@@ -22,13 +22,6 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>
-                <li class="nav-item"><a class="nav-link" href="#turnos">Turnos</a></li>
-                <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
-            </ul>
-        </div>
     </div>
 </nav>
 
@@ -41,26 +34,36 @@
         <h3 class="form-signin-heading">Nuevo Usuario</h3>
         <hr class="colorgraph"><br>
 
-        <input th:field="*{email}" id="email" class="form-control" required/>
-        <input th:field="*{password}" type="password" id="password" class="form-control" required/>
+        <input th:field="*{nombreUsuario}" type="text" id="nombre" placeholder="Ingresa tu nombre" class="form-control" required/>
+        <input th:field="*{apellidoUsuario}" type = "text" id = "apellido" placeholder = "Ingresa tu apellido" class = "form-control" required/>
+        <input th:field="*{telefonoUsuario}" type = "number" id = "telefono" placeholder = "Ingresa tu telefono" class = "form-control" required/>
+        <input th:field="*{email}" id="email" class="form-control" placeholder="Ingresa tu email" required/>
+        <input th:field="*{password}" type="password" id="password" placeholder="Ingresa tu contraseña" class="form-control" required/>
 
         <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" Type="Submit">Registrarme</button>
         <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}">
         </p>
       </form>
-
+        <div>
+            <a href="mis-mascotas.html">
+                <button type="button">Agregar Mascota</button>
+            </a>
+        </div>
     </div>
   </div>
 
 </main>
 <!-- /.container -->
+<br>
+<br>
+<br>
+<br>
 
 <footer>
     <div>
         <h6>Integrantes:</h6>
         <h6>Diego Contreras</h6>
         <h6>Nicolas Pozzo</h6>
-        <h6>Andrea Callejas</h6>
         <h6>Mauricio Medina</h6>
         <h6>Joaquin A. Diaz</h6>
     </div>
