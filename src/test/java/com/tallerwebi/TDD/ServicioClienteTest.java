@@ -27,7 +27,7 @@ public class ServicioClienteTest {
 
         servicio.registrarCliente (clienteNuevo);
 
-        int idCliente = clienteNuevo.getId();
+        //int idCliente = clienteNuevo.getId();
         int id = 2;
         int id2 = 2;
 
