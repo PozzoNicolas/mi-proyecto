@@ -33,7 +33,7 @@ public class ControladorNuevoTurno {
     @ModelAttribute
     public void setAtributosComunes(ModelMap modelo) {
         modelo.addAttribute("veterinarias", servicioVeterinaria.listarVeterinarias());
-        modelo.addAttribute("cliente", servicioCliente.buscarClientePorId(101));
+        modelo.addAttribute("cliente", servicioCliente.buscarClientePorId(101L));
         modelo.addAttribute("especialidades",Especialidad.values());
     }
 

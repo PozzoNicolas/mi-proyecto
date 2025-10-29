@@ -33,7 +33,7 @@ public class ControladorTurnos {
             return "redirect:/login";
         }
 
-        Cliente clienteActual = servicioCliente.buscarClientePorId(101);
+        Cliente clienteActual = servicioCliente.buscarClientePorId(101L);
         modelo.addAttribute("email", email);
         modelo.addAttribute("turnos", new ArrayList<>(clienteActual.getTurnos()));
         return "turnos";
@@ -45,7 +45,7 @@ public class ControladorTurnos {
 
         String emailPorLogin = (String) request.getSession().getAttribute("EMAIL");
 
-        Cliente clienteActual = servicioCliente.buscarClientePorId(101);
+        Cliente clienteActual = servicioCliente.buscarClientePorId(101L);
         // Cliente =/= Usuario
         servicioMail.enviarCancelacionDeTurno(clienteActual, turnoId, emailPorLogin);
         servicioCliente.cancelarTurno(clienteActual, turnoId);  

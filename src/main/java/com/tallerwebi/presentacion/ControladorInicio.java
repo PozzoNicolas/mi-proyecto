@@ -25,7 +25,7 @@ public class ControladorInicio {
 
     @GetMapping("/inicio")
     public String inicio(Model modelo) {
-        Cliente clienteActual = servicioCliente.buscarClientePorId(101);
+        Cliente clienteActual = servicioCliente.buscarClientePorId(101L);
         modelo.addAttribute("turnos", new ArrayList<>(clienteActual.getTurnos()));
         modelo.addAttribute("recomendaciones", servicioRecomendaciones.generarRecomendaciones(clienteActual));
         return "inicio"; // Thymeleaf busca /WEB-INF/views/thymeleaf/inicio.html

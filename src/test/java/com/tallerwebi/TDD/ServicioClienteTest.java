@@ -32,6 +32,7 @@ public class ServicioClienteTest {
         int id2 = 2;
 
         assertThat(id, is(id2));
+
     }
 
     @Test
@@ -90,7 +91,7 @@ public class ServicioClienteTest {
 
         servicio.registrarCliente(clienteNuevo1);
 
-        // 🚀 acá validamos que se lance la excepción
+        //acá validamos que se lance la excepción
         assertThrows(IllegalArgumentException.class, () -> {
             servicio.registrarCliente(clienteNuevo2);
         });
@@ -98,7 +99,7 @@ public class ServicioClienteTest {
 
     @Test
     public void dadoUnClienteConTurnosRegistradosPuedoCancelarUno() {
-        Cliente cliente = new Cliente(202, "Joauquin", "Diaz", "joaquindiazantunez02@gmail.com","1131522182");
+        Cliente cliente = new Cliente(202L, "Joauquin", "Diaz", "joaquindiazantunez02@gmail.com","1131522182");
         Turno t1 = new Turno(Especialidad.CONTROL, Practica.CONTROL_1, 1,"2025-05-14","10:00");
         Turno t2 = new Turno(Especialidad.ESTUDIO, Practica.ESTUDIO_2, 1,"2025-05-15","10:30");
 
@@ -110,7 +111,7 @@ public class ServicioClienteTest {
 
     @Test
     public void dadoUnClienteSinTurnosRegistradosSiIntentoCancelarUnTurnoObtengoUnaExceptionTuroNoCancelado() {
-        Cliente cliente = new Cliente(202, "Joauquin", "Diaz", "joaquindiazantunez02@gmail.com","1131522182");
+        Cliente cliente = new Cliente(202L, "Joauquin", "Diaz", "joaquindiazantunez02@gmail.com","1131522182");
         assertThrows(IllegalArgumentException.class, ()->{
             cliente.cancelarTurno(2);
         });
@@ -118,7 +119,7 @@ public class ServicioClienteTest {
 
     @Test
     public void dadoUnClienteConTurnosSiBuscoUnoRegistradoPorIdLoObtengo() {
-        Cliente cliente = new Cliente(202, "Joauquin", "Diaz", "joaquindiazantunez02@gmail.com","1131522182");
+        Cliente cliente = new Cliente(202L, "Joauquin", "Diaz", "joaquindiazantunez02@gmail.com","1131522182");
         Turno t1 = new Turno(Especialidad.CONTROL, Practica.CONTROL_1, 1,"2025-05-14","10:00");
         Turno t2 = new Turno(Especialidad.ESTUDIO, Practica.ESTUDIO_2, 1,"2025-05-15","10:30");
 
@@ -131,7 +132,7 @@ public class ServicioClienteTest {
 
     @Test
     public void dadoUnClienteSinTurnosRegistradosSiIntentoBuscarUnoPorIdObtengoUnIllegalArgumentException() {
-        Cliente cliente = new Cliente(202, "Joauquin", "Diaz", "joaquindiazantunez02@gmail.com","1131522182");
+        Cliente cliente = new Cliente(202L, "Joauquin", "Diaz", "joaquindiazantunez02@gmail.com","1131522182");
         assertThrows(IllegalArgumentException.class, ()->{
             cliente.getTurnoPorId(1); 
         });

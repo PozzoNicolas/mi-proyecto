@@ -1,5 +1,5 @@
 package com.tallerwebi.dominio;
 
 public interface ServicioMascota {
-    void registrarMascota(Integer id,Mascota mascota);
+    void registrarMascota(Long id,Mascota mascota);
 }

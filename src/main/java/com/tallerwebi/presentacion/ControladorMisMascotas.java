@@ -22,7 +22,7 @@ public class ControladorMisMascotas {
 
     @GetMapping("/mis-mascotas")
     public String misMascotas(Model model) {
-        Cliente cliente = servicioCliente.buscarClientePorId(100); // por el momento usamos el cliente con ID 100
+        Cliente cliente = servicioCliente.buscarClientePorId(100L); // por el momento usamos el cliente con ID 100
 
         List<Mascota> mascotas;
         if (cliente != null) {
