@@ -11,5 +11,7 @@ DB_PORT=3306
 DB_NAME=tallerwebi
 DB_USER=user
 DB_PASSWORD=user
-#Eliminar los espacios: 
+#Subir al archivo .env y eliminar los espacios
 HUGGINGFACE_API_KEY=hf _ RLRIAJTbygRqXTYBjeZOSmpVXBMv PwoiQD
+
+#Recuerden de NO hacer un commit con cambios al archivo .env, ni dejar la key sin espacios!!!

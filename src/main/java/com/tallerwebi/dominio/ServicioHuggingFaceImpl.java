@@ -52,7 +52,7 @@ public class ServicioHuggingFaceImpl implements ServicioHuggingFace {
                     .uri(URI.create(API_URL))
                     .header("Authorization", "Bearer " + API_KEY)
                     .header("Content-Type", "application/json")
-.POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                     .build();
 
             // Send request
