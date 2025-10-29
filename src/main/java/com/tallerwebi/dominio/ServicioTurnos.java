@@ -7,5 +7,5 @@ public interface ServicioTurnos {
     Veterinaria obtenerVeterinariaPorTurno(Turno turno); 
     List<Veterinaria> listarVeterinariasIndiferente(); 
     void procesarSeleccion(Turno turno); 
-    void guardarTurno(Cliente cliente, Turno turno);
+    void guardarTurno(Usuario usuario, Turno turno);
 }

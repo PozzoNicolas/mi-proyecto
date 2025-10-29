@@ -1,62 +1,56 @@
 package com.tallerwebi.dominio;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
-
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 @Service
-@Transactional
-public class ServicioUsuarioImpl extends ServicioUsuario {
+public class ServicioUsuarioImpl implements ServicioUsuario {
 
-    private final RepositorioUsuario repositorioUsuario;
-
-    @Autowired
-    public ServicioUsuarioImpl(RepositorioUsuario repositorioUsuario) {
-        this.repositorioUsuario = repositorioUsuario;
+      private final Map<Long, Usuario> storage = new LinkedHashMap<>();
+      private final AtomicInteger idGenerator = new AtomicInteger(1);
+    
+    // Constructor: algunos clientes hardcodeados para pruebas
+    public ServicioUsuarioImpl() {
+        Usuario c1 = new Usuario("Juan", "Perez", "juan.perez@mail.com", "1160000000");
+        Usuario c2 = new Usuario("María", "González", "maria@mail.com", "1161111111");
+        storage.put(c1.getId(), c1);
+        storage.put(c2.getId(), c2);
     }
 
-    @Override
-    public Usuario buscarPorEmail(String email) {
-        if (email == null || email.isEmpty()) {
-            return null;
-        }
-        return repositorioUsuario.buscar(email);
+    private Integer nextId() {
+        return idGenerator.getAndIncrement();
     }
 
     @Override
     public Usuario registrarUsuario(Usuario usuario) {
-        if (usuario == null) {
-            throw new IllegalArgumentException("El usuario no puede ser nulo");
-        }
 
-        Usuario existente = repositorioUsuario.buscar(usuario.getEmail());
-        if (existente != null) {
-            throw new RuntimeException("Ya existe un usuario con ese correo electrónico");
-        }
+        // Verifico si ya existe un cliente con el mismo correo
+        boolean existeCorreo = storage.values().stream().anyMatch(c -> c.getCorreo().equalsIgnoreCase(usuario.getCorreo()));
 
-        repositorioUsuario.guardar(usuario);
-        return null;
+        if (existeCorreo) {
+            throw new IllegalArgumentException("Ya existe un cliente con el correo: " + usuario.getCorreo());
+        }
+        storage.put(usuario.getId(), usuario);
+        return usuario;
     }
 
     @Override
-    public void actualizarUsuario(Usuario usuario) {
-        if (usuario == null || usuario.getEmail() == null) {
-            throw new IllegalArgumentException("Datos de usuario inválidos");
-        }
-        repositorioUsuario.actualizar(usuario);
+    public List<Usuario> listarTodos() {
+        return new ArrayList<>(storage.values());
     }
 
     @Override
-    public List<Usuario> listarUsuarios() {
-        return repositorioUsuario.listarTodos();
+    public Usuario buscarUsuarioPorId(Long id) {
+        return storage.get(id);
     }
 
     @Override
-    public void eliminarUsuario(Long id) {
-        Usuario usuario = repositorioUsuario.buscarPorId(id);
-        if (usuario != null) {
-            repositorioUsuario.eliminar(usuario);
-        }
+    public void cancelarTurno(Usuario usuario, Integer id) {
+        usuario.cancelarTurno(id);
     }
+
 }

@@ -1,7 +1,6 @@
 package com.tallerwebi.TDD;
 
 import com.tallerwebi.dominio.*;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -12,57 +11,57 @@ import static org.mockito.Mockito.mock;
 public class ServicioMascotaTest {
 
     @Test
-    public void queAlRegistrarUnaMascotaQuedeAsociadaAlCliente(){
+    public void queAlRegistrarUnaMascotaQuedeAsociadaAlUsuario() {
 
         RepositorioMascota repositorioMascota = mock(RepositorioMascota.class);
-        ServicioClienteImpl servicioCliente = new ServicioClienteImpl();
+        ServicioUsuarioImpl servicioUsuario = new ServicioUsuarioImpl();
 
-        ServicioMascotaImpl servicioMascota = new ServicioMascotaImpl(repositorioMascota ,servicioCliente);
+        ServicioMascotaImpl servicioMascota = new ServicioMascotaImpl(repositorioMascota ,servicioUsuario);
 
         Mascota mascota = new Mascota();
-        Cliente cliente = new Cliente(2L,"nicolas", "Pozzo", "npozzo@gmail.com", "11223344");
-        servicioCliente.registrarCliente(cliente);
+        Usuario usuario = new Usuario("nicolas", "Pozzo", "npozzo@gmail.com", "11223344");
+        servicioUsuario.registrarUsuario(usuario);
 
-        servicioMascota.registrarMascota (cliente.getId(), mascota);
+        servicioMascota.registrarMascota (usuario.getId(), mascota);
 
-        assertTrue(cliente.getMascotas().contains(mascota));
-        assertEquals(1, cliente.getMascotas().size());
+        assertTrue(usuario.getMascotas().contains(mascota));
+        assertEquals(1, usuario.getMascotas().size());
     }
 
     @Test
     public void queAlConsultarElDuenioDeLaMascotaTeDevuelvaElDuenioReal(){
         RepositorioMascota repositorioMascota = mock(RepositorioMascota.class);
-        ServicioClienteImpl servicioCliente = new ServicioClienteImpl();
-        ServicioMascotaImpl servicioMascota = new ServicioMascotaImpl(repositorioMascota, servicioCliente);
+        ServicioUsuarioImpl servicioUsuario = new ServicioUsuarioImpl();
+        ServicioMascotaImpl servicioMascota = new ServicioMascotaImpl(repositorioMascota, servicioUsuario);
 
         Mascota mascota = new Mascota();
-        Cliente cliente = new Cliente(2L,"nicolas", "Pozzo", "npozzo@gmail.com", "11223344");
+        Usuario usuario = new Usuario("nicolas", "Pozzo", "npozzo@gmail.com", "11223344");
 
-        servicioCliente.registrarCliente(cliente);
-        servicioMascota.registrarMascota (cliente.getId(), mascota);
-        Cliente duenioObtenido = mascota.getDuenio();
+        servicioUsuario.registrarUsuario(usuario);
+        servicioMascota.registrarMascota (usuario.getId(), mascota);
+        Usuario duenioObtenido = mascota.getDuenio();
 
-        assertThat(duenioObtenido, is(cliente));
+        assertThat(duenioObtenido, is(usuario));
     }
 
     @Test
-    public void queAlRegistrarDosMascotasQuedenAmbasEnLaListaDelCliente(){
+    public void queAlRegistrarDosMascotasQuedenAmbasEnLaListaDelUsuario() {
         RepositorioMascota repositorioMascota = mock(RepositorioMascota.class);
-        ServicioClienteImpl servicioCliente = new ServicioClienteImpl();
-        ServicioMascotaImpl servicioMascota = new ServicioMascotaImpl(repositorioMascota, servicioCliente);
+        ServicioUsuarioImpl servicioUsuario = new ServicioUsuarioImpl();
+        ServicioMascotaImpl servicioMascota = new ServicioMascotaImpl(repositorioMascota, servicioUsuario);
 
         Mascota m1 = new Mascota();
         Mascota m2 = new Mascota();
-        Cliente cliente = new Cliente();
+        Usuario usuario = new Usuario();
 
-        servicioCliente.registrarCliente(cliente);
-        servicioMascota.registrarMascota(cliente.getId(),m1);
-        servicioMascota.registrarMascota(cliente.getId(),m2);
+        servicioUsuario.registrarUsuario(usuario);
+        servicioMascota.registrarMascota(usuario.getId(),m1);
+        servicioMascota.registrarMascota(usuario.getId(),m2);
 
-        Integer cantidadDeMascotasDelCliente = cliente.getMascotas().size();
+        Integer cantidadDeMascotasDelUsuario = usuario.getMascotas().size();
         Integer cantidadDeMascotasEsperadas = 2;
 
-        assertThat(cantidadDeMascotasDelCliente, is(cantidadDeMascotasEsperadas));
+        assertThat(cantidadDeMascotasDelUsuario, is(cantidadDeMascotasEsperadas));
     }
 
 

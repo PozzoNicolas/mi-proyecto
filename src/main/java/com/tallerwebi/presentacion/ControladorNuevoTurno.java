@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.tallerwebi.dominio.ServicioCliente;
+import com.tallerwebi.dominio.ServicioUsuario;
 import com.tallerwebi.dominio.ServicioTurnos;
 import com.tallerwebi.dominio.ServicioVeterinaria;
 import com.tallerwebi.dominio.Turno;
@@ -19,13 +19,13 @@ import com.tallerwebi.dominio.enums.Especialidad;
 @Controller
 public class ControladorNuevoTurno {
 
-    private final ServicioCliente servicioCliente; 
+    private final ServicioUsuario servicioUsuario;
     private final ServicioVeterinaria servicioVeterinaria; 
     private final ServicioTurnos servicioTurnos;
 
     @Autowired
-    public ControladorNuevoTurno(ServicioCliente servicioCliente, ServicioVeterinaria servicioVeterinaria, ServicioTurnos servicioTurnos) {
-        this.servicioCliente = servicioCliente; 
+    public ControladorNuevoTurno(ServicioUsuario servicioUsuario, ServicioVeterinaria servicioVeterinaria, ServicioTurnos servicioTurnos) {
+        this.servicioUsuario = servicioUsuario;
         this.servicioVeterinaria = servicioVeterinaria; 
         this.servicioTurnos = servicioTurnos; 
     }
@@ -33,7 +33,7 @@ public class ControladorNuevoTurno {
     @ModelAttribute
     public void setAtributosComunes(ModelMap modelo) {
         modelo.addAttribute("veterinarias", servicioVeterinaria.listarVeterinarias());
-        modelo.addAttribute("cliente", servicioCliente.buscarClientePorId(101L));
+        modelo.addAttribute("usuario", servicioUsuario.buscarUsuarioPorId(101L));
         modelo.addAttribute("especialidades",Especialidad.values());
     }
 

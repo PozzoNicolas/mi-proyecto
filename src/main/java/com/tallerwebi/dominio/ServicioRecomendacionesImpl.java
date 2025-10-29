@@ -10,14 +10,14 @@ public class ServicioRecomendacionesImpl implements ServicioRecomendaciones {
 
 
     @Override
-    public List<String> generarRecomendaciones(Cliente cliente) {
+    public List<String> generarRecomendaciones(Usuario usuario) {
         List<String> recomendaciones = new ArrayList<>();
-        if (cliente == null || cliente.getMascotas() == null || cliente.getMascotas().isEmpty()) {
+        if (usuario == null || usuario.getMascotas() == null || usuario.getMascotas().isEmpty()) {
             recomendaciones.add("Aún no registraste mascotas. ¡Hacelo para recibir consejos personalizados!");
             return recomendaciones;
         }
 
-        cliente.getMascotas().forEach(mascota -> {
+        usuario.getMascotas().forEach(mascota -> {
             int edad = mascota.getEdad() != null ? mascota.getEdad() : 0;
             String tipo = mascota.getTipoDeMascota() != null ? mascota.getTipoDeMascota() : "Mascota";
 

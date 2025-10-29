@@ -8,23 +8,23 @@ import javax.transaction.Transactional;
 @Service
 public class ServicioMascotaImpl implements ServicioMascota {
 
-    private final ServicioCliente servicioCliente;
+    private final ServicioUsuario servicioUsuario;
     private final RepositorioMascota repositorioMascota;
 
     @Autowired
-    public ServicioMascotaImpl(RepositorioMascota repositorioMascota, ServicioCliente servicioCliente) {
+    public ServicioMascotaImpl(RepositorioMascota repositorioMascota, ServicioUsuario servicioUsuario) {
         this.repositorioMascota = repositorioMascota;
-        this.servicioCliente = servicioCliente;
+        this.servicioUsuario = servicioUsuario;
     }
 
     @Override
     @Transactional
     public void registrarMascota(Long id, Mascota mascota) {
 
-        Cliente cliente = servicioCliente.buscarClientePorId(id);
-        if (cliente != null) {
-            cliente.agregarMascota(mascota);
-            mascota.setDuenio(cliente);
+        Usuario usuario = servicioUsuario.buscarUsuarioPorId(id);
+        if (usuario != null) {
+            usuario.agregarMascota(mascota);
+            mascota.setDuenio(usuario);
             // Guardo la mascota en la base de datos
             repositorioMascota.guardar(mascota);
             //prueba para ver si funciona el guardado en la bdd

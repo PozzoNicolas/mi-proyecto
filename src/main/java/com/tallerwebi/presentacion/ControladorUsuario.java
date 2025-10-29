@@ -1,86 +1,77 @@
 package com.tallerwebi.presentacion;
+import java.util.List;
 
 import com.tallerwebi.dominio.Usuario;
-import com.tallerwebi.dominio.ServicioUsuario;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+
+import com.tallerwebi.dominio.ServicioUsuario;
+import com.tallerwebi.dominio.ServicioUsuarioImpl;
 
 @Controller
-@RequestMapping("/usuario")
+@RequestMapping("/clientes")
 public class ControladorUsuario {
 
-    private final ServicioUsuario servicioUsuario;
+    //  Según el profe, los servicios están en dominio. acá inyectamos la impl manualmente
+    private final ServicioUsuario servicio = new ServicioUsuarioImpl();
 
-    @Autowired
-    public ControladorUsuario(ServicioUsuario servicioUsuario) {
-        this.servicioUsuario = servicioUsuario;
+    // DTO para formulario (va dentro del controller)
+    public static class UsuarioDto {
+        @NotBlank(message = "El nombre es obligatorio")
+        @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$", message = "El nombre solo puede contener letras y/o espacios")
+        private String nombre;
+        @NotBlank(message = "El apellido es obligatorio")
+        @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$", message = "El apellido solo puede contener letras y/o espacios")
+        private String apellido;
+        @NotBlank(message = "El correo es obligatorio")
+        @Email(message = "El correo no tiene un formato válido")
+        private String correo;
+//        guardamos solo los dígitos locales (sin prefijo +54 9 11)
+        @NotBlank(message = "El teléfono es obligatorio")
+        @Pattern(regexp = "^[0-9]{8}$", message = "El teléfono debe tener 8 dígitos")
+        private String telefono;
+
+        // getters y setters
+        public String getNombre() { return nombre; }
+        public void setNombre(String nombre) { this.nombre = nombre; }
+        public String getApellido() { return apellido; }
+        public void setApellido(String apellido) { this.apellido = apellido; }
+        public String getCorreo() { return correo; }
+        public void setCorreo(String correo) { this.correo = correo; }
+        public String getTelefono() { return telefono; }
+        public void setTelefono(String telefono) { this.telefono = telefono; }
     }
 
-    // ================================
-    // PERFIL DEL USUARIO LOGUEADO
-    // ================================
-    @RequestMapping(path = "/perfil", method = RequestMethod.GET)
-    public ModelAndView mostrarPerfil(HttpSession session) {
-        ModelMap model = new ModelMap();
-
-        // Obtenemos los datos de sesión cargados en el login
-        String email = (String) session.getAttribute("EMAIL");
-
-        if (email == null) {
-            // Si no hay sesión activa, redirige al login
-            model.put("error", "Debes iniciar sesión para ver tu perfil.");
-            return new ModelAndView("redirect:/login", model);
-        }
-
-        // Buscamos al usuario por su email
-        Usuario usuario = servicioUsuario.obtenerPorEmail(email);
-        if (usuario == null) {
-            model.put("error", "No se encontró la información del usuario.");
-            return new ModelAndView("redirect:/login", model);
-        }
-
-        // Enviamos los datos al perfil
-        model.put("nombre", usuario.getNombreUsuario());
-        model.put("email", usuario.getEmail());
-        model.put("rol", usuario.getRol());
-
-        return new ModelAndView("perfil", model);
+    @GetMapping
+    public String listar(Model model) {
+        List<Usuario> usuarios = servicio.listarTodos();
+        model.addAttribute("clientes", usuarios);
+        model.addAttribute("nuevoCliente", new UsuarioDto());
+        return "clientes";
     }
 
-    // ================================
-    // ACTUALIZAR DATOS DE PERFIL
-    // ================================
-    @RequestMapping(path = "/actualizar", method = RequestMethod.POST)
-    public ModelAndView actualizarPerfil(@ModelAttribute("usuario") Usuario usuario, HttpSession session) {
-        ModelMap model = new ModelMap();
-
-        String email = (String) session.getAttribute("EMAIL");
-        if (email == null) {
-            return new ModelAndView("redirect:/login");
+    @PostMapping
+    public String crear(@Valid @ModelAttribute("nuevoCliente") UsuarioDto dto, BindingResult result,
+                        Model model) {
+        if (result.hasErrors()) {
+            // volver a cargar datos necesarios para la vista
+            model.addAttribute("clientes", servicio.listarTodos());
+            return "clientes"; // misma vista del formulario
         }
-
-        try {
-            Usuario usuarioExistente = servicioUsuario.obtenerPorEmail(email);
-            if (usuarioExistente != null) {
-                usuarioExistente.setNombre(usuario.getNombreUsuario());
-                usuarioExistente.setPassword(usuario.getPassword());
-                servicioUsuario.actualizar(usuarioExistente);
-
-                model.put("nombre", usuarioExistente.getNombreUsuario());
-                model.put("email", usuarioExistente.getEmail());
-                model.put("mensaje", "Perfil actualizado correctamente.");
-            }
-        } catch (Exception e) {
-            model.put("error", "Error al actualizar el perfil: " + e.getMessage());
-        }
-
-        // Enviamos los datos al modelo
-        model.put("usuario", usuario);
-        return new ModelAndView("perfil", model);
+        Usuario c = new Usuario(dto.getNombre(), dto.getApellido(), dto.getCorreo(), dto.getTelefono());
+        servicio.registrarUsuario(c);
+        return "redirect:/clientes";
     }
+
+
 }

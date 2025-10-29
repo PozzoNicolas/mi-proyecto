@@ -19,18 +19,18 @@ import javax.validation.constraints.NotBlank;
 public class ControladorMascota {
 
     private final ServicioMascota servicioMascota;
-    private final ServicioCliente servicioCliente;
+    private final ServicioUsuario servicioUsuario;
 
     @Autowired
-    public ControladorMascota(ServicioMascota servicioMascota, ServicioCliente servicioCliente) {
+    public ControladorMascota(ServicioMascota servicioMascota, ServicioUsuario servicioUsuario) {
         this.servicioMascota = servicioMascota;
-        this.servicioCliente = servicioCliente;
+        this.servicioUsuario = servicioUsuario;
     }
 
     @GetMapping
     public String listar(Model model) {
-        Cliente clienteActual = servicioCliente.buscarClientePorId(100L); // Simulamos login: Juan
-        model.addAttribute("mascotas", clienteActual.getMascotas());
+        Usuario usuarioActual = servicioUsuario.buscarUsuarioPorId(100L); // Simulamos login: Juan
+        model.addAttribute("mascotas", usuarioActual.getMascotas());
         model.addAttribute("nuevaMascota", new MascotaDto());
         return "mascotas";
     }
@@ -41,14 +41,14 @@ public class ControladorMascota {
     public String crear(@Valid @ModelAttribute("nuevaMascota") MascotaDto dto, BindingResult resultado, Model model) {
         //el .hasError devuelve true si alguna validación no cumplió con las reglas.
         if(resultado.hasErrors()) {
-            Cliente clienteActual = servicioCliente.buscarClientePorId(100L);
-            model.addAttribute("mascotas", clienteActual.getMascotas());
+            Usuario usuarioActual = servicioUsuario.buscarUsuarioPorId(100L);
+            model.addAttribute("mascotas", usuarioActual.getMascotas());
             return "mascotas";
         }
 
-        Cliente clienteActual = servicioCliente.buscarClientePorId(100L); // Simulamos login
+        Usuario usuarioActual = servicioUsuario.buscarUsuarioPorId(100L); // Simulamos login
         Mascota mascota = new Mascota(dto.getNombre(), dto.getTipoDeMascota(), dto.getRaza(), dto.getEdad());
-        servicioMascota.registrarMascota(clienteActual.getId(), mascota);
+        servicioMascota.registrarMascota(usuarioActual.getId(), mascota);
         return "redirect:/mascotas";
     }
 
@@ -64,7 +64,7 @@ public class ControladorMascota {
         @Min(value = 0, message = "La edad no puede ser negativa")
         @Max(value = 40, message = "La edad máxima permitida es 40 años")
         private Integer edad;
-        private Cliente duenio;
+        private Usuario duenio;
 
 
         // getters y setters
@@ -102,11 +102,11 @@ public class ControladorMascota {
             this.edad = edad;
         }
 
-        public Cliente getDuenio() {
+        public Usuario getDuenio() {
             return duenio;
         }
 
-        public void setDuenio(Cliente duenio) {
+        public void setDuenio(Usuario duenio) {
             this.duenio = duenio;
         }
     }

@@ -2,26 +2,26 @@ package com.tallerwebi.presentacion;
 
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
+
+import com.tallerwebi.dominio.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.tallerwebi.dominio.Cliente;
-import com.tallerwebi.dominio.ServicioCliente;
+import com.tallerwebi.dominio.ServicioUsuario;
 import com.tallerwebi.dominio.ServicioMail;
 
 @Controller
 public class ControladorTurnos {
 
-    private final ServicioCliente servicioCliente; 
+    private final ServicioUsuario servicioUsuario;
     private final ServicioMail servicioMail;
 
     @Autowired
-    public ControladorTurnos(ServicioCliente servicioCliente, ServicioMail servicioMail) {
-        this.servicioCliente = servicioCliente; 
+    public ControladorTurnos(ServicioUsuario servicioUsuario, ServicioMail servicioMail) {
+        this.servicioUsuario = servicioUsuario;
         this.servicioMail = servicioMail; 
     }
 
@@ -33,9 +33,9 @@ public class ControladorTurnos {
             return "redirect:/login";
         }
 
-        Cliente clienteActual = servicioCliente.buscarClientePorId(101L);
+        Usuario usuarioActual = servicioUsuario.buscarUsuarioPorId(101L);
         modelo.addAttribute("email", email);
-        modelo.addAttribute("turnos", new ArrayList<>(clienteActual.getTurnos()));
+        modelo.addAttribute("turnos", new ArrayList<>(usuarioActual.getTurnos()));
         return "turnos";
     }
 
@@ -45,10 +45,10 @@ public class ControladorTurnos {
 
         String emailPorLogin = (String) request.getSession().getAttribute("EMAIL");
 
-        Cliente clienteActual = servicioCliente.buscarClientePorId(101L);
+        Usuario usuarioActual = servicioUsuario.buscarUsuarioPorId(101L);
         // Cliente =/= Usuario
-        servicioMail.enviarCancelacionDeTurno(clienteActual, turnoId, emailPorLogin);
-        servicioCliente.cancelarTurno(clienteActual, turnoId);  
+        servicioMail.enviarCancelacionDeTurno(usuarioActual, turnoId, emailPorLogin);
+        servicioUsuario.cancelarTurno(usuarioActual, turnoId);
         return "redirect:/turnos";
     }
 

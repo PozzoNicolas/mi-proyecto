@@ -34,10 +34,10 @@
         <h3 class="form-signin-heading">Nuevo Usuario</h3>
         <hr class="colorgraph"><br>
 
-        <input th:field="*{nombreUsuario}" type="text" id="nombre" placeholder="Ingresa tu nombre" class="form-control" required/>
-        <input th:field="*{apellidoUsuario}" type = "text" id = "apellido" placeholder = "Ingresa tu apellido" class = "form-control" required/>
-        <input th:field="*{telefonoUsuario}" type = "number" id = "telefono" placeholder = "Ingresa tu telefono" class = "form-control" required/>
-        <input th:field="*{email}" id="email" class="form-control" placeholder="Ingresa tu email" required/>
+        <input th:field="*{nombre}" type="text" id="nombre" placeholder="Ingresa tu nombre" class="form-control" required/>
+        <input th:field="*{apellido}" type = "text" id = "apellido" placeholder = "Ingresa tu apellido" class = "form-control" required/>
+        <input th:field="*{telefono}" type = "number" id = "telefono" placeholder = "Ingresa tu telefono" class = "form-control" required/>
+        <input th:field="*{correo}" id="email" class="form-control" placeholder="Ingresa tu email" required/>
         <input th:field="*{password}" type="password" id="password" placeholder="Ingresa tu contraseña" class="form-control" required/>
 
         <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" Type="Submit">Registrarme</button>
