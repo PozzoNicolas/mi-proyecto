@@ -5,6 +5,9 @@ import java.util.List;
 public interface RepositorioUsuario {
 
     Usuario buscarUsuario(String email, String password);
+
+    Usuario buscarUsuarioPorId(Long id);
+
     void guardar(Usuario usuario);
     Usuario buscar(String email);
     void modificar(Usuario usuario);
@@ -16,5 +19,7 @@ public interface RepositorioUsuario {
     Usuario buscarPorId(Long id);
 
     void eliminar(Usuario usuario);
+
+    void flush();
 }
 

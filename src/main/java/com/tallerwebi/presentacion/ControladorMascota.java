@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import javax.servlet.http.HttpSession;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
@@ -19,18 +20,21 @@ import javax.validation.constraints.NotBlank;
 public class ControladorMascota {
 
     private final ServicioMascota servicioMascota;
-    private final ServicioCliente servicioCliente;
+    private final ServicioUsuario servicioUsuario;
 
     @Autowired
-    public ControladorMascota(ServicioMascota servicioMascota, ServicioCliente servicioCliente) {
+    public ControladorMascota(ServicioMascota servicioMascota, ServicioUsuario servicioUsuario) {
         this.servicioMascota = servicioMascota;
-        this.servicioCliente = servicioCliente;
+        this.servicioUsuario = servicioUsuario;
     }
 
     @GetMapping
-    public String listar(Model model) {
-        Cliente clienteActual = servicioCliente.buscarClientePorId(100L); // Simulamos login: Juan
-        model.addAttribute("mascotas", clienteActual.getMascotas());
+    public String listar(Model model, HttpSession session) {
+        Usuario usuarioActual = (Usuario) session.getAttribute("usuarioActual");
+        if (usuarioActual == null) {
+            return "redirect:/login";
+        }
+        model.addAttribute("mascotas", usuarioActual.getMascotas());
         model.addAttribute("nuevaMascota", new MascotaDto());
         return "mascotas";
     }
@@ -38,17 +42,23 @@ public class ControladorMascota {
     @PostMapping
     //El @Valid le pide a Spring que valide las notaciones que pusimo en el dto (notblank, min, max).
     //El Bindingresult guarda los errores de la validación.
-    public String crear(@Valid @ModelAttribute("nuevaMascota") MascotaDto dto, BindingResult resultado, Model model) {
+    public String crear(@Valid @ModelAttribute("nuevaMascota") MascotaDto dto, BindingResult resultado,
+                        Model model, HttpSession session) {
         //el .hasError devuelve true si alguna validación no cumplió con las reglas.
+        Usuario usuarioActual = (Usuario) session.getAttribute("usuarioActual");
+        if (usuarioActual == null){
+            return "redirect:/login";
+        }
         if(resultado.hasErrors()) {
-            Cliente clienteActual = servicioCliente.buscarClientePorId(100L);
-            model.addAttribute("mascotas", clienteActual.getMascotas());
+            model.addAttribute("mascotas", usuarioActual.getMascotas());
             return "mascotas";
         }
 
-        Cliente clienteActual = servicioCliente.buscarClientePorId(100L); // Simulamos login
         Mascota mascota = new Mascota(dto.getNombre(), dto.getTipoDeMascota(), dto.getRaza(), dto.getEdad());
-        servicioMascota.registrarMascota(clienteActual.getId(), mascota);
+
+        servicioMascota.registrarMascota(usuarioActual.getId(), mascota);
+        Usuario usuarioActualizado = servicioUsuario.buscarUsuarioPorId(usuarioActual.getId());
+        session.setAttribute("usuarioActual", usuarioActualizado);
         return "redirect:/mascotas";
     }
 
@@ -64,7 +74,7 @@ public class ControladorMascota {
         @Min(value = 0, message = "La edad no puede ser negativa")
         @Max(value = 40, message = "La edad máxima permitida es 40 años")
         private Integer edad;
-        private Cliente duenio;
+        private Usuario duenio;
 
 
         // getters y setters
@@ -102,11 +112,11 @@ public class ControladorMascota {
             this.edad = edad;
         }
 
-        public Cliente getDuenio() {
+        public Usuario getDuenio() {
             return duenio;
         }
 
-        public void setDuenio(Cliente duenio) {
+        public void setDuenio(Usuario duenio) {
             this.duenio = duenio;
         }
     }

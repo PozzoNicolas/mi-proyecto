@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import javax.servlet.http.HttpSession;
 
-import com.tallerwebi.dominio.ServicioCliente;
+import com.tallerwebi.dominio.Usuario;
+
+import com.tallerwebi.dominio.ServicioUsuario;
 import com.tallerwebi.dominio.ServicioTurnos;
 import com.tallerwebi.dominio.ServicioVeterinaria;
 import com.tallerwebi.dominio.Turno;
@@ -19,26 +22,30 @@ import com.tallerwebi.dominio.enums.Especialidad;
 @Controller
 public class ControladorNuevoTurno {
 
-    private final ServicioCliente servicioCliente; 
+    private final ServicioUsuario servicioUsuario;
     private final ServicioVeterinaria servicioVeterinaria; 
     private final ServicioTurnos servicioTurnos;
 
     @Autowired
-    public ControladorNuevoTurno(ServicioCliente servicioCliente, ServicioVeterinaria servicioVeterinaria, ServicioTurnos servicioTurnos) {
-        this.servicioCliente = servicioCliente; 
+    public ControladorNuevoTurno(ServicioUsuario servicioUsuario, ServicioVeterinaria servicioVeterinaria, ServicioTurnos servicioTurnos) {
+        this.servicioUsuario = servicioUsuario;
         this.servicioVeterinaria = servicioVeterinaria; 
         this.servicioTurnos = servicioTurnos; 
     }
 
     @ModelAttribute
-    public void setAtributosComunes(ModelMap modelo) {
+    public void setAtributosComunes(ModelMap modelo, HttpSession session) {
+        Usuario usuarioActual =  (Usuario)session.getAttribute("usuarioActual");
+        modelo.addAttribute("usuario", usuarioActual);
         modelo.addAttribute("veterinarias", servicioVeterinaria.listarVeterinarias());
-        modelo.addAttribute("cliente", servicioCliente.buscarClientePorId(101L));
         modelo.addAttribute("especialidades",Especialidad.values());
     }
 
     @GetMapping("/nuevo-turno")
-    public String mostrarNuevosTurnos(Model modelo) {
+    public String mostrarNuevosTurnos(Model modelo, HttpSession session) {
+        if (session.getAttribute("usuarioActual") == null){
+            return "redirect:/inicio";
+        }
         modelo.addAttribute("datosBusqueda", new Turno());
         return "nuevo-turno";
     }

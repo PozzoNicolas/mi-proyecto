@@ -6,17 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.tallerwebi.dominio.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import com.tallerwebi.dominio.Cliente;
-import com.tallerwebi.dominio.ServicioProfesionalImpl;
-import com.tallerwebi.dominio.ServicioTurnosImpl;
-import com.tallerwebi.dominio.ServicioVeterinariaImpl;
-import com.tallerwebi.dominio.Turno;
-import com.tallerwebi.dominio.Veterinaria;
 import com.tallerwebi.dominio.enums.Especialidad;
 import com.tallerwebi.dominio.enums.Practica;
 
@@ -94,16 +89,16 @@ public class ServicioTurnoTest {
 
 
     @Test
-    public void queElServicioSeaCapazDeGuardarElTurnoEnUnClienteDado() {
-        Cliente cliente = new Cliente();
+    public void queElServicioSeaCapazDeGuardarElTurnoEnUnUsuarioDado() {
+        Usuario usuario = new Usuario();
 
         Turno turno = new Turno();
         turno.setHorario("10:00");
 
-        servicioTurnos.guardarTurno(cliente, turno);
+        servicioTurnos.guardarTurno(usuario, turno);
 
-        assertEquals(1, cliente.getTurnos().size());
-        assertEquals("10:00", cliente.getTurnos().get(0).getHorario());
+        assertEquals(1, usuario.getTurnos().size());
+        assertEquals("10:00", usuario.getTurnos().get(0).getHorario());
     }
 
     @Test

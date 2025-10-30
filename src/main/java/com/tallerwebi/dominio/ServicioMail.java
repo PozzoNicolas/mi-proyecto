@@ -28,10 +28,10 @@ public class ServicioMail {
         mailSender.send(message);
     }
 
-    //Cliente =/= Usuario !!!
+    //Usuario =/= Usuario !!!
     @Async
-    public void enviarConfirmacionDeTurno(Cliente cliente, Integer turnoId, String direccion) {
-        Turno turno = cliente.getTurnoPorId(turnoId);
+    public void enviarConfirmacionDeTurno(Usuario usuario, Integer turnoId, String direccion) {
+        Turno turno = usuario.getTurnoPorId(turnoId);
         Veterinaria veterinaria = servicioVeterinaria.buscarPorId(turno.getVeterinaria());
         
         String asunto = "Confirmación de turno - " + turno.getEspecialidad().getDesc();
@@ -51,7 +51,7 @@ public class ServicioMail {
             "¡Gracias por confiar en nosotros!%n%n" +
             "Atentamente,%n" +
             "VetConnect",
-            cliente.getNombre(),
+            usuario.getNombre(),
             veterinaria.getNombre(),
             veterinaria.getDireccion(),
             turno.getEspecialidad().getDesc(),
@@ -64,10 +64,10 @@ public class ServicioMail {
         enviarMail(direccion, asunto, cuerpo);
     }
 
-    //Cliente =/= Usuario !!!
+    //Usuario =/= Usuario !!!
     @Async
-    public void enviarCancelacionDeTurno(Cliente cliente, Integer turnoId, String direccion) {
-        Turno turno = cliente.getTurnoPorId(turnoId);
+    public void enviarCancelacionDeTurno(Usuario usuario, Integer turnoId, String direccion) {
+        Turno turno = usuario.getTurnoPorId(turnoId);
         Veterinaria veterinaria = servicioVeterinaria.buscarPorId(turno.getVeterinaria());
 
         String asunto = "Cancelación de turno - " + turno.getEspecialidad().getDesc();
@@ -86,7 +86,7 @@ public class ServicioMail {
             "Si tiene dudas o desea reprogramar, por favor contacte a la clínica.%n%n" +
             "Atentamente,%n" +
             "VetConnect",
-            cliente.getNombre(),
+            usuario.getNombre(),
             veterinaria.getNombre(),
             veterinaria.getDireccion(),
             turno.getEspecialidad().getDesc(),

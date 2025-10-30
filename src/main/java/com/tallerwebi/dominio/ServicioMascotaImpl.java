@@ -8,27 +8,42 @@ import javax.transaction.Transactional;
 @Service
 public class ServicioMascotaImpl implements ServicioMascota {
 
-    private final ServicioCliente servicioCliente;
+    private final ServicioUsuario servicioUsuario;
     private final RepositorioMascota repositorioMascota;
 
     @Autowired
-    public ServicioMascotaImpl(RepositorioMascota repositorioMascota, ServicioCliente servicioCliente) {
+    public ServicioMascotaImpl(RepositorioMascota repositorioMascota, ServicioUsuario servicioUsuario) {
         this.repositorioMascota = repositorioMascota;
-        this.servicioCliente = servicioCliente;
+        this.servicioUsuario = servicioUsuario;
     }
+
+// En ServicioMascotaImpl
 
     @Override
     @Transactional
     public void registrarMascota(Long id, Mascota mascota) {
+        System.out.println("Buscando usuario con ID: " + id);
+        Usuario usuario = servicioUsuario.buscarUsuarioPorId(id);
+        System.out.println("Resultado de búsqueda: " + usuario);
 
-        Cliente cliente = servicioCliente.buscarClientePorId(id);
-        if (cliente != null) {
-            cliente.agregarMascota(mascota);
-            mascota.setDuenio(cliente);
-            // Guardo la mascota en la base de datos
-            repositorioMascota.guardar(mascota);
-            //prueba para ver si funciona el guardado en la bdd
-            System.out.println("Mascota guardada: " + mascota.getNombre());
+        if (usuario == null) {
+            throw new RuntimeException("Dueño no encontrado para registrar mascota.");
         }
+
+        usuario.agregarMascota(mascota);
+        mascota.setDuenio(usuario);
+        repositorioMascota.guardar(mascota);
+        System.out.println("Mascota guardada: " + mascota.getNombre());
     }
-}
+    }
+
+//        Usuario duenio = servicioUsuario.buscarUsuarioPorId(id);
+//        if (duenio == null) {
+//            throw new RuntimeException("Dueño no encontrado para registrar mascota.");
+//        }
+//        mascota.setDuenio(duenio);
+//        duenio.getMascotas().add(mascota);
+//
+//        System.out.println("Mascota guardada: " + mascota.getNombre());
+//    }
+//}

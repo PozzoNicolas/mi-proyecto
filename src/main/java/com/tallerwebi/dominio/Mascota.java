@@ -12,9 +12,8 @@ public class Mascota {
     private String raza;
     private Integer edad;
     @ManyToOne
-    //Usamos JoinColumn para usar el atributo como FK y lo establecemos con el nombre 'id_cliente'
-    @JoinColumn (name = "id_cliente")
-    private Cliente duenio;
+    @JoinColumn (name = "id_usuario")
+    private Usuario duenio;
 
 
     //Constructores: siempre que definamos un constructor con parámetros, tenemos que crear un constructor vacío.
@@ -53,11 +52,11 @@ public class Mascota {
         return edad;
     }
 
-    public Cliente getDuenio() {
+    public Usuario getDuenio() {
         return duenio;
     }
 
-    public void setDuenio(Cliente duenio) {
+    public void setDuenio(Usuario duenio) {
         this.duenio = duenio;
     }
 

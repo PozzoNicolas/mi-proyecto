@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public class RepositorioMascotaImpl implements RepositorioMascota {
 
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     @Autowired
     //Si usamos el autowired sobre el constructor tuviesemos más de un elemento, lo inyectaria a todos.

@@ -1,17 +1,14 @@
 package com.tallerwebi.TDD;
 
 import static org.mockito.Mockito.*;
+
+import com.tallerwebi.dominio.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
-import com.tallerwebi.dominio.Cliente;
-import com.tallerwebi.dominio.ServicioMail;
-import com.tallerwebi.dominio.ServicioVeterinaria;
-import com.tallerwebi.dominio.Turno;
-import com.tallerwebi.dominio.Veterinaria;
 import com.tallerwebi.dominio.enums.Especialidad;
 import com.tallerwebi.dominio.enums.Practica;
 
@@ -34,8 +31,8 @@ class ServicioMailTest {
     @Test
     void enviarConfirmacionDeTurno_deberiaEnviarMail() {
         // Preparar datos
-        Cliente cliente = new Cliente();
-        cliente.setNombre("Juan Pérez");
+        Usuario usuario = new Usuario();
+        usuario.setNombre("Juan Pérez");
         Turno turno = new Turno();
         turno.setId(1);
         turno.setEspecialidad(Especialidad.CONTROL);
@@ -44,7 +41,7 @@ class ServicioMailTest {
         turno.setHorario("10:00");
         turno.setProfesional("Dr. López");
         turno.setVeterinaria(1);
-        cliente.getTurnos().add(turno);
+        usuario.getTurnos().add(turno);
 
         Veterinaria vet = new Veterinaria();
         vet.setId(1);
@@ -55,7 +52,7 @@ class ServicioMailTest {
         when(servicioVeterinaria.buscarPorId(1)).thenReturn(vet);
 
         // Ejecutar
-        servicioMail.enviarConfirmacionDeTurno(cliente, 1, "juan@email.com");
+        servicioMail.enviarConfirmacionDeTurno(usuario, 1, "juan@email.com");
 
         // Verificar que se llame a mailSender.send con algún SimpleMailMessage (solo una vez)
         verify(mailSender, times(1)).send(any(SimpleMailMessage.class));
@@ -64,8 +61,8 @@ class ServicioMailTest {
     @Test
     void enviarCancelacionDeTurno_deberiaEnviarMail() {
         // Preparar datos igual que arriba
-        Cliente cliente = new Cliente();
-        cliente.setNombre("Ana");
+        Usuario usuario = new Usuario();
+        usuario.setNombre("Ana");
         Turno turno = new Turno();
         turno.setId(2);
         turno.setEspecialidad(Especialidad.CONTROL);
@@ -73,7 +70,7 @@ class ServicioMailTest {
         turno.setHorario("15:00");
         turno.setProfesional("Dra. Gómez");
         turno.setVeterinaria(2);
-        cliente.getTurnos().add(turno);
+        usuario.getTurnos().add(turno);
 
         Veterinaria vet = new Veterinaria();
         vet.setId(2);
@@ -83,7 +80,7 @@ class ServicioMailTest {
         when(servicioVeterinaria.buscarPorId(2)).thenReturn(vet);
 
         // Ejecutar
-        servicioMail.enviarCancelacionDeTurno(cliente, 2, "ana@email.com");
+        servicioMail.enviarCancelacionDeTurno(usuario, 2, "ana@email.com");
 
         // Verificar envío
         verify(mailSender, times(1)).send(any(SimpleMailMessage.class));

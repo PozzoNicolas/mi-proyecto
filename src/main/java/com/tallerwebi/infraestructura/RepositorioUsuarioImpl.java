@@ -13,12 +13,13 @@ import java.util.List;
 @Repository("repositorioUsuario")
 public class RepositorioUsuarioImpl implements RepositorioUsuario {
 
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     @Autowired
     public RepositorioUsuarioImpl(SessionFactory sessionFactory){
         this.sessionFactory = sessionFactory;
     }
+
 
     @Override
     public Usuario buscarUsuario(String email, String password) {
@@ -29,6 +30,15 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
                 .add(Restrictions.eq("password", password))
                 .uniqueResult();
     }
+
+
+
+    @Override
+    public Usuario buscarUsuarioPorId(Long id) {
+        final Session session = sessionFactory.getCurrentSession();
+        return (Usuario) session.get(Usuario.class, id);
+    }
+
 
     @Override
     public void guardar(Usuario usuario) {
@@ -54,13 +64,16 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 
     @Override
     public List<Usuario> listarTodos() {
-        return List.of();
+        final Session session = sessionFactory.getCurrentSession();
+        return session.createCriteria(Usuario.class).list();
     }
 
     @Override
     public Usuario buscarPorId(Long id) {
-        return null;
+        final Session session = sessionFactory.getCurrentSession();
+        return (Usuario) session.get(Usuario.class, id);
     }
+
 
     @Override
     public void eliminar(Usuario usuario) {
@@ -69,6 +82,10 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 
     public Usuario save(Usuario usuario) {
         return usuario;
+    }
+
+    public void flush() {
+        sessionFactory.getCurrentSession().flush();
     }
 
 
