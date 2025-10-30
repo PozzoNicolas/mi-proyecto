@@ -22,11 +22,11 @@ public class ServicioRecomendacionesImpl implements ServicioRecomendaciones {
             String tipo = mascota.getTipoDeMascota() != null ? mascota.getTipoDeMascota() : "Mascota";
 
             if (edad <= 1) {
-                recomendaciones.add("🐾 " + tipo + " " + mascota.getNombre() + ": Asegurate de aplicar todas las vacunas y realizar revisiones tempranas.");
+                recomendaciones.add(tipo + " " + mascota.getNombre() + ": Asegurate de aplicar todas las vacunas y realizar revisiones tempranas.");
             } else if (edad <= 7) {
-                recomendaciones.add("🐕 " + tipo + " " + mascota.getNombre() + ": Mantené su actividad física y controlá su alimentación.");
+                recomendaciones.add(tipo + " " + mascota.getNombre() + ": Mantené su actividad física y controlá su alimentación.");
             } else {
-                recomendaciones.add("🐶 " + tipo + " " + mascota.getNombre() + ": Realizá chequeos más frecuentes y vigilá signos de envejecimiento.");
+                recomendaciones.add(tipo + " " + mascota.getNombre() + ": Realizá chequeos más frecuentes y vigilá signos de envejecimiento.");
             }
         });
         return recomendaciones;
