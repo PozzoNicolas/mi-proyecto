@@ -3,12 +3,11 @@ package com.tallerwebi.dominio;
 import com.tallerwebi.dominio.enums.Especialidad;
 import com.tallerwebi.dominio.enums.Practica;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.transaction.Transactional;
 
 @Entity
+@Transactional
 public class Turno {
 
     @Id
@@ -21,21 +20,32 @@ public class Turno {
     private String fecha;
     private String horario;
     private String profesional;
+    @ManyToOne
+    @JoinColumn (name = "id_usuario")
+    private Usuario usuario;
 
     //Campo temporal para form en resultado-turnos.
     private String seleccion;
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 
     public Turno() {
         this.id = contadorIds++; //A cambiar
     }
 
-    public Turno(Especialidad especialidad, Practica practica, Integer veterinaria, String fecha, String horario) {
+    public Turno(Especialidad especialidad, Practica practica, Integer veterinaria, String fecha, String horario ) {
         this.id = contadorIds++; //A cambiar
         this.especialidad = especialidad;
         this.practica = practica;
         this.veterinaria = veterinaria; 
         this.fecha = fecha;
-        this.horario = horario; 
+        this.horario = horario;
     }
 
     public Integer getId() {return this.id;}

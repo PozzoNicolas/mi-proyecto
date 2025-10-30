@@ -22,6 +22,7 @@ public class Usuario {
     @OneToMany(mappedBy = "duenio", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Mascota> mascotas = new ArrayList<Mascota>();
     @Transient
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Turno> turnos = new ArrayList<Turno>();
 
     public Usuario(String nombre, String apellido, String email, String telefono) {
