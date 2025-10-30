@@ -55,9 +55,10 @@ public class ControladorMascota {
         }
 
         Mascota mascota = new Mascota(dto.getNombre(), dto.getTipoDeMascota(), dto.getRaza(), dto.getEdad());
+
         servicioMascota.registrarMascota(usuarioActual.getId(), mascota);
         Usuario usuarioActualizado = servicioUsuario.buscarUsuarioPorId(usuarioActual.getId());
-        session.setAttribute("usuario", usuarioActualizado);
+        session.setAttribute("usuarioActual", usuarioActualizado);
         return "redirect:/mascotas";
     }
 

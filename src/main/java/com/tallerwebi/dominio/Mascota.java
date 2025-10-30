@@ -12,7 +12,6 @@ public class Mascota {
     private String raza;
     private Integer edad;
     @ManyToOne
-    //Usamos JoinColumn para usar el atributo como FK y lo establecemos con el nombre 'id_cliente'
     @JoinColumn (name = "id_usuario")
     private Usuario duenio;
 

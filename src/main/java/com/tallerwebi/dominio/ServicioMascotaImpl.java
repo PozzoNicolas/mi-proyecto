@@ -17,18 +17,19 @@ public class ServicioMascotaImpl implements ServicioMascota {
         this.servicioUsuario = servicioUsuario;
     }
 
+// En ServicioMascotaImpl
+
     @Override
     @Transactional
     public void registrarMascota(Long id, Mascota mascota) {
 
-        Usuario usuario = servicioUsuario.buscarUsuarioPorId(id);
-        if (usuario != null) {
-            usuario.agregarMascota(mascota);
-            mascota.setDuenio(usuario);
-            // Guardo la mascota en la base de datos
-            repositorioMascota.guardar(mascota);
-            //prueba para ver si funciona el guardado en la bdd
-            System.out.println("Mascota guardada: " + mascota.getNombre());
+        Usuario duenio = servicioUsuario.buscarUsuarioPorId(id);
+        if (duenio == null) {
+            throw new RuntimeException("Dueño no encontrado para registrar mascota.");
         }
+        mascota.setDuenio(duenio);
+        duenio.getMascotas().add(mascota);
+
+        System.out.println("Mascota guardada: " + mascota.getNombre());
     }
 }
