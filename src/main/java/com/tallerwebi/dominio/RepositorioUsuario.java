@@ -19,5 +19,7 @@ public interface RepositorioUsuario {
     Usuario buscarPorId(Long id);
 
     void eliminar(Usuario usuario);
+
+    void flush();
 }
 

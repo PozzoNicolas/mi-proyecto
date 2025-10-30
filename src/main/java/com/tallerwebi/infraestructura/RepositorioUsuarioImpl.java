@@ -31,6 +31,8 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
                 .uniqueResult();
     }
 
+
+
     @Override
     public Usuario buscarUsuarioPorId(Long id) {
         final Session session = sessionFactory.getCurrentSession();
@@ -80,6 +82,10 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 
     public Usuario save(Usuario usuario) {
         return usuario;
+    }
+
+    public void flush() {
+        sessionFactory.getCurrentSession().flush();
     }
 
 

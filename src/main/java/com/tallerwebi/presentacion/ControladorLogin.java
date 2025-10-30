@@ -58,6 +58,7 @@ public class ControladorLogin {
         } catch (Exception e){
             model.put("error", "Error al registrar el nuevo usuario");
             return new ModelAndView("nuevo-usuario", model);
+
         }
         return new ModelAndView("redirect:/login");
     }

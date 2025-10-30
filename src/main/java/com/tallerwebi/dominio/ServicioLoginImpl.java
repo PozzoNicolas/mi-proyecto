@@ -27,12 +27,18 @@ public class ServicioLoginImpl implements ServicioLogin {
     }
 
     @Override
+
     public void registrar(Usuario usuario) throws UsuarioExistente {
         Usuario usuarioEncontrado = repositorioUsuario.buscarUsuario(usuario.getEmail(), usuario.getPassword());
         if(usuarioEncontrado != null){
             throw new UsuarioExistente();
         }
         repositorioUsuario.guardar(usuario);
+
+        // Forzamos que Hibernate sincronice con la base y obtenga el ID
+        repositorioUsuario.flush();
+
+        System.out.println("✅ Usuario registrado con ID: " + usuario.getId() + " | Email: " + usuario.getEmail());
     }
 
 }
