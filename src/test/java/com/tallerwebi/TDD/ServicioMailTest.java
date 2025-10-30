@@ -23,7 +23,7 @@ class ServicioMailTest {
     @Mock
     private JavaMailSender mailSender;
 
-    @InjectMocks
+    @InjectMocks //Para llamar a lo mockeado
     private ServicioMail servicioMail;
 
     @BeforeEach
@@ -51,12 +51,13 @@ class ServicioMailTest {
         vet.setNombre("VetUno");
         vet.setDireccion("Calle Falsa 123");
 
+        //Para que se utilice lo mockeado
         when(servicioVeterinaria.buscarPorId(1)).thenReturn(vet);
 
         // Ejecutar
         servicioMail.enviarConfirmacionDeTurno(cliente, 1, "juan@email.com");
 
-        // Verificar que se llame a mailSender.send con algún SimpleMailMessage
+        // Verificar que se llame a mailSender.send con algún SimpleMailMessage (solo una vez)
         verify(mailSender, times(1)).send(any(SimpleMailMessage.class));
     }
 

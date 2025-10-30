@@ -1,39 +1,43 @@
-// Mostrar y ocultar modal
+/* --------------------------
+   MODAL HANDLING
+--------------------------- */
 const modal = document.getElementById("modalChatGPT");
 const abrir = document.getElementById("abrirChatGPT");
 const cerrar = document.getElementById("cerrarChatGPT");
 
 abrir.onclick = () => modal.style.display = "flex";
 cerrar.onclick = () => modal.style.display = "none";
-window.onclick = (event) => { if (event.target === modal) modal.style.display = "none"; };
+window.onclick = (event) => { 
+    if (event.target === modal) modal.style.display = "none"; 
+};
 
-// Chat funcional
+/* --------------------------
+   CHAT FUNCTIONALITY
+--------------------------- */
 document.getElementById("enviarChatGPT").addEventListener("click", async () => {
     const input = document.getElementById("mensajeChatGPT");
     const mensaje = input.value.trim();
     if (!mensaje) return;
 
     const chatBox = document.getElementById("chat-box");
-    chatBox.innerHTML += `<p><strong>T&uacute;:</strong> ${mensaje}</p>`;
+    chatBox.innerHTML += `<p><strong>T\u00FA</strong> ${mensaje}</p>`;
     input.value = "";
+    chatBox.scrollTop = chatBox.scrollHeight;
 
     try {
-        // Hacemos la solicitud POST al backend
+        // Call your Spring backend proxy
         const response = await fetch("/spring/api/chat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ mensaje })
         });
 
-        // Verificamos que el servidor respondió bien
         if (!response.ok) {
-            throw new Error("Error en la conexion con el servidor");
+            throw new Error("Error en la conexión con el servidor");
         }
 
-        // Procesamos la respuesta JSON
         const data = await response.json();
 
-        // Mostramos la respuesta del ChatGPT en pantalla
         chatBox.innerHTML += `<p><strong>VetGPT:</strong> ${data.respuesta}</p>`;
         chatBox.scrollTop = chatBox.scrollHeight;
 
