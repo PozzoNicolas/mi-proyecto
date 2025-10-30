@@ -75,7 +75,7 @@ public class ServicioUsuarioTest {
             () -> servicio.registrarUsuario(u2)
         );
 
-        assertThat(exception.getMessage(), containsString("Ya existe un cliente con el correo: " + u2.getCorreo()));
+        assertThat(exception.getMessage(), containsString("Ya existe un cliente con el correo: " + u2.getEmail()));
 
         // Verificar que la lista tenga solo 1 Usuario
         Collection<Usuario> usuarios = servicio.listarTodos();

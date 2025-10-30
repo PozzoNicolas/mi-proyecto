@@ -1,6 +1,7 @@
 package com.tallerwebi.TDD;
 
 import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.RepositorioMascota;
 import org.junit.jupiter.api.Test;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;

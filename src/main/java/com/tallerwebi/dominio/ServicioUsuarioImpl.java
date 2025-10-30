@@ -29,10 +29,10 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
     public Usuario registrarUsuario(Usuario usuario) {
 
         // Verifico si ya existe un cliente con el mismo correo
-        boolean existeCorreo = storage.values().stream().anyMatch(c -> c.getCorreo().equalsIgnoreCase(usuario.getCorreo()));
+        boolean existeCorreo = storage.values().stream().anyMatch(c -> c.getEmail().equalsIgnoreCase(usuario.getEmail()));
 
         if (existeCorreo) {
-            throw new IllegalArgumentException("Ya existe un cliente con el correo: " + usuario.getCorreo());
+            throw new IllegalArgumentException("Ya existe un cliente con el correo: " + usuario.getEmail());
         }
         storage.put(usuario.getId(), usuario);
         return usuario;

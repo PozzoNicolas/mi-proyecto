@@ -13,7 +13,7 @@ import java.util.List;
 @Repository("repositorioUsuario")
 public class RepositorioUsuarioImpl implements RepositorioUsuario {
 
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     @Autowired
     public RepositorioUsuarioImpl(SessionFactory sessionFactory){
@@ -25,7 +25,7 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 
         final Session session = sessionFactory.getCurrentSession();
         return (Usuario) session.createCriteria(Usuario.class)
-                .add(Restrictions.eq("correo", email))
+                .add(Restrictions.eq("email", email))
                 .add(Restrictions.eq("password", password))
                 .uniqueResult();
     }

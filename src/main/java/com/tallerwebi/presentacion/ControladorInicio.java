@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import javax.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 
@@ -24,8 +25,11 @@ public class ControladorInicio {
     }
 
     @GetMapping("/inicio")
-    public String inicio(Model modelo) {
-        Usuario usuarioActual = servicioUsuario.buscarUsuarioPorId(101L);
+    public String inicio(Model modelo, HttpSession session) {
+        Usuario usuarioActual = (Usuario) session.getAttribute("usuarioActual");
+        if (usuarioActual == null) {
+            return "redirect:/inicio";
+        }
         modelo.addAttribute("turnos", new ArrayList<>(usuarioActual.getTurnos()));
         modelo.addAttribute("recomendaciones", servicioRecomendaciones.generarRecomendaciones(usuarioActual));
         return "inicio"; // Thymeleaf busca /WEB-INF/views/thymeleaf/inicio.html

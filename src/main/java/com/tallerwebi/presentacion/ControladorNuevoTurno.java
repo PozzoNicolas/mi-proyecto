@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import javax.servlet.http.HttpSession;
+
+import com.tallerwebi.dominio.Usuario;
 
 import com.tallerwebi.dominio.ServicioUsuario;
 import com.tallerwebi.dominio.ServicioTurnos;
@@ -31,14 +34,18 @@ public class ControladorNuevoTurno {
     }
 
     @ModelAttribute
-    public void setAtributosComunes(ModelMap modelo) {
+    public void setAtributosComunes(ModelMap modelo, HttpSession session) {
+        Usuario usuarioActual =  (Usuario)session.getAttribute("usuarioActual");
+        modelo.addAttribute("usuario", usuarioActual);
         modelo.addAttribute("veterinarias", servicioVeterinaria.listarVeterinarias());
-        modelo.addAttribute("usuario", servicioUsuario.buscarUsuarioPorId(101L));
         modelo.addAttribute("especialidades",Especialidad.values());
     }
 
     @GetMapping("/nuevo-turno")
-    public String mostrarNuevosTurnos(Model modelo) {
+    public String mostrarNuevosTurnos(Model modelo, HttpSession session) {
+        if (session.getAttribute("usuarioActual") == null){
+            return "redirect:/inicio";
+        }
         modelo.addAttribute("datosBusqueda", new Turno());
         return "nuevo-turno";
     }

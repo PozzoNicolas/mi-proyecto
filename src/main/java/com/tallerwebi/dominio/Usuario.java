@@ -13,7 +13,7 @@ public class Usuario {
     private String nombre;
     private String apellido;
     private String telefono;
-    private String correo;
+    private String email;
     private String password;
     private String rol;
     private Boolean activo = false;
@@ -24,10 +24,10 @@ public class Usuario {
     @Transient
     private List<Turno> turnos = new ArrayList<Turno>();
 
-    public Usuario(String nombre, String apellido, String correo, String telefono) {
+    public Usuario(String nombre, String apellido, String email, String telefono) {
         this.nombre = nombre;
         this.apellido = apellido;
-        this.correo = correo;
+        this.email = email;
         this.telefono = telefono;
     }
 
@@ -41,11 +41,11 @@ public class Usuario {
     public void setId(Long id) {
         this.id = id;
     }
-    public String getCorreo() {
-        return correo;
+    public String getEmail() {
+        return email;
     }
-    public void setCorreo(String email) {
-        this.correo = email;
+    public void setEmail(String email) {
+        this.email = email;
     }
     public String getPassword() {
         return password;

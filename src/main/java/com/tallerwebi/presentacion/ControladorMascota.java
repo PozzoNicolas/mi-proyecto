@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import javax.servlet.http.HttpSession;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
@@ -28,8 +29,11 @@ public class ControladorMascota {
     }
 
     @GetMapping
-    public String listar(Model model) {
-        Usuario usuarioActual = servicioUsuario.buscarUsuarioPorId(100L); // Simulamos login: Juan
+    public String listar(Model model, HttpSession session) {
+        Usuario usuarioActual = (Usuario) session.getAttribute("usuarioActual");
+        if (usuarioActual == null) {
+            return "redirect:/login";
+        }
         model.addAttribute("mascotas", usuarioActual.getMascotas());
         model.addAttribute("nuevaMascota", new MascotaDto());
         return "mascotas";
@@ -38,17 +42,22 @@ public class ControladorMascota {
     @PostMapping
     //El @Valid le pide a Spring que valide las notaciones que pusimo en el dto (notblank, min, max).
     //El Bindingresult guarda los errores de la validación.
-    public String crear(@Valid @ModelAttribute("nuevaMascota") MascotaDto dto, BindingResult resultado, Model model) {
+    public String crear(@Valid @ModelAttribute("nuevaMascota") MascotaDto dto, BindingResult resultado,
+                        Model model, HttpSession session) {
         //el .hasError devuelve true si alguna validación no cumplió con las reglas.
+        Usuario usuarioActual = (Usuario) session.getAttribute("usuarioActual");
+        if (usuarioActual == null){
+            return "redirect:/login";
+        }
         if(resultado.hasErrors()) {
-            Usuario usuarioActual = servicioUsuario.buscarUsuarioPorId(100L);
             model.addAttribute("mascotas", usuarioActual.getMascotas());
             return "mascotas";
         }
 
-        Usuario usuarioActual = servicioUsuario.buscarUsuarioPorId(100L); // Simulamos login
         Mascota mascota = new Mascota(dto.getNombre(), dto.getTipoDeMascota(), dto.getRaza(), dto.getEdad());
         servicioMascota.registrarMascota(usuarioActual.getId(), mascota);
+        Usuario usuarioActualizado = servicioUsuario.buscarUsuarioPorId(usuarioActual.getId());
+        session.setAttribute("usuario", usuarioActualizado);
         return "redirect:/mascotas";
     }
 

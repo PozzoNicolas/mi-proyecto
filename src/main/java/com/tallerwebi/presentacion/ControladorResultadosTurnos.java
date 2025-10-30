@@ -1,6 +1,7 @@
 package com.tallerwebi.presentacion;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import com.tallerwebi.dominio.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,11 +52,12 @@ public class ControladorResultadosTurnos {
     }
 
     @PostMapping("/seleccionar-horario-profesional")
-    public String seleccionarHorarioProfesional(@ModelAttribute("turno") Turno turno,
-                                            HttpServletRequest request) {        
+    public String seleccionarHorarioProfesional(@ModelAttribute("turno") Turno turno, ModelMap modelo,
+                                            HttpServletRequest request, HttpSession session) {
         servicioTurno.procesarSeleccion(turno);
 
-        Usuario usuarioActual = servicioUsuario.buscarUsuarioPorId(101L);
+        Usuario usuarioActual =  (Usuario)session.getAttribute("usuarioActual");
+        modelo.addAttribute("usuario", usuarioActual);
         servicioTurno.guardarTurno(usuarioActual, turno);
         String emailPorLogin = (String) request.getSession().getAttribute("EMAIL");
 

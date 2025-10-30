@@ -10,7 +10,7 @@ import javax.transaction.Transactional;
 @Transactional
 public class ServicioLoginImpl implements ServicioLogin {
 
-    private RepositorioUsuario repositorioUsuario;
+    private final RepositorioUsuario repositorioUsuario;
 
     @Autowired
     public ServicioLoginImpl(RepositorioUsuario repositorioUsuario){
@@ -19,12 +19,16 @@ public class ServicioLoginImpl implements ServicioLogin {
 
     @Override
     public Usuario consultarUsuario (String email, String password) {
-        return repositorioUsuario.buscarUsuario(email, password);
+        Usuario usuario = repositorioUsuario.buscarUsuario(email, password);
+        if (usuario != null){
+            usuario.getMascotas().size();
+        }
+        return usuario;
     }
 
     @Override
     public void registrar(Usuario usuario) throws UsuarioExistente {
-        Usuario usuarioEncontrado = repositorioUsuario.buscarUsuario(usuario.getCorreo(), usuario.getPassword());
+        Usuario usuarioEncontrado = repositorioUsuario.buscarUsuario(usuario.getEmail(), usuario.getPassword());
         if(usuarioEncontrado != null){
             throw new UsuarioExistente();
         }
