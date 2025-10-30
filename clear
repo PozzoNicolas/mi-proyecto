@@ -1,0 +1,9 @@
+[1mdiff --git a/src/main/resources/data.sql b/src/main/resources/data.sql[m
+[1mindex affde40..afd85bd 100644[m
+[1m--- a/src/main/resources/data.sql[m
+[1m+++ b/src/main/resources/data.sql[m
+[36m@@ -1 +1 @@[m
+[31m-INSERT INTO Usuario(id, email, password, rol, activo) VALUES(null, 'test@unlam.edu.ar', 'test', 'ADMIN', true);[m
+\ No newline at end of file[m
+[32m+[m[32mINSERT INTO Usuario(id, correo, password, rol, activo) VALUES(null, 'test@unlam.edu.ar', 'test', 'ADMIN', true);[m
+\ No newline at end of file[m
