@@ -14,10 +14,8 @@ import java.util.Map;
 @Service
 public class ServicioHuggingFaceImpl implements ServicioHuggingFace {
 
-    // Use environment variable for API key
-    private static final String API_KEY = System.getenv("HUGGINGFACE_API_KEY");
+    private static final String API_KEY = System.getenv("VET_IA");
 
-    // Hugging Face Inference API endpoint (public model)
     private static final String API_URL = "https://router.huggingface.co/v1/chat/completions";
 
      private final HttpClient httpClient;

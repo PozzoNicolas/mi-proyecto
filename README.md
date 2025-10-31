@@ -118,6 +118,31 @@ docker-compose up --build
 docker-compose down
 ```
 
+## 11. Api keys en variables de entorno: 
+
+```Windows — Crear variable
+    Tecla windows -> Buscar "Editar variables de entorno del sistema"
+    En la ventana Propiedades del sistema, buscar "Opciones avanzadas"
+    Abajo a la derecha: "Variables de entorno..." -> Hacer click
+    Debajo de variables del sistema -> Nueva
+        Nombre de la variable: VET_IA
+        Valor: —Key del grupo de wpp—
+```
+Comprobar que la variable este en el OS
+```Powershell
+    echo $env:VET_IA
+    Debe retornar el valor
+```
+Una vez la variable este en el sistema, debemos reiniciar el nuestro IDE (Y proyecto), y comprobar que java lo pueda obtener:
+```Java
+    @Test
+    void obtenerVariableDeEntorno() {
+        String api = System.getenv("PRUEBA");
+        System.out.println("API Key: " + api);
+        assertEquals("142226", api);
+    } //Este test es solo para ver que funcione nuestra variable. No debe quedar en el codigo.
+```
+
 ## Tecnologías:
 * Docker
 * Java 11
