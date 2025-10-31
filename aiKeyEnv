@@ -12,6 +12,7 @@ DB_NAME=tallerwebi
 DB_USER=user
 DB_PASSWORD=user
 #Subir al archivo .env y eliminar los espacios
-HUGGINGFACE_API_KEY=hf _ RLRIAJTbygRqXTYBjeZOSmpVXBMv PwoiQD
+
+HUGGINGFACE_ API_KEY= hf_RLR IAJT bygRqXTYBjeZOSmp VXBMv PwoiQD
 
 #Recuerden de NO hacer un commit con cambios al archivo .env, ni dejar la key sin espacios!!!
