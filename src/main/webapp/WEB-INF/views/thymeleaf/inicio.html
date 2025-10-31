@@ -27,6 +27,7 @@
 <!-- Header -->
 <header class="header">
     <div class="header-section">
+        <!--/*@thymesVar id="nombreUsuario" type=""*/-->
         <span th:text="'Bienvenido, ' + ${nombreUsuario}">Bienvenido</span>
         <div class="header-right">
             <i class="bi bi-bell"></i>
@@ -206,28 +207,23 @@
                 <span id="span-credencial">Mi Credencial</span>
                 <img th:src="@{img/editar.png}" alt="Editar" id="icono-editar">
             </article>
+        </section>
+        <br>
 
-            <article>
-                <h3>Cl&iacute;nica</h3>
-                <div id="info-localizacion">
-                    <div id="map" style="width:100%; height:420px; border-radius:8px;"></div>
-
-
-                </div>
-            </article>
-
+        <section class = "cajas2">
             <article class="recomendaciones-card" >
                 <h3>Consejos para tu mascota</h3>
-                <div id="recomendaciones-container">
+                <div  id="recomendaciones-container">
                     <ul id="recomendaciones-list" th:if="${recomendaciones}">
                         <li th:each="rec : ${recomendaciones}" th:text="${rec}" class="recomendacion-item"></li>
                     </ul>
                 </div>
             </article>
-
-            <article class="mapa-card" >
-                <h3>¡Conoce nuestras sucursales!</h3>
-                 <div id="mi_mapa" style="width: 100%; height: 400px;"></div>
+            <br>
+            <br>
+            <article >
+                <h3>&iexcl;Conoce nuestras sucursales!</h3>
+                <div id="mi_mapa" ></div>
             </article>
         </section>
     </main>
