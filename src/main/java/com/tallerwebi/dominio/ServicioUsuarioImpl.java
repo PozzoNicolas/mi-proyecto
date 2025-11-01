@@ -37,7 +37,6 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
         this.repositorioUsuario = null;
     }
 
-
     // Genera IDs incrementales
     private Long nextId() {
         return (long) idGenerator.getAndIncrement();
@@ -45,15 +44,28 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 
     @Override
     public Usuario registrarUsuario(Usuario usuario) {
+        // ✅ Check for duplicate email
+        boolean emailExists = storage.values().stream()
+                .anyMatch(u -> u.getEmail().equalsIgnoreCase(usuario.getEmail()));
+
+        if (emailExists) {
+            throw new IllegalArgumentException(
+                "Ya existe un cliente con el correo: " + usuario.getEmail()
+            );
+        }
+
+        // Generate ID if necessary
         if (usuario.getId() == null || usuario.getId() == 0) {
             usuario.setId(nextId());
         }
 
         storage.put(usuario.getId(), usuario);
 
-        // ✅ Si hay repositorio real, guardamos también en la base
+        // Save in DB if repository exists
         try {
-            repositorioUsuario.guardar(usuario);
+            if (repositorioUsuario != null) {
+                repositorioUsuario.guardar(usuario);
+            }
         } catch (Exception e) {
             System.out.println("⚠️ No se pudo guardar en base de datos (modo prueba): " + e.getMessage());
         }
@@ -67,16 +79,20 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
     }
 
     @Override
+    public void cancelarTurno(Usuario usuario, Long id) {
+        usuario.cancelarTurno(id);
+    }
+
+    @Transactional
     public Usuario buscarUsuarioPorId(Long id) {
         Usuario usuario = storage.get(id);
-        if (usuario == null) {
+        if (usuario == null && repositorioUsuario != null) {
             usuario = repositorioUsuario.buscarPorId(id);
+            if (usuario != null) {
+                usuario.getTurnos().size(); // Initialize lazy collection safely
+            }
         }
         return usuario;
     }
 
-    @Override
-    public void cancelarTurno(Usuario usuario, Integer id) {
-        usuario.cancelarTurno(id);
-    }
 }

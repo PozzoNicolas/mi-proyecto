@@ -1,5 +1,6 @@
 package com.tallerwebi.TDD;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import com.tallerwebi.dominio.*;
@@ -33,26 +34,29 @@ class ServicioMailTest {
         // Preparar datos
         Usuario usuario = new Usuario();
         usuario.setNombre("Juan Pérez");
+
         Turno turno = new Turno();
-        turno.setId(1);
         turno.setEspecialidad(Especialidad.CONTROL);
         turno.setPractica(Practica.CONTROL_1);
         turno.setFecha("10/10/2025");
         turno.setHorario("10:00");
         turno.setProfesional("Dr. López");
         turno.setVeterinaria(1);
-        usuario.getTurnos().add(turno);
 
+        // assign id automatically and set back-reference
+        usuario.agregarTurno(turno);
+
+        // Crear Veterinaria mock
         Veterinaria vet = new Veterinaria();
         vet.setId(1);
         vet.setNombre("VetUno");
         vet.setDireccion("Calle Falsa 123");
 
-        //Para que se utilice lo mockeado
+        // Configurar el mock ANTES de llamar al servicio
         when(servicioVeterinaria.buscarPorId(1)).thenReturn(vet);
 
         // Ejecutar
-        servicioMail.enviarConfirmacionDeTurno(usuario, 1, "juan@email.com");
+        servicioMail.enviarConfirmacionDeTurno(usuario, turno.getId(), "juan@email.com");
 
         // Verificar que se llame a mailSender.send con algún SimpleMailMessage (solo una vez)
         verify(mailSender, times(1)).send(any(SimpleMailMessage.class));
@@ -60,29 +64,33 @@ class ServicioMailTest {
 
     @Test
     void enviarCancelacionDeTurno_deberiaEnviarMail() {
-        // Preparar datos igual que arriba
+        // Crear Veterinaria mock
+        Veterinaria vet = new Veterinaria();
+        vet.setId(1);
+        vet.setNombre("VetUno");
+        vet.setDireccion("Calle Falsa 123");
+
+        // Crear usuario y turno
         Usuario usuario = new Usuario();
         usuario.setNombre("Ana");
         Turno turno = new Turno();
-        turno.setId(2);
         turno.setEspecialidad(Especialidad.CONTROL);
-        turno.setPractica(Practica.CONTROL_1);        turno.setFecha("12/10/2025");
+        turno.setPractica(Practica.CONTROL_1);
+        turno.setFecha("12/10/2025");
         turno.setHorario("15:00");
         turno.setProfesional("Dra. Gómez");
-        turno.setVeterinaria(2);
-        usuario.getTurnos().add(turno);
+        turno.setVeterinaria(1);
 
-        Veterinaria vet = new Veterinaria();
-        vet.setId(2);
-        vet.setNombre("VetDos");
-        vet.setDireccion("Av. Siempre Viva 742");
+        // Agregar turno (assigns a proper ID)
+        usuario.agregarTurno(turno);
 
-        when(servicioVeterinaria.buscarPorId(2)).thenReturn(vet);
+        // Configurar mock ANTES de llamar al servicio
+        when(servicioVeterinaria.buscarPorId(1)).thenReturn(vet);
 
-        // Ejecutar
-        servicioMail.enviarCancelacionDeTurno(usuario, 2, "ana@email.com");
+        // Ejecutar con ID real del turno
+        servicioMail.enviarCancelacionDeTurno(usuario, turno.getId(), "ana@email.com");
 
-        // Verificar envío
+        // Verificar envío de mail
         verify(mailSender, times(1)).send(any(SimpleMailMessage.class));
     }
 }

@@ -45,17 +45,15 @@ public class ControladorTurnos {
     }
 
     @PostMapping("/cancelar-turno")
-    public String cancelarTurno(@RequestParam("turnoId") ModelMap modelo, Integer turnoId,
+    public String cancelarTurno(@RequestParam("turnoId") ModelMap modelo, Long turnoId,
                                 HttpServletRequest request, HttpSession session) {
 
         String emailPorLogin = (String) request.getSession().getAttribute("EMAIL");
 
         Usuario usuarioActual =  (Usuario)session.getAttribute("usuarioActual");
         modelo.addAttribute("usuario", usuarioActual);
-        // Cliente =/= Usuario
         servicioMail.enviarCancelacionDeTurno(usuarioActual, turnoId, emailPorLogin);
         servicioUsuario.cancelarTurno(usuarioActual, turnoId);
         return "redirect:/turnos";
     }
-
 }

@@ -113,7 +113,7 @@ public class ServicioUsuarioTest {
     public void dadoUnUsuarioSinTurnosRegistradosSiIntentoCancelarUnTurnoObtengoUnaExceptionTuroNoCancelado() {
         Usuario usuario = new Usuario("Joauquin", "Diaz", "joaquindiazantunez02@gmail.com","1131522182");
         assertThrows(IllegalArgumentException.class, ()->{
-            usuario.cancelarTurno(2);
+            usuario.cancelarTurno(1L);
         });
     }
 
@@ -126,8 +126,8 @@ public class ServicioUsuarioTest {
         usuario.agregarTurno(t1);
         usuario.agregarTurno(t2);
 
-        assertEquals(t1, usuario.getTurnoPorId(t1.getId()));
-        assertEquals(t2, usuario.getTurnoPorId(t2.getId()));
+        assertEquals(t1.getId(), usuario.getTurnoPorId(t1.getId()).getId());
+        assertEquals(t2.getId(), usuario.getTurnoPorId(t2.getId()).getId());
     }
 
     @Test
@@ -135,7 +135,7 @@ public class ServicioUsuarioTest {
         Usuario usuario = new Usuario("Joauquin", "Diaz", "joaquindiazantunez02@gmail.com","1131522182");
         usuario.setId(202L);
         assertThrows(IllegalArgumentException.class, ()->{
-            usuario.getTurnoPorId(1);
+            usuario.getTurnoPorId(1L);
         });
     }
 } 

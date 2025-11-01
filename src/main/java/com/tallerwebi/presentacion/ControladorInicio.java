@@ -41,7 +41,7 @@ public class ControladorInicio {
         modelo.put("mensajeBienvenida", "&iexcl;Bienvenido " + usuarioActual.getNombre() + "!");
 
         // si querés mantener lo de turnos y recomendaciones, lo agregás acá:
-        modelo.put("turnos", new ArrayList<>(usuarioActual.getTurnos()));
+        //modelo.put("turnos", new ArrayList<>(usuarioActual.getTurnos()));
         modelo.put("recomendaciones", servicioRecomendaciones.generarRecomendaciones(usuarioActual));
 
         return new ModelAndView("inicio", modelo);

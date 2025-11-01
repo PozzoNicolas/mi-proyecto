@@ -7,5 +7,5 @@ public interface ServicioUsuario {
     Usuario registrarUsuario(Usuario usuario);
     List<Usuario> listarTodos();
     Usuario buscarUsuarioPorId(Long id);
-    void cancelarTurno(Usuario usuario,Integer id);
+    void cancelarTurno(Usuario usuario, Long id);
 }
