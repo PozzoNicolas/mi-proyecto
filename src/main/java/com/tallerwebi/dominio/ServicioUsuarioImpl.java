@@ -78,6 +78,8 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
         return new ArrayList<>(storage.values());
     }
 
+
+    
     @Override
     public void cancelarTurno(Usuario usuario, Long id) {
         usuario.cancelarTurno(id);
@@ -94,5 +96,26 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
         }
         return usuario;
     }
+
+    
+    @Transactional
+    public Usuario buscarUsuarioPorIdConTurnos(Long id) {
+        if (repositorioUsuario != null) {
+            Usuario usuario = repositorioUsuario.buscarPorId(id);
+            if (usuario != null) {
+                // Initialize lazy collection
+                usuario.getTurnos().size();
+            }
+            return usuario;
+        }
+        // fallback for in-memory tests
+        Usuario usuario = storage.get(id);
+        if (usuario != null) {
+            usuario.getTurnos().size(); // safe, just a normal list
+        }
+        return usuario;
+    } 
+
+
 
 }

@@ -51,19 +51,36 @@ public class ControladorResultadosTurnos {
         return new ModelAndView("resultado-turno", modelo);
     }
 
-    @PostMapping("/seleccionar-horario-profesional")
-    public String seleccionarHorarioProfesional(@ModelAttribute("turno") Turno turno, ModelMap modelo,
-                                            HttpServletRequest request, HttpSession session) {
-        servicioTurno.procesarSeleccion(turno);
+@PostMapping("/seleccionar-horario-profesional")
+public String seleccionarHorarioProfesional(@ModelAttribute("turno") Turno turno,
+                                           ModelMap modelo,
+                                           HttpServletRequest request,
+                                           HttpSession session) {
 
-        Usuario usuarioActual =  (Usuario)session.getAttribute("usuarioActual");
-        modelo.addAttribute("usuario", usuarioActual);
-        servicioTurno.guardarTurno(usuarioActual, turno);
-        String emailPorLogin = (String) request.getSession().getAttribute("EMAIL");
+    // 1️⃣ Process the selection
+    servicioTurno.procesarSeleccion(turno);
 
-        //Cliente =/= Usuairo. A cambiar 
-        servicioMail.enviarConfirmacionDeTurno(usuarioActual, turno.getId(), emailPorLogin);
-        return "redirect:/turnos";
-    }
+    // 2️⃣ Fetch managed Usuario from DB with turnos initialized
+    Usuario usuarioActual = (Usuario) session.getAttribute("usuarioActual");
+    Usuario usuarioManaged = servicioUsuario.buscarUsuarioPorIdConTurnos(usuarioActual.getId());
+
+    // 3️⃣ Link Turno back to Usuario
+    turno.setUsuario(usuarioManaged);
+
+    // 4️⃣ Save the turno
+    servicioTurno.guardarTurno(usuarioManaged, turno);
+
+    // 5️⃣ Update the session with the managed entity
+    session.setAttribute("usuarioActual", usuarioManaged);
+
+    // 6️⃣ Add to model
+    modelo.addAttribute("usuario", usuarioManaged);
+
+    // 7️⃣ Send confirmation email
+    String emailPorLogin = (String) request.getSession().getAttribute("EMAIL");
+    servicioMail.enviarConfirmacionDeTurno(usuarioManaged, turno.getId(), emailPorLogin);
+
+    return "redirect:/turnos";
+}
 
 }

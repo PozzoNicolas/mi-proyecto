@@ -2,8 +2,6 @@ package com.tallerwebi.dominio;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

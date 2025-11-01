@@ -40,7 +40,8 @@ public class ControladorTurnos {
             return "redirect:/login";
         }
         modelo.addAttribute("email", email);
-        modelo.addAttribute("turnos", new ArrayList<>(usuarioActual.getTurnos()));
+        Usuario usuarioConTurnos = servicioUsuario.buscarUsuarioPorIdConTurnos(usuarioActual.getId());
+        modelo.addAttribute("turnos", new ArrayList<>(usuarioConTurnos.getTurnos()));
         return "turnos";
     }
 

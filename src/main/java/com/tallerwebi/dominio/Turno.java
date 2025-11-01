@@ -1,6 +1,5 @@
 package com.tallerwebi.dominio;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tallerwebi.dominio.enums.Especialidad;
 import com.tallerwebi.dominio.enums.Practica;
 

@@ -8,4 +8,5 @@ public interface ServicioUsuario {
     List<Usuario> listarTodos();
     Usuario buscarUsuarioPorId(Long id);
     void cancelarTurno(Usuario usuario, Long id);
+    Usuario buscarUsuarioPorIdConTurnos(Long id);
 }
