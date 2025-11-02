@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${titulo}">Vacunas</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}">
+    <!-- Tu estilo principal -->
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top shadow">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" th:href="@{/inicio}">VetConnect</a>
+    </div>
+</nav>
+
+<main role="main" class="container main-body">
+    <h2 th:text="${titulo}"></h2>
+    <p th:text="${descripcion}"></p>
+
+    <section class="mt-4">
+        <h4>Vacunas recomendadas</h4>
+        <ul>
+            <li>Rabia</li>
+            <li>Moquillo</li>
+            <li>Parvovirus</li>
+            <li>Hepatitis infecciosa canina</li>
+        </ul>
+    </section>
+
+    <a class="btn btn-success mt-3" th:href="@{/inicio}">Volver al inicio</a>
+</main>
+
+<footer>
+    <div>
+        <h6>Fundaci&oacute;n Futuro - 2025</h6>
+        <h6>Taller Web I - Universidad Nacional de La Matanza</h6>
+    </div>
+</footer>
+
+<script th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+</body>
+</html>

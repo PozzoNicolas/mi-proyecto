@@ -21,6 +21,10 @@ public class Usuario {
     Es una relación de 1:N donde un cliente puede tener muchas mascotas.*/
     @OneToMany(mappedBy = "duenio", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Mascota> mascotas = new ArrayList<Mascota>();
+    // Relación nueva con Recomendacion
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Recomendacion> recomendaciones = new ArrayList<>();
+
     @Transient
     private List<Turno> turnos = new ArrayList<Turno>();
 

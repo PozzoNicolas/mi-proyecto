@@ -40,13 +40,14 @@
         <input th:field="*{email}" id="email" class="form-control" placeholder="Ingresa tu email" required/>
         <input th:field="*{password}" type="password" id="password" placeholder="Ingresa tu contraseña" class="form-control" required/>
 
-        <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" Type="Submit">Registrarme</button>
+        <button id="btn-registrarme" class="btn-registrarse" Type="Submit">Registrarme</button>
         <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}">
         </p>
       </form>
         <div>
+            <span>Puede agregar una mascota ahora si lo desea</span>
             <a href="mis-mascotas.html">
-                <button type="button">Agregar Mascota</button>
+                <button class="btn-agregar-mascota" type="Submit">Agregar Mascota</button>
             </a>
         </div>
     </div>
@@ -56,8 +57,7 @@
 <!-- /.container -->
 <br>
 <br>
-<br>
-<br>
+
 
 <footer>
     <div>
@@ -68,7 +68,7 @@
         <h6>Joaquin A. Diaz</h6>
     </div>
     <div>
-        <h6>Fundación Futuro - 2025</h6>
+        <h6>Fundaci&oacute;n Futuro - 2025</h6>
         <h6>Taller Web I - Universidad Nacional de La Matanza</h6>
     </div>
 </footer>

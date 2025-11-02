@@ -38,7 +38,7 @@ public class ControladorInicio {
 
         modelo.put("usuarioActual", usuarioActual);
         modelo.put("nombre", usuarioActual.getNombre());
-        modelo.put("mensajeBienvenida", "&iexcl;Bienvenido " + usuarioActual.getNombre() + "!");
+        modelo.put("mensajeBienvenida", "¡Bienvenido " + usuarioActual.getNombre() + "!");
 
         // si querés mantener lo de turnos y recomendaciones, lo agregás acá:
         modelo.put("turnos", new ArrayList<>(usuarioActual.getTurnos()));
