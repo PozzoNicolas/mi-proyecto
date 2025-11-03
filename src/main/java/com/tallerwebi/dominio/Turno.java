@@ -46,12 +46,9 @@ public class Turno {
     }
 
     public Turno() {
-        this.id = contadorIds++; //A cambiar
     }
 
     public Turno(Especialidad especialidad, Practica practica, Integer veterinaria, String fecha, String horario ) {
-        this.id = contadorIds++; //A cambiar
-
         this.especialidad = especialidad;
         this.practica = practica;
         this.veterinaria = veterinaria; 
@@ -76,7 +73,5 @@ public class Turno {
     public void setProfesional(String profesional) {this.profesional = profesional;}
     public void setSeleccion(String n) {this.seleccion = n;}
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
+
 }
