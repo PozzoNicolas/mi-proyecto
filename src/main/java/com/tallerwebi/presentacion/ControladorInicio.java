@@ -7,7 +7,10 @@ import com.tallerwebi.dominio.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.http.HttpSession;
 
 import java.util.ArrayList;
@@ -25,13 +28,25 @@ public class ControladorInicio {
     }
 
     @GetMapping("/inicio")
-    public String inicio(Model modelo, HttpSession session) {
+    public ModelAndView irAlInicio(HttpSession session) {
         Usuario usuarioActual = (Usuario) session.getAttribute("usuarioActual");
+        ModelMap modelo = new ModelMap();
+
         if (usuarioActual == null) {
-            return "redirect:/inicio";
+            return new ModelAndView("redirect:/login");
         }
-        modelo.addAttribute("turnos", new ArrayList<>(usuarioActual.getTurnos()));
-        modelo.addAttribute("recomendaciones", servicioRecomendaciones.generarRecomendaciones(usuarioActual));
-        return "inicio"; // Thymeleaf busca /WEB-INF/views/thymeleaf/inicio.html
+
+        Usuario usuarioConTurnos = servicioUsuario.buscarUsuarioPorIdConTurnos(usuarioActual.getId());
+
+        modelo.put("usuarioActual", usuarioActual);
+        modelo.put("nombre", usuarioActual.getNombre());
+        modelo.put("mensajeBienvenida", "&iexcl;Bienvenido " + usuarioActual.getNombre() + "!");
+
+        modelo.put("turnos", new ArrayList<>(usuarioConTurnos.getTurnos()));
+        
+        modelo.put("recomendaciones", servicioRecomendaciones.generarRecomendaciones(usuarioActual));
+
+        return new ModelAndView("inicio", modelo);
     }
+
 }

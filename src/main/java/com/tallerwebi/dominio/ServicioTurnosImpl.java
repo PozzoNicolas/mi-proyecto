@@ -40,10 +40,12 @@ public class ServicioTurnosImpl implements ServicioTurnos {
 
     @Override
     public void guardarTurno(Usuario usuario, Turno turno) {
+
         usuario.agregarTurno(turno);
         turno.setUsuario(usuario);
         repositorioTurnos.guardar(turno);
     }
+
 
     @Override
     public void procesarSeleccion(Turno turno) {

@@ -30,7 +30,7 @@ public class ServicioMail {
 
     //Usuario =/= Usuario !!!
     @Async
-    public void enviarConfirmacionDeTurno(Usuario usuario, Integer turnoId, String direccion) {
+    public void enviarConfirmacionDeTurno(Usuario usuario, Long turnoId, String direccion) {
         Turno turno = usuario.getTurnoPorId(turnoId);
         Veterinaria veterinaria = servicioVeterinaria.buscarPorId(turno.getVeterinaria());
         
@@ -66,7 +66,7 @@ public class ServicioMail {
 
     //Usuario =/= Usuario !!!
     @Async
-    public void enviarCancelacionDeTurno(Usuario usuario, Integer turnoId, String direccion) {
+    public void enviarCancelacionDeTurno(Usuario usuario, Long turnoId, String direccion) {
         Turno turno = usuario.getTurnoPorId(turnoId);
         Veterinaria veterinaria = servicioVeterinaria.buscarPorId(turno.getVeterinaria());
 

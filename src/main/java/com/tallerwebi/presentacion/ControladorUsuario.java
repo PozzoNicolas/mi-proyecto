@@ -1,47 +1,51 @@
 package com.tallerwebi.presentacion;
+
 import java.util.List;
 
 import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.ServicioUsuario;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
-import com.tallerwebi.dominio.ServicioUsuario;
-import com.tallerwebi.dominio.ServicioUsuarioImpl;
-
 @Controller
 @RequestMapping("/clientes")
 public class ControladorUsuario {
 
-    //  Según el profe, los servicios están en dominio. acá inyectamos la impl manualmente
-    private final ServicioUsuario servicio = new ServicioUsuarioImpl();
+    private final ServicioUsuario servicioUsuario;
 
-    // DTO para formulario (va dentro del controller)
+    // ✅ Inyección automática del servicio desde Spring
+    @Autowired
+    public ControladorUsuario(ServicioUsuario servicioUsuario) {
+        this.servicioUsuario = servicioUsuario;
+    }
+
+    // DTO interno para manejar el formulario
     public static class UsuarioDto {
         @NotBlank(message = "El nombre es obligatorio")
         @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$", message = "El nombre solo puede contener letras y/o espacios")
         private String nombre;
+
         @NotBlank(message = "El apellido es obligatorio")
         @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$", message = "El apellido solo puede contener letras y/o espacios")
         private String apellido;
+
         @NotBlank(message = "El correo es obligatorio")
         @Email(message = "El correo no tiene un formato válido")
         private String correo;
-//        guardamos solo los dígitos locales (sin prefijo +54 9 11)
+
         @NotBlank(message = "El teléfono es obligatorio")
         @Pattern(regexp = "^[0-9]{8}$", message = "El teléfono debe tener 8 dígitos")
         private String telefono;
 
-        // getters y setters
+        // Getters y setters
         public String getNombre() { return nombre; }
         public void setNombre(String nombre) { this.nombre = nombre; }
         public String getApellido() { return apellido; }
@@ -52,26 +56,25 @@ public class ControladorUsuario {
         public void setTelefono(String telefono) { this.telefono = telefono; }
     }
 
+    // === Métodos del controlador ===
     @GetMapping
     public String listar(Model model) {
-        List<Usuario> usuarios = servicio.listarTodos();
+        List<Usuario> usuarios = servicioUsuario.listarTodos();
         model.addAttribute("clientes", usuarios);
         model.addAttribute("nuevoCliente", new UsuarioDto());
         return "clientes";
     }
 
     @PostMapping
-    public String crear(@Valid @ModelAttribute("nuevoCliente") UsuarioDto dto, BindingResult result,
-                        Model model) {
+    public String crear(@Valid @ModelAttribute("nuevoCliente") UsuarioDto dto, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            // volver a cargar datos necesarios para la vista
-            model.addAttribute("clientes", servicio.listarTodos());
-            return "clientes"; // misma vista del formulario
+            model.addAttribute("clientes", servicioUsuario.listarTodos());
+            return "clientes";
         }
-        Usuario c = new Usuario(dto.getNombre(), dto.getApellido(), dto.getCorreo(), dto.getTelefono());
-        servicio.registrarUsuario(c);
+
+        Usuario nuevo = new Usuario(dto.getNombre(), dto.getApellido(), dto.getCorreo(), dto.getTelefono());
+        servicioUsuario.registrarUsuario(nuevo);
         return "redirect:/clientes";
     }
-
-
 }
+
