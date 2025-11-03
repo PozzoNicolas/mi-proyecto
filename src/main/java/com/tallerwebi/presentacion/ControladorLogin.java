@@ -37,8 +37,10 @@ public class ControladorLogin {
 
         Usuario usuarioBuscado = servicioLogin.consultarUsuario(datosLogin.getEmail(), datosLogin.getPassword());
         if (usuarioBuscado != null) {
+            request.getSession().setAttribute("usuarioActual", usuarioBuscado);
             request.getSession().setAttribute("ROL", usuarioBuscado.getRol());
-            return new ModelAndView("redirect:/home");
+            request.getSession().setAttribute("EMAIL", usuarioBuscado.getEmail());
+            return new ModelAndView("redirect:/inicio");
         } else {
             model.put("error", "Usuario o clave incorrecta");
         }
@@ -56,6 +58,7 @@ public class ControladorLogin {
         } catch (Exception e){
             model.put("error", "Error al registrar el nuevo usuario");
             return new ModelAndView("nuevo-usuario", model);
+
         }
         return new ModelAndView("redirect:/login");
     }

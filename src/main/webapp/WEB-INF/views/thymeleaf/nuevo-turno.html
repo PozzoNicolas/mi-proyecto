@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Nuevos turnos</title>
+
+  <!-- Boostrap core css -->
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+
+  <!-- custom style -->
+  <link rel="stylesheet" th:href="@{/css/estilo2.css}"/>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top shadow">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="#">VetConnect</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</nav>
+
+
+<main role="main" class="container">
+  <div class = "container">
+    <h1>Nuevo turno</h1>
+
+    <form action="#" th:action="@{/validar-datos-turno}" method="post" th:object="${datosBusqueda}">
+    <label for="especialidad">Especialidad:</label>
+    <select id="especialidad" th:field="*{especialidad}" onchange="mostrarPracticas(this.value)">
+      <option value="" th:text="'-- Seleccione --'" selected></option>
+      <option th:each="esp : ${especialidades}"
+              th:value="${esp}"
+              th:text="${esp.getDesc()}">
+      </option>
+    </select>
+
+    <label for="practica">Pr&aacute;ctica:</label>
+    <select id="practica" th:field="*{practica}">
+        <option value="">-- Seleccione una especialidad primero --</option>
+    </select>
+
+    <div id="practicas-data" style="display:none">
+      <div th:each="esp : ${especialidades}" th:attr="data-esp=${esp.name()}">
+          <span th:each="pr : ${esp.practicas}"
+                th:attr="data-name=${pr.name()},data-desc=${pr.desc}">
+          </span>
+      </div>
+    </div>
+
+      <label for="lugar">Lugar:</label>
+      <select id="lugar" th:field="*{veterinaria}">
+        <option value="0">-- Indiferente --</option>
+        <option th:each="vet : ${veterinarias}" 
+                th:value="${vet.id}" 
+                th:text="${vet.nombre}">
+        </option>
+      </select>
+
+      <button class = "btn-success">Buscar disponibles</button>
+
+    <script>
+    function mostrarPracticas(especialidad) {
+        let practicaSelect = document.getElementById("practica");
+        practicaSelect.innerHTML = "";
+
+        if (!especialidad) {
+            let opt = document.createElement("option");
+            opt.value = ""; // vacío porque no hay práctica seleccionada
+            opt.textContent = "-- Seleccione una especialidad primero --";
+            practicaSelect.appendChild(opt);
+            return;
+        }
+
+        let dataBlock = document.querySelector(`#practicas-data [data-esp='${especialidad}']`);
+        if (dataBlock) {
+            let spans = dataBlock.querySelectorAll("span");
+            spans.forEach(span => {
+                let opt = document.createElement("option");
+                opt.value = span.dataset.name;
+                opt.textContent = span.dataset.desc;
+                practicaSelect.appendChild(opt);
+            });
+        }
+    }
+    </script>
+
+
+
+      <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}">
+      </p>
+    </form>
+
+    <a href="turnos.html" class="btn btn-lg btn-primary btn-block">Volver</a>
+  </div>
+</main>
+
+<br>
+<br>
+<br>
+<br>
+<footer>
+    <div>
+        <h6>Integrantes:</h6>
+        <h6>Diego Contreras</h6>
+        <h6>Nicolas Pozzo</h6>
+        <h6>Mauricio Medina</h6>
+        <h6>Joaquin A. Diaz</h6>
+    </div>
+    <div>
+        <h6>Fundaci&oacute;n Futuro - 2025</h6>
+        <h6>Taller Web I - Universidad Nacional de La Matanza</h6>
+    </div>
+</footer>
+
+<!-- Boostrap core js -->
+<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+</body>
+</html>

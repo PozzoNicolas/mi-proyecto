@@ -1,0 +1,39 @@
+/* Estilos específicos para la página de Mascotas */
+
+body {
+    background-color: #f9fdf9;
+}
+
+.mascotas-form {
+    max-width: 500px;
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.mascotas-form input {
+    border-radius: 8px;
+}
+
+.mascotas-item {
+    border: none;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 1rem;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.mascotas-item:hover {
+    background-color: #f1fdf1;
+}
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    text-align: center;
+    background-color: #2e7d32;
+    color: white;
+    padding: 2rem;
+    margin-top: auto;
+}

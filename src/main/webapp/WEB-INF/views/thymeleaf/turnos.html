@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Turnos</title>
+
+  <!-- Boostrap core css -->
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+
+  <!-- custom style -->
+  <link rel="stylesheet" th:href="@{/css/estilo2.css}"/>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top shadow">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="#">VetConnect</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</nav>
+
+<main role="main" class="container">
+  <div class = "container">
+    <h1>Turnos</h1>
+    <h2>Tus turnos:</h2>
+    <div th:if="${#lists.isEmpty(turnos)}">
+      <p>No hay turnos disponibles</p>
+    </div>
+    <div th:if="${!#lists.isEmpty(turnos)}">
+      <ul>
+        <li th:each="turno : ${turnos}">
+          Especialidad: <span th:text="${turno.especialidad.getDesc()}"></span>,
+          <span th:text="${turno.practica.getDesc()}"></span> <br>
+          El d&iacute;a: <span th:text="${turno.fecha}"></span>,
+          <span th:text="${turno.horario}"></span> <br>
+          Profesional: <span th:text="${turno.profesional}"></span> <br>
+          <form th:action="@{/cancelar-turno}" method="post">
+            <input type="hidden" name="turnoId" th:value="${turno.id}"/>
+            <input type="hidden" name="turnoFecha" th:value="${turno.fecha}">
+            <button type="submit">Cancelar turno</button>
+          </form>
+        </li>
+      </ul>
+    </div>
+    <a href="./nuevo-turno" class="btn btn-lg btn-primary btn-block">Nuevo Turno</a>
+    <a href="./inicio" class="btn btn-lg btn-primary btn-block">Volver</a>
+  </div> 
+</main> 
+<!-- /.container -->
+<br>
+<br>
+<br>
+<br>
+<footer>
+    <div>
+        <h6>Integrantes:</h6>
+        <h6>Diego Contreras</h6>
+        <h6>Nicolas Pozzo</h6>
+        <h6>Andrea Callejas</h6>
+        <h6>Mauricio Medina</h6>
+        <h6>Joaquin A. Diaz</h6>
+    </div>
+    <div>
+        <h6>Fundación Futuro - 2025</h6>
+        <h6>Taller Web I - Universidad Nacional de La Matanza</h6>
+    </div>
+</footer>
+
+<!-- Boostrap core js -->
+<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+</body>
+</html>

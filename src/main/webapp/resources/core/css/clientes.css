@@ -1,0 +1,97 @@
+/* Estilos específicos para la página de Clientes */
+
+body {
+    padding-top: 5rem;
+    background-color: #f9fdf9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Encabezados */
+h1, h2 {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+h1 {
+    color: #198754; /* verde Bootstrap */
+}
+
+h2 {
+    color: #444;
+    font-size: 1.5rem;
+}
+
+/* Formulario */
+form {
+    max-width: 500px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+form input {
+    width: 100%;
+    padding: 0.6rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    transition: border-color 0.3s;
+}
+
+form input:focus {
+    outline: none;
+    border-color: #198754;
+    box-shadow: 0 0 5px rgba(25,135,84,0.4);
+}
+
+form button {
+    width: 100%;
+    padding: 0.7rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #198754;
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.3s ease-in-out;
+}
+
+form button:hover {
+    background-color: #146c43;
+}
+
+/* Lista de clientes */
+.list-group {
+    max-width: 600px;
+    margin: 2rem auto;
+}
+
+.list-group li {
+    background: #ffffff;
+    border: none;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 1rem;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.list-group li:hover {
+    background-color: #f1fdf1;
+}
+
+/* Footer */
+footer {
+    margin-top: 3rem;
+    background-color: #198754;
+    color: #ffffff;
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+footer h6 {
+    margin: 0.2rem 0;
+}

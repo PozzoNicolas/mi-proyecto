@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Turnos</title>
+
+  <!-- Boostrap core css -->
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+
+  <!-- custom style -->
+  <link rel="stylesheet" th:href="@{/css/estilo2.css}"/>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top shadow">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="inicio.html">VetConnect</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</nav>
+
+<main role="main" class="container">
+  <div class = "container">
+    <h1>Resultados</h1>
+    
+    <!--Cambiar redaccion según especialidad...?-->
+    <p>Turnos de <span th:text="${turno.especialidad.getDesc()}"></span>
+      para: <span th:text="${turno.practica.getDesc()}"></span>
+      En: <span th:text="${veterinaria != null && !#strings.isEmpty(veterinaria.nombre) ? veterinaria.nombre : 'Indiferente'}"></span>
+    </p>
+
+    <form th:action="@{/seleccionar-dia}" th:object="${turno}" method="post">
+        <label for="fecha">Seleccione el d&iacute;a:</label>
+        <input type="date" th:field="*{fecha}" required
+        th:attr="min=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"/>
+
+        <input type="hidden" th:field="*{especialidad}" />
+        <input type="hidden" th:field="*{practica}" />
+        <input type="hidden" th:field="*{veterinaria}" />
+
+        <button type="submit">Ver turnos disponibles</button>
+    </form> 
+
+    <form th:if="${turno.fecha != null}" th:action="@{/seleccionar-horario-profesional}" th:object="${turno}" method="post">
+        <p>Seleccione el horario y profesional:</p>
+        <!-- Caso veterinaria específica -->
+        <div th:if="${veterinaria != null && veterinaria.profesionalesEnHorario != null && !#strings.isEmpty(veterinaria.nombre)}">
+            <div th:each="entry : ${veterinaria.profesionalesEnHorario}">
+                <p><strong th:text="${entry.key}">Horario</strong></p>
+                <ul>
+                    <li th:each="prof : ${entry.value}">
+                        <label>
+                            <input type="radio" th:field="*{seleccion}" 
+                                th:value="${entry.key + '||' + prof.nombre}" required />
+                            <span th:text="${prof.nombre}"></span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Caso "Indiferente": todas las veterinarias -->
+        <div th:if="${veterinarias != null}">
+            <div th:each="vet : ${veterinarias}">
+            <h3>
+                <span th:text="${vet.nombre}"></span> - 
+                <span th:text="${vet.direccion}"></span>
+            </h3>
+                <div th:each="entry : ${vet.profesionalesEnHorario}">
+                    <p><strong th:text="${entry.key}">Horario</strong></p>
+                    <ul>
+                        <li th:each="prof : ${entry.value}">
+                            <label>
+                                <input type="radio" th:field="*{seleccion}" 
+                                    th:value="${vet.id + '||' + entry.key + '||' + prof.nombre}" required />
+                                <span th:text="${prof.nombre}"></span>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <input type="hidden" th:field="*{especialidad}" />
+        <input type="hidden" th:field="*{practica}" />
+        <input type="hidden" th:field="*{veterinaria}" />
+        <input type="hidden" th:field="*{fecha}" />
+
+        <button type="submit">Reservar turno</button>
+    </form>
+
+
+
+
+    <!--No funciona, si saco los required`s obtengo otros problemas-->
+    <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}">
+    <a href="turnos.html" class="btn btn-lg btn-primary btn-block">Nuevo Turno</a>
+    <a href="inicio.html" class="btn btn-lg btn-primary btn-block">Volver</a>
+  </div>
+</main>
+<!-- /.container -->
+<br>
+<br>
+<br>
+<br>
+<footer>
+    <div>
+        <h6>Integrantes:</h6>
+        <h6>Diego Contreras</h6>
+        <h6>Nicolas Pozzo</h6>
+        <h6>Mauricio Medina</h6>
+        <h6>Joaquin A. Diaz</h6>
+    </div>
+    <div>
+        <h6>Fundaci&oacute;n Futuro - 2025</h6>
+        <h6>Taller Web I - Universidad Nacional de La Matanza</h6>
+    </div>
+</footer>
+<!-- Boostrap core js -->
+<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+</body>
+</html>

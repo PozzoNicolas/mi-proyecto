@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mascotas - VetConnect</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+
+    <!-- Estilo principal -->
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-success fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="inicio.html">VetConnect</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</nav>
+
+<main class="container mt-5 pt-5">
+
+    <h1 class="fw-bold text-center text-success mb-4">Registrar Mascota</h1>
+
+    <!-- Formulario -->
+    <form th:action="@{/mascotas}" th:object="${nuevaMascota}" method="post" class="mascotas-form mx-auto">
+
+        <div class="mb-3">
+            <input class="form-control" th:field="*{nombre}" placeholder="Nombre" />
+<!--            verifico si hay errores en el campo 'nombre', en el caso de que si, ejecuto la anotacion NotBlank-->
+            <div th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+        </div>
+
+        <div class="mb-3">
+            <input class="form-control" th:field="*{tipoDeMascota}" placeholder="Tipo (perro, gato...)"  />
+            <div th:if="${#fields.hasErrors('tipoDeMascota')}" th:errors="*{tipoDeMascota}"></div>
+        </div>
+
+
+        <div class="mb-3">
+            <input class="form-control" th:field="*{raza}" placeholder="Raza" />
+        </div>
+
+        <div class="mb-3">
+            <input class="form-control" th:field="*{edad}" min="0" type="number" placeholder="Edad (en a&ntilde;os)" />
+            <div th:if="${#fields.hasErrors('edad')}" th:errors="*{edad}"></div>
+        </div>
+        <div class="mb-3">
+            <label for="foto" class="form-label">Foto de la mascota</label>
+            <input class="form-control" type="file" id="foto" name="foto" accept="image/*">
+        </div>
+        <button type="submit" class="btn btn-success w-100">Registrar</button>
+    </form>
+
+    <!-- Lista -->
+    <h2 class="fw-bold text-center mt-5 mb-3">Mis Mascotas</h2>
+    <ul class="list-group container mt-3">
+        <li class="list-group-item mascotas-item" th:each="m : ${mascotas}">
+            <strong th:text="${m.nombre}"></strong> -
+            <span th:text="${m.tipoDeMascota}"></span> |
+            <span th:text="${m.raza}"></span> |
+            (<span th:text="${m.edad}"></span> a&ntilde;os)
+        </li>
+    </ul>
+
+</main>
+
+<!-- Footer -->
+<footer class="bg-success text-white text-center mt-5 p-3">
+    <div>
+        <h6>Integrantes:</h6>
+        <h6>Diego Contreras</h6>
+        <h6>Nicolas Pozzo</h6>
+        <h6>Mauricio Medina</h6>
+        <h6>Joaquin A. Diaz</h6>
+    </div>
+    <p class="mb-0">VetConnect - Universidad Nacional de La Matanza</p>
+</footer>
+
+<!-- Bootstrap JS -->
+<script th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

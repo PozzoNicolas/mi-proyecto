@@ -16,9 +16,15 @@
 
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-  <a class="navbar-brand" href="#">UNLAM</a>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top shadow">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="home.html">VetConnect</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
 </nav>
+
 
 <main role="main" class="container">
 
@@ -28,19 +34,44 @@
         <h3 class="form-signin-heading">Nuevo Usuario</h3>
         <hr class="colorgraph"><br>
 
-        <input th:field="*{email}" id="email" class="form-control" required/>
-        <input th:field="*{password}" type="password" id="password" class="form-control" required/>
+        <input th:field="*{nombre}" type="text" id="nombre" placeholder="Ingresa tu nombre" class="form-control" required/>
+        <input th:field="*{apellido}" type = "text" id = "apellido" placeholder = "Ingresa tu apellido" class = "form-control" required/>
+        <input th:field="*{telefono}" type = "number" id = "telefono" placeholder = "Ingresa tu telefono" class = "form-control" required/>
+        <input th:field="*{email}" id="email" class="form-control" placeholder="Ingresa tu email" required/>
+        <input th:field="*{password}" type="password" id="password" placeholder="Ingresa tu contraseña" class="form-control" required/>
 
         <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" Type="Submit">Registrarme</button>
         <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}">
         </p>
       </form>
-
+        <div>
+            <a href="mis-mascotas.html">
+                <button type="button">Agregar Mascota</button>
+            </a>
+        </div>
     </div>
   </div>
 
 </main>
 <!-- /.container -->
+<br>
+<br>
+<br>
+<br>
+
+<footer>
+    <div>
+        <h6>Integrantes:</h6>
+        <h6>Diego Contreras</h6>
+        <h6>Nicolas Pozzo</h6>
+        <h6>Mauricio Medina</h6>
+        <h6>Joaquin A. Diaz</h6>
+    </div>
+    <div>
+        <h6>Fundación Futuro - 2025</h6>
+        <h6>Taller Web I - Universidad Nacional de La Matanza</h6>
+    </div>
+</footer>
 
 <!-- Boostrap core js -->
 <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>

@@ -1,35 +1,154 @@
 <!DOCTYPE HTML>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Bienvenidos a VetConnect</title>
 
-  <title>Taller Web I</title>
+    <!-- Bootstrap core css -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
 
-  <!-- Boostrap core css -->
-  <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
-
-  <!-- custom style -->
-  <link rel="stylesheet" th:href="@{/css/main.css}"/>
-
+    <!-- Custom styles -->
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/flickity.css}"/>
+    <link rel="stylesheet" th:href="@{/css/flickity.min.css}"/>
 </head>
 
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-  <a class="navbar-brand" href="#">UNLAM</a>
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-md navbar-dark fixed-top shadow">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="home.html">VetConnect</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a href="nuevo-usuario.html" class="btn btn-success btn-lg mt-3">Registrarse</a>
+                </li>
+                <li class="nav-item">
+                    <a href="login.html" class="btn btn-success btn-lg mt-3">Iniciar sesi&oacute;n</a>
+                </li>
+                <li>
+                    <!-- Botón flotante -->
+                    <button id="abrirChatGPT" class="btn-chatgpt"> VetIA</button>
+
+                    <!-- Modal del chat -->
+                    <div id="modalChatGPT" class="modal">
+                        <div class="modal-content chat-container">
+                            <span id="cerrarChatGPT" class="cerrar">&times;</span>
+                            <h3>VetIA - Nuestra Inteligencia Artificial</h3>
+                            <div id="chat-box"></div>
+                            <input type="text" id="mensajeChatGPT" placeholder="Escrib&iacute; tu pregunta...">
+                            <button id="enviarChatGPT">Enviar</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
 </nav>
 
-<main role="main" class="container">
-  <div class = "container">
-    <h1>Bienvenidos a Taller Web 1</h1>
+<!-- TITULO PRINCIPAL -->
+<section class="text-center mt-5 pt-5">
+    <h1 class="fw-bold">Bienvenidos a <span class="text-success">VetConnect</span></h1>
+   <h3> &iquest;Por qu&eacute; elegirnos? </h3>
+</section>
 
-    <a href="login.html" class="btn btn-lg btn-primary btn-block">Volver</a>
-  </div>
+<!-- CARRUSEL -->
+<div class="carousel" data-flickity='{ "freeScroll": true, "wrapAround": true, "autoPlay": 5000 }'>
+
+    <div class="carousel-cell">
+        <div class="carousel-cell__content">
+            <div class="carousel-cell__text">
+                <p>Mapas de Veterinarias cercanas a tu hogar</p>
+                <p>Ubic&aacute; en segundos las cl&iacute;nicas y profesionales m&aacute;s cercanos.</p>
+            </div>
+            <img class="carousel-cell__img" th:src="@{/img/mapas-veterinarias.png}"  alt="Mapas de Veterinarias">
+
+        </div>
+    </div>
+
+    <div class="carousel-cell">
+        <div class="carousel-cell__content">
+            <div class="carousel-cell__text">
+                <p>Medicina Centralizada para tus mascotas</p>
+                <p>Guard&aacute; historiales, vacunas y recetas en un solo lugar.</p>
+            </div>
+            <img class="carousel-cell__img" th:src="@{/img/medicina-centralizada.png}"  alt="Medicina Centralizada">
+
+        </div>
+    </div>
+
+    <div class="carousel-cell">
+        <div class="carousel-cell__content">
+            <div class="carousel-cell__text">
+                <p>Informaci&oacute;n importante en un solo lugar </p>
+                <p>Recib&iacute; alertas, recordatorios y consejos personalizados.</p>
+            </div>
+            <img class="carousel-cell__img" th:src="@{/img/informacion-importante.png}"  alt="Informacíon Importante">
+
+        </div>
+    </div>
+
+    <div class="carousel-cell">
+        <div class="carousel-cell__content">
+            <div class="carousel-cell__text">
+                <p>Inteligencia Artificial para diagnosticar a tu mascota </p>
+                <p>Un asistente inteligente que te ayuda a entender sus s&iacute;ntomas.</p>
+            </div>
+            <img class="carousel-cell__img" th:src="@{/img/ia-home.png}"  alt="Inteligencia Artificial">
+
+        </div>
+    </div>
+</div> <!-- ✅ Cierre correcto del carrusel -->
+
+<!-- SECCIÓN PRINCIPAL -->
+<main class="main-body text-center container mt-5">
+    <h3>Tu plataforma de confianza para conectar con veterinarios y cuidar de tus mascotas</h3>
+    <p>
+        En VetConnect, entendemos lo importante que es la salud y el bienestar de tus mascotas.
+        Nuestra plataforma est&aacute; dise&ntilde;ada para facilitarte la b&uacute;squeda y conexi&oacute;n con veterinarios
+        calificados en tu &aacute;rea. Ya sea que necesites una consulta de rutina, atenci&oacute;n de emergencia
+        o asesoramiento especializado, estamos aqu&iacute; para ayudarte.
+    </p>
+    <p>
+        Explor&aacute; nuestro directorio de veterinarios, lee rese&ntilde;as de otros due&ntilde;os de mascotas y agenda
+        citas en l&iacute;nea con facilidad.
+    </p>
+
+    <div class="mt-4">
+        <img th:src="@{/img/mascotas-home.png}" alt="Mascotas" class="img-fluid main-img">
+    </div>
 </main>
-<!-- /.container -->
 
-<!-- Boostrap core js -->
-<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+
+
+
+<!-- FOOTER -->
+<footer>
+    <div>
+        <h6>Integrantes:</h6>
+        <h6>Diego Contreras</h6>
+        <h6>Nicolas Pozzo</h6>
+        <h6>Mauricio Medina</h6>
+        <h6>Joaquin A. Diaz</h6>
+    </div>
+    <div>
+        <h6>Fundaci&oacute;n Futuro - 2025</h6>
+        <h6>Taller Web I - Universidad Nacional de La Matanza</h6>
+    </div>
+</footer>
+
+<!-- Bootstrap core js -->
+<script type="text/javascript" th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+<script type="text/javascript" th:src="@{/js/flickity.pkgd.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/API-IA.js}"></script>
+
+
+
 </body>
 </html>

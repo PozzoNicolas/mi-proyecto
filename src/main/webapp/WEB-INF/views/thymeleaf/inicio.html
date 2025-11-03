@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Inicio - VetConnect</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" th:href="@{/css/inicio.css}">
+
+    <!--Mapa-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-success fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="/inicio"> VetConnect  </a>
+    </div>
+</nav>
+
+<!-- Header -->
+<header class="header">
+    <div class="header-section">
+        <span th:text="${mensajeBienvenida}"></span>
+        <div class="header-right">
+            <i class="bi bi-bell"></i>
+            <a class="span-opciones-header" data-bs-toggle="offcanvas" href="#offcanvasNotificaciones" role="button" aria-controls="offcanvasNotificaciones">
+                Notificaciones
+            </a>
+            <i class="bi bi-person-circle"></i>
+            <a href ="perfil.html" class = "span-opciones-header"> Perfil </a>
+            <i class="bi bi-box-arrow-in-left"></i>
+            <a href ="home.html" class = "span-opciones-header"> Salir </a>
+
+        </div>
+    </div>
+</header>
+
+<!-- Layout principal -->
+<div class="main-content">
+    <!-- Menú lateral -->
+    <aside class="opciones">
+        <article class="opciones-article">
+            <img th:src="@{img/clientes.png}" alt="Clientes" class="icono-opciones">
+            <a href="clientes.html" class="span-opciones">Clientes</a>
+        </article>
+        <article class="opciones-article">
+            <img th:src="@{img/mascotas-inicio.png}" alt="Mascotas" class="icono-opciones">
+            <a href="mis-mascotas.html" class="span-opciones">Mis Mascotas</a>
+        </article>
+        <article class="opciones-article">
+            <img th:src="@{img/calendario.png}" alt="Turnos" class="icono-opciones">
+            <a href="turnos.html" class="span-opciones">Turnos</a>
+        </article>
+        <article class="opciones-article">
+            <img th:src="@{img/vacuna.png}" alt="Vacunas" class="icono-opciones">
+            <a href="vacunas.html" class="span-opciones">Vacunas</a>
+        </article>
+    </aside>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNotificaciones" aria-labelledby="offcanvasNotificacionesLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasNotificacionesLabel">Notificaciones</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div th:if="${#lists.isEmpty(turnos)}">
+                <p>No hay Notificaciones</p>
+            </div>
+            <div th:if="${!#lists.isEmpty(turnos)}">
+                <div th:each="turno : ${turnos}" class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"> <span th:text="${turno.especialidad.getDesc()}"></span> </h5>
+                        <h6 class="card-subtitle mb-2 text-muted"><span th:text="${turno.practica.getDesc()}"></span></h6>
+                        <p class="card-text">Fecha <span th:text="${turno.fecha}"></span>, <span th:text="${turno.horario}"></span> <br>
+                            Profesional: <span th:text="${turno.profesional}"></span></p>
+                        <a href="./turnos" class="card-link">Ver Turnos</a>
+                        <a href="#" class="card-link">Cancelar Turno</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Contenido principal -->
+    <main class="main">
+        <section class="cajas">
+            <article>
+                <h3>Agenda</h3>
+                    <div id="left-turnos">
+                        <div id="cartelFecha" class="fecha-actual"></div>
+                        <button id="boton-agenda">Abrir</button>
+                    </div>
+            </article>
+
+            <script>
+                // === Mostrar la fecha actual ===
+                function mostrarFechaActual() {
+                    const cartel = document.getElementById('cartelFecha');
+                    const hoy = new Date();
+
+                    const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                    const fechaFormateada = hoy.toLocaleDateString('es-ES', opciones);
+
+                    cartel.textContent = `Hoy es ${fechaFormateada.charAt(0).toUpperCase() + fechaFormateada.slice(1)}`;
+                }
+
+                window.addEventListener('DOMContentLoaded', mostrarFechaActual);
+
+            </script>
+            <!-- Modal de Agenda -->
+            <div id="modalAgenda" class="modal">
+                <div class="modal-content">
+                    <span class="cerrar" id="cerrarAgenda">&times;</span>
+
+                    <!-- Calendario original -->
+                    <div class="container">
+                        <div class="calendar">
+                            <div class="front">
+                                <div class="current-date">
+                                    <h1>Martes 15th</h1>
+                                    <h1>Octubre 2025</h1>
+                                </div>
+
+                                <div class="current-month">
+                                    <ul class="week-days">
+                                        <li>LUN</li><li>MAR</li><li>MIE</li><li>JUE</li><li>VIE</li><li>SAB</li><li>DOM</li>
+                                    </ul>
+                                    <div class="weeks">
+                                        <div class="first">
+                                            <span class="last-month">28</span>
+                                            <span class="last-month">29</span>
+                                            <span class="last-month">30</span>
+                                            <span class="last-month">31</span>
+                                            <span>01</span><span>02</span><span>03</span>
+                                        </div>
+                                        <div class="second">
+                                            <span>04</span><span>05</span><span class="event">06</span>
+                                            <span>07</span><span>08</span><span>09</span><span>10</span>
+                                        </div>
+                                        <div class="third">
+                                            <span>11</span><span>12</span><span>13</span><span>14</span>
+                                            <span class="active">15</span><span>16</span><span>17</span>
+                                        </div>
+                                        <div class="fourth">
+                                            <span>18</span>
+                                            <span>19</span>
+                                            <span>20</span>
+                                            <span>21</span>
+                                            <span>22</span>
+                                            <span>23</span>
+                                            <span>24</span>
+                                        </div>
+
+                                        <div class="fifth">
+                                            <span>25</span>
+                                            <span>26</span>
+                                            <span>27</span>
+                                            <span>28</span>
+                                            <span>29</span>
+                                            <span>30</span>
+                                            <span>31</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="back">
+                                <input placeholder="&iquest;Qu&eacute; evento quer&eacute;s agregar?">
+                                <div class="info">
+                                    <div class="date">
+                                        <p class="info-date">Fecha: <span>15 Sep 2025</span></p>
+                                        <p class="info-time">Hora: <span>10:00 AM</span></p>
+                                    </div>
+                                </div>
+
+                                <div class="actions">
+                                    <button class="save">Guardar</button>
+                                    <button class="dismiss">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <article>
+                <h3>Historial</h3>
+                <div class="secciones-datos">
+                    <div class="datos-internos">
+                        <img th:src="@{img/vacuna.png}" alt="Vacuna" class="icono-grande">
+                        <p>Vacunaci&oacute;n</p>
+                    </div>
+                    <div class="datos-internos">
+                        <img th:src="@{img/laboratorios.png}" alt="Chequeo" class="icono-grande">
+                        <p>Chequeo general</p>
+                    </div>
+                </div>
+            </article>
+
+            <article class="credencial">
+                <img th:src="@{img/credecial.png}" alt="VetConnect" id="logo-credencial">
+                <span id="span-credencial">Mi Credencial</span>
+                <img th:src="@{img/editar.png}" alt="Editar" id="icono-editar">
+            </article>
+        </section>
+        <br>
+
+        <section class = "cajas2">
+            <article class="recomendaciones-card" >
+                <h3>Consejos para tu mascota</h3>
+                <div  id="recomendaciones-container">
+                    <ul id="recomendaciones-list" th:if="${recomendaciones}">
+                        <li th:each="rec : ${recomendaciones}" th:text="${rec}" class="recomendacion-item"></li>
+                    </ul>
+                </div>
+            </article>
+            <br>
+            <br>
+            <article >
+                <h3>&iexcl;Conoce nuestras sucursales!</h3>
+                <div id="mi_mapa" ></div>
+            </article>
+        </section>
+    </main>
+</div>
+
+
+<!-- Footer -->
+<footer>
+    <div>
+        <h6>Integrantes:</h6>
+        <h6>Diego Contreras</h6>
+        <h6>Nicolas Pozzo</h6>
+        <h6>Mauricio Medina</h6>
+        <h6>Joaquin A. Diaz</h6>
+    </div>
+    <div>
+        <h6>Fundaci&oacute;n Futuro - 2025</h6>
+        <h6>Taller Web I - Universidad Nacional de La Matanza</h6>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/agenda.js}"></script>
+<script type="text/javascript" th:src="@{/js/recomendaciones.js}"></script>
+
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+<script type="text/javascript" th:src="@{/js/mapa.js}"></script>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil - VetConnect</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}" />
+
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" th:href="@{/css/estilo2.css}" />
+</head>
+<body>
+
+<!-- ====== NAVBAR ====== -->
+<nav class="navbar navbar-expand-md navbar-dark fixed-top shadow" style="background: linear-gradient(90deg, #2e7d32, #43a047);">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" th:href="@{/inicio}">VetConnect</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/inicio}">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/home}">Salir</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- ====== CONTENIDO PRINCIPAL ====== -->
+<main class="main-body" style="margin-top: 100px;">
+    <h2 class="mb-4 text-success">Tu Perfil</h2>
+
+    <div class="card p-4 shadow-sm" style="max-width: 500px;">
+        <p><strong>Nombre:</strong> <span th:text="${usuario.nombre}">Juan</span></p>
+        <p><strong>Apellido:</strong> <span th:text="${usuario.apellido}">Pérez</span></p>
+        <p><strong>Correo:</strong> <span th:text="${usuario.email}">correo@ejemplo.com</span></p>
+        <p><strong>Teléfono:</strong> <span th:text="${usuario.telefono}">123456789</span></p>
+    </div>
+
+    <div class="mt-4">
+        <a class="btn btn-success" th:href="@{/editar-perfil}">Editar Perfil</a>
+    </div>
+</main>
+
+<!-- ====== FOOTER ====== -->
+<footer class="mt-auto text-white text-center py-4" style="background-color: #2e7d32;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h6>Integrantes:</h6>
+                <p>Diego Contreras | Nicolas Pozzo | Mauricio Medina | Joaquin A. Diaz</p>
+            </div>
+            <div class="col-md-6">
+                <h6>Fundaci&oacute;n Futuro - 2025</h6>
+                <h6>Taller Web I - Universidad Nacional de La Matanza</h6>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+</html>
