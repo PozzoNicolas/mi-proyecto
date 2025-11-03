@@ -1,18 +1,25 @@
 package com.tallerwebi.dominio;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@EnableScheduling
 public class ServicioTurnosImpl implements ServicioTurnos {
     
     private final ServicioVeterinaria servicioVeterinaria;
+    private final RepositorioTurnos repositorioTurnos;
+    private final ServicioMail servicioMail;
 
     @Autowired
-    public ServicioTurnosImpl(ServicioVeterinaria servicioVeterinaria) {
-        this.servicioVeterinaria = servicioVeterinaria; 
+    public ServicioTurnosImpl(ServicioVeterinaria servicioVeterinaria, RepositorioTurnos repositorioTurnos, ServicioMail servicioMail) {
+        this.servicioVeterinaria = servicioVeterinaria;
+        this.repositorioTurnos = repositorioTurnos;
+        this.servicioMail = servicioMail;
     }
 
     @Override
@@ -33,8 +40,10 @@ public class ServicioTurnosImpl implements ServicioTurnos {
 
     @Override
     public void guardarTurno(Usuario usuario, Turno turno) {
-        turno.setUsuario(usuario);
+
         usuario.agregarTurno(turno);
+        turno.setUsuario(usuario);
+        repositorioTurnos.guardar(turno);
     }
 
 
@@ -51,6 +60,17 @@ public class ServicioTurnosImpl implements ServicioTurnos {
                 turno.setHorario(partes[0]);
                 turno.setProfesional(partes[1]);
             }
+        }
+    }
+
+    @Scheduled(cron = "0 30 17 * * *")
+    @Override
+    public void envioReportesTurnosProximos() {
+        System.out.println("Executing fixed rate method...");
+        List<Turno> turnosAEnviar =  repositorioTurnos.obtenerTurnosProximos();
+        for (Turno turno : turnosAEnviar) {
+            servicioMail.enviarRecordatorioProximoTurno(turno);
+
         }
     }
 }

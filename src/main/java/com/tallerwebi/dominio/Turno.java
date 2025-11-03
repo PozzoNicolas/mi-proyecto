@@ -3,6 +3,8 @@ package com.tallerwebi.dominio;
 import com.tallerwebi.dominio.enums.Especialidad;
 import com.tallerwebi.dominio.enums.Practica;
 
+import javax.persistence.*;
+import javax.transaction.Transactional;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
+@Transactional
 public class Turno {
 
     @Id
@@ -23,6 +26,7 @@ public class Turno {
     private String fecha;
     private String horario;
     private String profesional;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
@@ -32,14 +36,24 @@ public class Turno {
     //Campo temporal para form en resultado-turnos.
     private String seleccion;
 
-    public Turno() {}
 
-    public Turno(Especialidad especialidad, Practica practica, Integer veterinaria, String fecha, String horario) {
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Turno() {
+    }
+
+    public Turno(Especialidad especialidad, Practica practica, Integer veterinaria, String fecha, String horario ) {
         this.especialidad = especialidad;
         this.practica = practica;
         this.veterinaria = veterinaria; 
         this.fecha = fecha;
-        this.horario = horario; 
+        this.horario = horario;
     }
 
     public Long getId() {return this.id;}
@@ -59,7 +73,5 @@ public class Turno {
     public void setProfesional(String profesional) {this.profesional = profesional;}
     public void setSeleccion(String n) {this.seleccion = n;}
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
+
 }
