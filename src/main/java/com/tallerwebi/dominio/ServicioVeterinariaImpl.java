@@ -11,12 +11,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class ServicioVeterinariaImpl implements ServicioVeterinaria {
 
-    private final Map<Integer, Veterinaria> storage = new LinkedHashMap<>();  
+    private final Map<Long, Veterinaria> storage = new LinkedHashMap<>();
 
     @Autowired
     public ServicioVeterinariaImpl(ServicioProfesional servicioProfesional) {
-        Veterinaria v1 = new Veterinaria(1,"VetUno","Rivadavia 9128");
-        Veterinaria v2 = new Veterinaria(2, "Vete Dos", "Juan b. Justo"); 
+        Veterinaria v1 = new Veterinaria("VetUno","Rivadavia 9128");
+        v1.setId(1L);
+        Veterinaria v2 = new Veterinaria("Vete Dos", "Juan b. Justo");
+        v2.setId(2L);
 
         //Profesionales En horarios hardcodeados para podes sacar turos: 
         v1.agregarProfesionalEnHorario("10:00", servicioProfesional.buscarPorDni(111));
@@ -36,7 +38,7 @@ public class ServicioVeterinariaImpl implements ServicioVeterinaria {
     }
 
     @Override
-    public Veterinaria buscarPorId(Integer id) {
+    public Veterinaria buscarPorId(Long id) {
         Veterinaria v = storage.get(id);
         if (v == null) {
             v = new Veterinaria();

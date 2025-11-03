@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.tallerwebi.dominio.*;
 import com.tallerwebi.infraestructura.RepositorioTurnosImpl;
@@ -29,8 +30,9 @@ public class ServicioTurnoTest {
     @BeforeEach
     public void setUp() {
         this.respositorioTurnos = mock(RepositorioTurnosImpl.class);
-        this.servicioProfesional = new ServicioProfesionalImpl();
-        this.servicioVeterinaria = new ServicioVeterinariaImpl(servicioProfesional);
+        this.servicioProfesional = mock(ServicioProfesionalImpl.class);
+        this.servicioVeterinaria = mock(ServicioVeterinariaImpl.class);
+        this.servicioMail = mock(ServicioMail.class);
         this.servicioTurnos = new ServicioTurnosImpl(servicioVeterinaria, respositorioTurnos, servicioMail);
     }
 
@@ -76,16 +78,24 @@ public class ServicioTurnoTest {
 
     @Test
     public void queAlHacerUnaBusquedaConUnaVeterinariaEspecificaLaMismaSeRetorne() {
-        Turno turno = new Turno(); 
-        turno.setVeterinaria(1);
-        Veterinaria v = servicioTurnos.obtenerVeterinariaPorTurno(turno);
-        assertEquals(servicioVeterinaria.buscarPorId(1), v);
+        Turno turno = new Turno();
+        turno.setVeterinaria(1L);
+
+        Veterinaria veterinariaEsperada = new Veterinaria("Vet Uno", "Calle 123");
+        veterinariaEsperada.setId(1L);
+
+        when(servicioVeterinaria.buscarPorId(1L))
+                .thenReturn(veterinariaEsperada);
+
+        Veterinaria veterinariaObtenida = servicioTurnos.obtenerVeterinariaPorTurno(turno);
+
+        assertEquals(veterinariaEsperada, veterinariaObtenida);
     }
 
     @Test
     public void queAlHacerUnaBusquedaSinUnaVeterinariaEspecificaObtengaUnObjetoVeterinariaVacio() {
         Turno turno = new Turno(); 
-        turno.setVeterinaria(0);
+        turno.setVeterinaria(0L);
         Veterinaria v = servicioTurnos.obtenerVeterinariaPorTurno(turno);
 
         assertNotNull(v);

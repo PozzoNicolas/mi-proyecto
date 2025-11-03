@@ -36,7 +36,7 @@ public class ServicioVeterinariaTest {
 
     @Test
     public void queAlBuscarUnaVeterinariaPorIdExistenteObtengaLaVeterinariaIndicada() {
-        Veterinaria v = servicioVeterinaria.buscarPorId(1);
+        Veterinaria v = servicioVeterinaria.buscarPorId(1L);
         assertNotNull(v);
         assertEquals("VetUno", v.getNombre());
         assertEquals("Rivadavia 9128", v.getDireccion());
@@ -44,7 +44,7 @@ public class ServicioVeterinariaTest {
 
     @Test
     public void queAlBuscarUnaVeterinariaPorUnIdNoRegistradoObtengaUnaVeterinariaVacia() {
-        Veterinaria v = servicioVeterinaria.buscarPorId(999);
+        Veterinaria v = servicioVeterinaria.buscarPorId(999L);
         assertNotNull(v);
         assertNull(v.getNombre());
         assertNull(v.getDireccion());

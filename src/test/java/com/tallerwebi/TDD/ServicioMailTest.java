@@ -41,19 +41,19 @@ class ServicioMailTest {
         turno.setFecha("10/10/2025");
         turno.setHorario("10:00");
         turno.setProfesional("Dr. López");
-        turno.setVeterinaria(1);
+        turno.setVeterinaria(1L);
 
         // assign id automatically and set back-reference
         usuario.agregarTurno(turno);
 
         // Crear Veterinaria mock
         Veterinaria vet = new Veterinaria();
-        vet.setId(1);
+        vet.setId(1L);
         vet.setNombre("VetUno");
         vet.setDireccion("Calle Falsa 123");
 
         // Configurar el mock ANTES de llamar al servicio
-        when(servicioVeterinaria.buscarPorId(1)).thenReturn(vet);
+        when(servicioVeterinaria.buscarPorId(1L)).thenReturn(vet);
 
         // Ejecutar
         servicioMail.enviarConfirmacionDeTurno(usuario, turno.getId(), "juan@email.com");
@@ -66,7 +66,7 @@ class ServicioMailTest {
     void enviarCancelacionDeTurno_deberiaEnviarMail() {
         // Crear Veterinaria mock
         Veterinaria vet = new Veterinaria();
-        vet.setId(1);
+        vet.setId(1L);
         vet.setNombre("VetUno");
         vet.setDireccion("Calle Falsa 123");
 
@@ -79,13 +79,13 @@ class ServicioMailTest {
         turno.setFecha("12/10/2025");
         turno.setHorario("15:00");
         turno.setProfesional("Dra. Gómez");
-        turno.setVeterinaria(1);
+        turno.setVeterinaria(1L);
 
         // Agregar turno (assigns a proper ID)
         usuario.agregarTurno(turno);
 
         // Configurar mock ANTES de llamar al servicio
-        when(servicioVeterinaria.buscarPorId(1)).thenReturn(vet);
+        when(servicioVeterinaria.buscarPorId(1L)).thenReturn(vet);
 
         // Ejecutar con ID real del turno
         servicioMail.enviarCancelacionDeTurno(usuario, turno.getId(), "ana@email.com");

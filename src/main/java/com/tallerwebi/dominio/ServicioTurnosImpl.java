@@ -53,7 +53,7 @@ public class ServicioTurnosImpl implements ServicioTurnos {
             String[] partes = turno.getSeleccion().split("\\|\\|");
 
             if (partes.length == 3) { // Caso "Indiferente"
-                turno.setVeterinaria(Integer.parseInt(partes[0]));
+                turno.setVeterinaria(Long.parseLong(partes[0]));
                 turno.setHorario(partes[1]);
                 turno.setProfesional(partes[2]);
             } else if (partes.length == 2) { // Veterinaria específica

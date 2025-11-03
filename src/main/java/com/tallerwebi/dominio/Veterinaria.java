@@ -1,27 +1,31 @@
 package com.tallerwebi.dominio;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Entity
 public class Veterinaria {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String nombre;
+    private String direccion;
 
-    private String nombre; 
-    private Integer id; 
-    private String direccion; 
+    @Transient
     private Map<String, List<Profesional>> profesionalesEnHorario = new HashMap<>(); ;
 
     public Veterinaria() {}
 
-    public Veterinaria(Integer id, String nombre, String direccion) {
-        this.nombre = nombre; 
-        this.id = id; 
+    public Veterinaria(String nombre, String direccion) {
+        this.nombre = nombre;
         this.direccion = direccion;
         this.profesionalesEnHorario = new HashMap<>(); 
     }
 
-    public Integer getId() {
+    public Long getId() {
         return this.id; 
     }
 
@@ -41,7 +45,7 @@ public class Veterinaria {
         return profesionalesEnHorario;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -55,5 +59,15 @@ public class Veterinaria {
 
     public void agregarProfesionalEnHorario(String horario, Profesional profesional) {
         profesionalesEnHorario.computeIfAbsent(horario, h -> new ArrayList<>()).add(profesional); 
+    }
+
+    @Override
+    public String toString() {
+        return "Veterinaria{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", direccion='" + direccion + '\'' +
+                ", profesionalesEnHorario=" + profesionalesEnHorario +
+                '}';
     }
 }

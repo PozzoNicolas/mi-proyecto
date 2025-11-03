@@ -100,8 +100,8 @@ public class ServicioUsuarioTest {
     @Test
     public void dadoUnUsuarioConTurnosRegistradosPuedoCancelarUno() {
         Usuario usuario = new Usuario("Joauquin", "Diaz", "joaquindiazantunez02@gmail.com","1131522182");
-        Turno t1 = new Turno(Especialidad.CONTROL, Practica.CONTROL_1, 1,"2025-05-14","10:00");
-        Turno t2 = new Turno(Especialidad.ESTUDIO, Practica.ESTUDIO_2, 1,"2025-05-15","10:30");
+        Turno t1 = new Turno(Especialidad.CONTROL, Practica.CONTROL_1, 1L,"2025-05-14","10:00");
+        Turno t2 = new Turno(Especialidad.ESTUDIO, Practica.ESTUDIO_2, 1L,"2025-05-15","10:30");
 
         usuario.agregarTurno(t1);
         usuario.agregarTurno(t2);
@@ -120,8 +120,8 @@ public class ServicioUsuarioTest {
     @Test
     public void dadoUnUsuarioConTurnosSiBuscoUnoRegistradoPorIdLoObtengo() {
         Usuario usuario = new Usuario("Joauquin", "Diaz", "joaquindiazantunez02@gmail.com","1131522182");
-        Turno t1 = new Turno(Especialidad.CONTROL, Practica.CONTROL_1, 1,"2025-05-14","10:00");
-        Turno t2 = new Turno(Especialidad.ESTUDIO, Practica.ESTUDIO_2, 1,"2025-05-15","10:30");
+        Turno t1 = new Turno(Especialidad.CONTROL, Practica.CONTROL_1, 1L,"2025-05-14","10:00");
+        Turno t2 = new Turno(Especialidad.ESTUDIO, Practica.ESTUDIO_2, 1L,"2025-05-15","10:30");
 
         usuario.agregarTurno(t1);
         usuario.agregarTurno(t2);
