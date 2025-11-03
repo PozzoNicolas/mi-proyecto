@@ -1,8 +1,10 @@
 package com.tallerwebi.dominio;
 
 import javax.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Usuario {
@@ -21,14 +23,17 @@ public class Usuario {
     Es una relación de 1:N donde un cliente puede tener muchas mascotas.*/
     @OneToMany(mappedBy = "duenio", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Mascota> mascotas = new ArrayList<Mascota>();
-    @Transient
-    private List<Turno> turnos = new ArrayList<Turno>();
+    // Si uso EAGER para turnos, se rompe todo. 
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Turno> turnos = new ArrayList<>();
+
 
     public Usuario(String nombre, String apellido, String email, String telefono) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
         this.telefono = telefono;
+        this.turnos = new ArrayList<>();
     }
 
     public Usuario() {
@@ -101,20 +106,31 @@ public class Usuario {
     }
 
     public void agregarTurno(Turno turno) {
-        turnos.add(turno);
+        turno.setUsuario(this); // link turno to this user
+        this.turnos.add(turno);
     }
 
-    public boolean cancelarTurno(Integer idTurno) {
-        if(turnos.removeIf(turno -> turno.getId() == idTurno)) {
-            return true;
-        } else throw new IllegalArgumentException("Turno no encontrado o no eliminado");
+    public boolean cancelarTurno(Long idTurno) {
+        // fail fast: test expects an exception when there are no turnos at all
+        if (this.turnos.isEmpty()) {
+            throw new IllegalArgumentException("El usuario no tiene turnos registrados");
+        }
+
+        // avoid NPEs by using Objects.equals which is null-safe
+        boolean removed = this.turnos.removeIf(t -> Objects.equals(t.getId(), idTurno));
+
+        if (!removed) {
+            // If there were turnos but none matched -> test might expect exception
+            throw new IllegalArgumentException("Turno no encontrado");
+        }
+
+        return true;
     }
 
-    public Turno getTurnoPorId(Integer turnoId) {
-        Turno turno = this.getTurnos().stream()
-                .filter(t -> t.getId().equals(turnoId))
+    public Turno getTurnoPorId(Long turnoId) {
+        return this.getTurnos().stream()
+                .filter(t -> Objects.equals(t.getId(), turnoId))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Turno no encontrado"));
-        return turno;
     }
 }
