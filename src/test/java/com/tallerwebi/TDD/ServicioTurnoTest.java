@@ -5,9 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 
 import com.tallerwebi.dominio.*;
 import com.tallerwebi.infraestructura.RepositorioTurnosImpl;
+import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,10 +28,12 @@ public class ServicioTurnoTest {
 
     @BeforeEach
     public void setUp() {
+        this.respositorioTurnos = mock(RepositorioTurnosImpl.class);
         this.servicioProfesional = new ServicioProfesionalImpl();
         this.servicioVeterinaria = new ServicioVeterinariaImpl(servicioProfesional);
         this.servicioTurnos = new ServicioTurnosImpl(servicioVeterinaria, respositorioTurnos, servicioMail);
     }
+
 
     @Test
     public void devolverTrueCuandoLaBusquedaDeUnTurnoSeaValida() {
@@ -90,10 +94,10 @@ public class ServicioTurnoTest {
         assertTrue(v.getProfesionalesEnHorario() == null || v.getProfesionalesEnHorario().isEmpty());
     }
 
-    /*
+
     @Test
     public void queElServicioSeaCapazDeGuardarElTurnoEnUnUsuarioDado() {
-        Usuario usuario = new Usuario();
+        Usuario usuario = new Usuario("Nicolas", "Pozzo","nico@gmail.com","1155225522");
 
         Turno turno = new Turno();
         turno.setHorario("10:00");
@@ -102,7 +106,7 @@ public class ServicioTurnoTest {
 
         assertEquals(1, usuario.getTurnos().size());
         assertEquals("10:00", usuario.getTurnos().get(0).getHorario());
-    }*/
+    }
 
     @Test
     public void queElServicioSeaCapazDeProcesarSeleccionConTresPartes() {
