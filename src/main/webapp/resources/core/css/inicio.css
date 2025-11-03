@@ -25,6 +25,11 @@ body {
     z-index: 1000;
 }
 
+h6 {
+    color: white;
+    font-family: 'Roboto', sans-serif
+}
+
 .navbar {
     display: flex;
     flex-direction: row;

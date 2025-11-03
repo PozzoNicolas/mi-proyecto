@@ -27,8 +27,7 @@
 <!-- Header -->
 <header class="header">
     <div class="header-section">
-        <!--/*@thymesVar id="nombreUsuario" type=""*/-->
-        
+        <span th:text="${mensajeBienvenida}"></span>
         <div class="header-right">
             <i class="bi bi-bell"></i>
             <a class="span-opciones-header" data-bs-toggle="offcanvas" href="#offcanvasNotificaciones" role="button" aria-controls="offcanvasNotificaciones">
@@ -110,6 +109,8 @@
 
                     cartel.textContent = `Hoy es ${fechaFormateada.charAt(0).toUpperCase() + fechaFormateada.slice(1)}`;
                 }
+
+                window.addEventListener('DOMContentLoaded', mostrarFechaActual);
 
             </script>
             <!-- Modal de Agenda -->

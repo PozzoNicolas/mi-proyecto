@@ -18,20 +18,6 @@ import java.util.ArrayList;
 @Controller
 public class ControladorInicio {
 
-    @GetMapping
-    public ModelAndView irAlInicio(HttpSession session){
-        Usuario usuarioActual =  (Usuario)session.getAttribute("usuarioActual");
-        ModelMap modelo = new ModelMap();
-
-        if (usuarioActual == null){
-            return new ModelAndView("redirect:/login");
-        }
-         modelo.put("usuarioActual", usuarioActual);
-        modelo.put("nombre",  usuarioActual.getNombre());
-
-        return new ModelAndView("inicio", modelo);
-    }
-
     private final ServicioUsuario servicioUsuario;
     private final ServicioRecomendaciones servicioRecomendaciones;
 
@@ -42,13 +28,25 @@ public class ControladorInicio {
     }
 
     @GetMapping("/inicio")
-    public String inicio(Model modelo, HttpSession session) {
+    public ModelAndView irAlInicio(HttpSession session) {
         Usuario usuarioActual = (Usuario) session.getAttribute("usuarioActual");
+        ModelMap modelo = new ModelMap();
+
         if (usuarioActual == null) {
-            return "redirect:/inicio";
+            return new ModelAndView("redirect:/login");
         }
-        modelo.addAttribute("turnos", new ArrayList<>(usuarioActual.getTurnos()));
-        modelo.addAttribute("recomendaciones", servicioRecomendaciones.generarRecomendaciones(usuarioActual));
-        return "inicio"; // Thymeleaf busca /WEB-INF/views/thymeleaf/inicio.html
+
+        Usuario usuarioConTurnos = servicioUsuario.buscarUsuarioPorIdConTurnos(usuarioActual.getId());
+
+        modelo.put("usuarioActual", usuarioActual);
+        modelo.put("nombre", usuarioActual.getNombre());
+        modelo.put("mensajeBienvenida", "&iexcl;Bienvenido " + usuarioActual.getNombre() + "!");
+
+        modelo.put("turnos", new ArrayList<>(usuarioConTurnos.getTurnos()));
+        
+        modelo.put("recomendaciones", servicioRecomendaciones.generarRecomendaciones(usuarioActual));
+
+        return new ModelAndView("inicio", modelo);
     }
+
 }

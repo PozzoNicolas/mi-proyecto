@@ -76,15 +76,15 @@ public class Cliente {
 
     public void agregarTurno(Turno turno) {
         turnos.add(turno);
-    }
-
-    public boolean cancelarTurno(Integer idTurno) {
+    }    
+    
+    public boolean cancelarTurno(Long idTurno) {
         if(turnos.removeIf(turno -> turno.getId() == idTurno)) {
             return true;
         } else throw new IllegalArgumentException("Turno no encontrado o no eliminado");
     }
 
-    public Turno getTurnoPorId(Integer turnoId) {
+    public Turno getTurnoPorId(Long turnoId) {
         Turno turno = this.getTurnos().stream()
                 .filter(t -> t.getId().equals(turnoId))
                 .findFirst()
