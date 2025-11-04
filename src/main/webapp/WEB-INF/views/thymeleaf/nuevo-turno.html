@@ -54,7 +54,7 @@
     </div>
 
       <label for="lugar">Lugar:</label>
-      <select id="lugar" th:field="*{veterinaria}">
+      <select id="lugar" th:field="*{idVeterinariaBusqueda}">
         <option value="0">-- Indiferente --</option>
         <option th:each="vet : ${veterinarias}" 
                 th:value="${vet.id}" 

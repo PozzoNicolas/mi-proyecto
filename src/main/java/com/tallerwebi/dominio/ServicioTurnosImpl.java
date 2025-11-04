@@ -45,7 +45,7 @@ public class ServicioTurnosImpl implements ServicioTurnos {
 
     @Override
     public Veterinaria obtenerVeterinariaPorTurno(Turno turno) {
-        Veterinaria v = turno.getVeterinaria();
+        Veterinaria v = repositorioVeterinaria.buscarPorId((long) turno.getIdVeterinariaBusqueda());
         return (v != null) ? v : new Veterinaria();
     }
 

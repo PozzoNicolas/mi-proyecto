@@ -101,16 +101,16 @@ public class ServicioTurnoTest {
     }
 
     @Test
-    public void queAlHacerUnaBusquedaConUnaVeterinariaEspecificaLaMismaSeRetorne() {
+    public void queAlHacerUnaBusquedaParaUnaVeterinariaElTurnoTransformeElIdDeBusquedaEnLaVeterinariaEsperada() {
 
         Veterinaria veterinariaEsperada = new Veterinaria("Vet Uno", "Calle 123");
         veterinariaEsperada.setId(1L);
 
         Turno turno = new Turno();
-        turno.setVeterinaria(veterinariaEsperada);
+        turno.setIdVeterinariaBusqueda(1);
 
-        when(servicioVeterinaria.buscarPorId(1L))
-                .thenReturn(veterinariaEsperada);
+        when(repositorioVeterinaria.buscarPorId(1L))
+            .thenReturn(veterinariaEsperada);
 
         Veterinaria veterinariaObtenida = servicioTurnos.obtenerVeterinariaPorTurno(turno);
 

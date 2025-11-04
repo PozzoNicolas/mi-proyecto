@@ -49,6 +49,10 @@ public class Veterinaria {
         this.id = id;
     }
 
+    public void setProfesionalesEnHorario(Map<String, List<Profesional>> profesionalesEnHorario) {
+        this.profesionalesEnHorario = profesionalesEnHorario; 
+    }
+
     public void setNombre(String nombre) {
         this.nombre = nombre; 
     }

@@ -42,6 +42,8 @@ public class Turno {
     @Transient
     private String seleccion;
 
+    @Transient
+    private int id_veterinaria_Busqueda;
 
     public Usuario getUsuario() {
         return usuario;
@@ -72,6 +74,7 @@ public class Turno {
     public LocalTime getHorario() {return this.horario;}
     public Profesional getProfesional() {return this.profesional;}
     public String getSeleccion() {return this.seleccion;}
+    public int getIdVeterinariaBusqueda() {return this.id_veterinaria_Busqueda;}
 
     public void setId(Long id) {
         this.id = id;
@@ -84,6 +87,6 @@ public class Turno {
     public void setHorario(LocalTime horario) {this.horario = horario;}
     public void setProfesional(Profesional profesional) {this.profesional = profesional;}
     public void setSeleccion(String n) {this.seleccion = n;}
-
+    public void setIdVeterinariaBusqueda(int n) {this.id_veterinaria_Busqueda = n;}
 
 }

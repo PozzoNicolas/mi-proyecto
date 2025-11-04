@@ -1,5 +1,9 @@
 package com.tallerwebi.presentacion;
 
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -19,13 +23,15 @@ public class ControladorResultadosTurnos {
     public final ServicioUsuario servicioUsuario;
     public final ServicioTurnos servicioTurno;
     private final ServicioMail servicioMail;
+    private final ServicioVPH servicioVPH;
 
     @Autowired
-    public ControladorResultadosTurnos(ServicioVeterinaria servicioVeterinaria, ServicioUsuario servicioUsuario, ServicioTurnos servicioTurnos, ServicioMail servicioMail) {
+    public ControladorResultadosTurnos(ServicioVeterinaria servicioVeterinaria, ServicioUsuario servicioUsuario, ServicioTurnos servicioTurnos, ServicioMail servicioMail, ServicioVPH servicioVPH) {
         this.servicioVeterinaria = servicioVeterinaria;
         this.servicioUsuario = servicioUsuario;
         this.servicioTurno = servicioTurnos; 
         this.servicioMail = servicioMail;
+        this.servicioVPH = servicioVPH; 
     }
 
     @GetMapping("/resultado-turno")
@@ -41,46 +47,80 @@ public class ControladorResultadosTurnos {
     public ModelAndView seleccionarDia(@ModelAttribute("turno") Turno turno) {
         ModelMap modelo = new ModelMap();
 
+        // Caso "Indiferente": mostrar todas las veterinarias
         if (turno.getVeterinaria() == null || turno.getVeterinaria().getNombre() == null) {
-            modelo.addAttribute("veterinarias", servicioTurno.listarVeterinariasIndiferente());
+
+            List<Veterinaria> todas = servicioVeterinaria.listarVeterinarias();
+
+            for (Veterinaria vet : todas) {
+                List<VeterinariaProfesionalHorario> vphList =
+                    servicioVPH.obtenerProfesionalesDeVeterinaria(vet.getId());
+
+                Map<String, List<Profesional>> mapa = vphList.stream()
+                        .collect(Collectors.groupingBy(
+                                vph -> vph.getHorario().toString(),
+                                Collectors.mapping(VeterinariaProfesionalHorario::getProfesional, Collectors.toList())
+                        ));
+
+                vet.setProfesionalesEnHorario(mapa);
+            }
+
+            modelo.put("veterinarias", todas);
+
         } else {
-            modelo.addAttribute("veterinaria", servicioTurno.obtenerVeterinariaPorTurno(turno));
+            // Caso veterinaria específica
+            Veterinaria vet = servicioTurno.obtenerVeterinariaPorTurno(turno);
+
+            List<VeterinariaProfesionalHorario> vphList =
+                    servicioVPH.obtenerProfesionalesDeVeterinaria(vet.getId());
+
+            Map<String, List<Profesional>> mapa = vphList.stream()
+                    .collect(Collectors.groupingBy(
+                            vph -> vph.getHorario().toString(),
+                            Collectors.mapping(VeterinariaProfesionalHorario::getProfesional, Collectors.toList())
+                    ));
+
+            vet.setProfesionalesEnHorario(mapa);
+
+            modelo.put("veterinaria", vet);
         }
 
-        modelo.addAttribute("turno", turno);
+        modelo.put("turno", turno);
         return new ModelAndView("resultado-turno", modelo);
     }
 
-@PostMapping("/seleccionar-horario-profesional")
-public String seleccionarHorarioProfesional(@ModelAttribute("turno") Turno turno,
-                                           ModelMap modelo,
-                                           HttpServletRequest request,
-                                           HttpSession session) {
 
-    // 1️⃣ Process the selection
-    servicioTurno.procesarSeleccion(turno);
+    @PostMapping("/seleccionar-horario-profesional")
+    public String seleccionarHorarioProfesional(@ModelAttribute("turno") Turno turno,
+                                            ModelMap modelo,
+                                            HttpServletRequest request,
+                                            HttpSession session) {
 
-    // 2️⃣ Fetch managed Usuario from DB with turnos initialized
-    Usuario usuarioActual = (Usuario) session.getAttribute("usuarioActual");
-    Usuario usuarioManaged = servicioUsuario.buscarUsuarioPorIdConTurnos(usuarioActual.getId());
+        // 1️⃣ Process selection (sets hora, vet, profesional)
+        servicioTurno.procesarSeleccion(turno);
 
-    // 3️⃣ Link Turno back to Usuario
-    turno.setUsuario(usuarioManaged);
+        // 2️⃣ Load user managed entity with turnos
+        Usuario usuarioActual = (Usuario) session.getAttribute("usuarioActual");
+        Usuario usuarioManaged = servicioUsuario.buscarUsuarioPorIdConTurnos(usuarioActual.getId());
 
-    // 4️⃣ Save the turno
-    servicioTurno.guardarTurno(usuarioManaged, turno);
+        // 3️⃣ Link turno to user
+        turno.setUsuario(usuarioManaged);
 
-    // 5️⃣ Update the session with the managed entity
-    session.setAttribute("usuarioActual", usuarioManaged);
+        // 4️⃣ Save turn
+        servicioTurno.guardarTurno(usuarioManaged, turno);
 
-    // 6️⃣ Add to model
-    modelo.addAttribute("usuario", usuarioManaged);
+        // 5️⃣ Update session
+        session.setAttribute("usuarioActual", usuarioManaged);
 
-    // 7️⃣ Send confirmation email
-    String emailPorLogin = (String) request.getSession().getAttribute("EMAIL");
-    servicioMail.enviarConfirmacionDeTurno(usuarioManaged, turno.getId(), emailPorLogin);
+        // 6️⃣ Add to model
+        modelo.addAttribute("usuario", usuarioManaged);
 
-    return "redirect:/turnos";
-}
+        // 7️⃣ Email confirmation
+        String emailPorLogin = (String) request.getSession().getAttribute("EMAIL");
+        servicioMail.enviarConfirmacionDeTurno(usuarioManaged, turno.getId(), emailPorLogin);
+
+        return "redirect:/turnos";
+    }
+
 
 }
