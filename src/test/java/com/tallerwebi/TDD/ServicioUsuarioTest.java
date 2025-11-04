@@ -11,7 +11,6 @@ import java.util.Collection;
 
 import com.tallerwebi.dominio.Usuario;
 import org.junit.jupiter.api.Test;
-import com.tallerwebi.dominio.ServicioUsuarioImpl;
 import com.tallerwebi.dominio.Turno;
 import com.tallerwebi.dominio.enums.Especialidad;
 import com.tallerwebi.dominio.enums.Practica;
