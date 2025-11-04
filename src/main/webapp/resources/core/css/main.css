@@ -45,6 +45,19 @@ h2 {
     max-width: 800px;
 }
 
+#login-box, #mascotas, #agregar-mascota, #perfil-contenedor {
+    display:flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    padding: 2.5rem 3rem;
+    max-width: 480px;
+    width: 100%;
+    margin: auto;
+    text-align: center;
+}
+
 /* Imagen principal */
 .main-img {
     max-width: 300px;
@@ -83,13 +96,15 @@ h2 {
 }
 
 /* === Botones === */
-.btn-success {
+
+#btn-success, #btn-login, .btn-agregar-mascota,.btn-registrarse, .btn-volver{
     background-color: #2e7d32;
     border: none;
     padding: 0.8rem 1.5rem;
     font-size: 1.1rem;
     border-radius: 30px;
     transition: all 0.3s ease;
+    color: white;
 }
 
 .btn-success:hover {
@@ -179,4 +194,3 @@ footer h6 {
     border-radius: 6px;
     cursor: pointer;
 }
-

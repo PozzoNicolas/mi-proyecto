@@ -9,7 +9,7 @@
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}" />
 
     <!-- Estilos personalizados -->
-    <link rel="stylesheet" th:href="@{/css/estilo2.css}" />
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
 </head>
 <body>
 
@@ -35,14 +35,14 @@
 </nav>
 
 <!-- ====== CONTENIDO PRINCIPAL ====== -->
-<main class="main-body" style="margin-top: 100px;">
+<main id = "perfil-contenedor" class="main-body" style="margin-top: 100px;">
     <h2 class="mb-4 text-success">Tu Perfil</h2>
 
     <div class="card p-4 shadow-sm" style="max-width: 500px;">
         <p><strong>Nombre:</strong> <span th:text="${usuario.nombre}">Juan</span></p>
         <p><strong>Apellido:</strong> <span th:text="${usuario.apellido}">Pérez</span></p>
         <p><strong>Correo:</strong> <span th:text="${usuario.email}">correo@ejemplo.com</span></p>
-        <p><strong>Teléfono:</strong> <span th:text="${usuario.telefono}">123456789</span></p>
+        <p><strong>Tel&eacute;fono:</strong> <span th:text="${usuario.telefono}">123456789</span></p>
     </div>
 
     <div class="mt-4">
@@ -56,7 +56,7 @@
         <div class="row">
             <div class="col-md-6">
                 <h6>Integrantes:</h6>
-                <p>Diego Contreras | Nicolas Pozzo | Mauricio Medina | Joaquin A. Diaz</p>
+                <p>Diego Contreras | Nicolas Pozzo |  Joaquin A. Diaz</p>
             </div>
             <div class="col-md-6">
                 <h6>Fundaci&oacute;n Futuro - 2025</h6>

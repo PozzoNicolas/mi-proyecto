@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Taller Web I</title>
+    <title>Ingresar</title>
 
     <!-- Boostrap core css -->
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
 
     <!-- custom style -->
-    <link rel="stylesheet" th:href="@{/css/estilo2.css}"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
 </head>
 
 <body>
@@ -28,7 +28,7 @@
 <main role="main" class="container">
 
     <div class = "container">
-        <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        <div id="login-box" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
             <form action="#" th:action="@{/validar-login}" method="POST" th:object="${datosLogin}">
 
                 <h3 class="form-signin-heading"> VetConnect </h3>
@@ -44,7 +44,7 @@
                 <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}">
                 </p>
             </form>
-            <a id="btn-succes" href="nuevo-usuario.html">Registrarme</a>
+            <a id="btn-success" href="nuevo-usuario.html">Registrarme</a>
         </div>
     </div>
 </main>
@@ -59,11 +59,10 @@
         <h6>Integrantes:</h6>
         <h6>Diego Contreras</h6>
         <h6>Nicolas Pozzo</h6>
-        <h6>Mauricio Medina</h6>
         <h6>Joaquin A. Diaz</h6>
     </div>
     <div>
-        <h6>Fundación Futuro - 2025</h6>
+        <h6>Fundaci&oacute;n Futuro - 2025</h6>
         <h6>Taller Web I - Universidad Nacional de La Matanza</h6>
     </div>
 </footer>
