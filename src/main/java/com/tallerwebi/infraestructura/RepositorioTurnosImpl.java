@@ -29,13 +29,24 @@ public class RepositorioTurnosImpl implements RepositorioTurnos {
     }
 
     @Override
+    public List<Turno> obtenerTurnosPorVeterinariaYFecha(Long vetId, LocalDate fecha) {
+        return sessionFactory.getCurrentSession()
+                .createQuery(
+                        "from Turno t where t.veterinaria.id = :vetId and t.fecha = :fecha",
+                        Turno.class)
+                .setParameter("vetId", vetId)
+                .setParameter("fecha", fecha)
+                .list();
+    }
+
+    @Override
     public List<Turno> obtenerTurnosProximos() {
-        Session session = this.sessionFactory.getCurrentSession();
-
-        String hoy = LocalDate.now().toString();
-        String limite = LocalDate.now().plusDays(5).toString();
-
-        return  session.createCriteria(Turno.class)
-                .add(Restrictions.between("fecha", hoy, limite)).list();
+        LocalDate hoy = LocalDate.now();
+        return sessionFactory.getCurrentSession()
+                .createQuery(
+                        "from Turno t where t.fecha >= :hoy order by t.fecha asc",
+                        Turno.class)
+                .setParameter("hoy", hoy)
+                .list();
     }
 }

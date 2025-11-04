@@ -21,6 +21,7 @@ public class Profesional {
         this.dni = dni; 
     }
 
+
     public String getNombre() {
         return this.nombre; 
     }
