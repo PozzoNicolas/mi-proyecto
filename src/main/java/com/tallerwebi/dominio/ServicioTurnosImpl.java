@@ -7,22 +7,30 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @EnableScheduling
 public class ServicioTurnosImpl implements ServicioTurnos {
-    
-    private final ServicioVeterinaria servicioVeterinaria;
-    private final RepositorioTurnos repositorioTurnos;
+
     private final ServicioMail servicioMail;
-    private final ServicioProfesional servicioProfesional;
+    private final RepositorioTurnos repositorioTurnos;
+    private final RepositorioVeterinaria repositorioVeterinaria;
+    private final RepositorioProfesional repositorioProfesional;
+    private final RepositorioVPH repositorioVPH;
 
     @Autowired
-    public ServicioTurnosImpl(ServicioVeterinaria servicioVeterinaria, RepositorioTurnos repositorioTurnos, ServicioMail servicioMail, ServicioProfesional servicioProfesional) {
-        this.servicioVeterinaria = servicioVeterinaria;
-        this.repositorioTurnos = repositorioTurnos;
+    public ServicioTurnosImpl(ServicioMail servicioMail,
+                              RepositorioTurnos repositorioTurnos,
+                              RepositorioVeterinaria repositorioVeterinaria,
+                              RepositorioProfesional repositorioProfesional,
+                              RepositorioVPH repositorioVPH
+    ) {
         this.servicioMail = servicioMail;
-        this.servicioProfesional = servicioProfesional;
+        this.repositorioTurnos = repositorioTurnos;
+        this.repositorioVeterinaria = repositorioVeterinaria;
+        this.repositorioProfesional = repositorioProfesional;
+        this.repositorioVPH = repositorioVPH;
     }
 
     @Override
@@ -32,7 +40,7 @@ public class ServicioTurnosImpl implements ServicioTurnos {
 
     @Override
     public List<Veterinaria> listarVeterinariasIndiferente() {
-        return servicioVeterinaria.listarVeterinarias();
+        return repositorioVeterinaria.listarVeterinarias();
     }
 
     @Override
@@ -63,9 +71,9 @@ public class ServicioTurnosImpl implements ServicioTurnos {
             String horario = partes[1];
             Integer idProfesional = Integer.parseInt(partes[2]);
 
-            turno.setVeterinaria(servicioVeterinaria.buscarPorId(idVet));
+            turno.setVeterinaria(repositorioVeterinaria.buscarPorId(idVet));
             turno.setHorario(LocalTime.parse(horario));
-            turno.setProfesional(servicioProfesional.buscarPorDni(idProfesional));
+            turno.setProfesional(repositorioProfesional.buscarPorDni(idProfesional));
         }
 
         // Caso 2 partes: horario || profesional
@@ -75,7 +83,7 @@ public class ServicioTurnosImpl implements ServicioTurnos {
             Integer idProfesional = Integer.parseInt(partes[1]);
 
             turno.setHorario(LocalTime.parse(horario));
-            turno.setProfesional(servicioProfesional.buscarPorDni(idProfesional));
+            turno.setProfesional(repositorioProfesional.buscarPorDni(idProfesional));
         }
     }
 
@@ -89,4 +97,32 @@ public class ServicioTurnosImpl implements ServicioTurnos {
 
         }
     }
+
+    @Override
+    public List<String> horariosDisponibles(Long idVet) {
+        return repositorioVPH.obtenerPorVeterinaria(idVet)
+                .stream()
+                .map(vph -> vph.getHorario().toString())
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Profesional> profesionalesPorVeterinariaYHorario(Long idVet, LocalTime horario) {
+        return repositorioVPH.obtenerPorVeterinariaYHorario(idVet, horario)
+                .stream()
+                .map(VeterinariaProfesionalHorario::getProfesional)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Profesional> profesionalesDisponibles(Long idVet, LocalTime horario) {
+        return repositorioVPH.obtenerPorVeterinariaYHorario(idVet, horario)
+                .stream()
+                .map(VeterinariaProfesionalHorario::getProfesional)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.time.LocalTime;
 import java.util.List;
 
 
@@ -26,11 +27,13 @@ public class RepositorioVPHImpl implements RepositorioVPH {
     }
 
     @Override
-    public List<VeterinariaProfesionalHorario> obtenerPorVeterinariaYHorario(Long idVeterinaria, String horario) {
+    public List<VeterinariaProfesionalHorario> obtenerPorVeterinariaYHorario(Long idVeterinaria, LocalTime horario) {
         return sessionFactory.getCurrentSession()
-                .createQuery("from VeterinariaProfesionalHorario vph where vph.veterinaria.id = :id and vph.horario = :h", VeterinariaProfesionalHorario.class)
+                .createQuery(
+                        "from VeterinariaProfesionalHorario vph where vph.veterinaria.id = :id and vph.horario = :h",
+                        VeterinariaProfesionalHorario.class)
                 .setParameter("id", idVeterinaria)
-                .setParameter("h", horario)
+                .setParameter("h", horario)  // ahora horario es LocalTime
                 .list();
     }
 

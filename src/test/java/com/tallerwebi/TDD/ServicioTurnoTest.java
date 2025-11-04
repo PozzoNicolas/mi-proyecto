@@ -5,8 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import com.tallerwebi.dominio.*;
 import com.tallerwebi.infraestructura.RepositorioTurnosImpl;
@@ -19,22 +18,46 @@ import java.util.List;
 
 import com.tallerwebi.dominio.enums.Especialidad;
 import com.tallerwebi.dominio.enums.Practica;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 public class ServicioTurnoTest {
-    
-    private ServicioProfesionalImpl servicioProfesional;
-    private ServicioVeterinariaImpl servicioVeterinaria;
+
     private ServicioTurnosImpl servicioTurnos;
-    private RepositorioTurnosImpl respositorioTurnos;
+
+    @Mock
+    private ServicioVeterinaria servicioVeterinaria;
+
+    @Mock
+    private ServicioProfesional servicioProfesional;
+
+    @Mock
+    private RepositorioTurnos repositorioTurnos;
+
+    @Mock
     private ServicioMail servicioMail;
 
+    @Mock
+    private RepositorioVeterinaria repositorioVeterinaria;
+
+    @Mock
+    private RepositorioProfesional repositorioProfesional;
+
+    @Mock
+    private RepositorioVPH repositorioVPH;
+
     @BeforeEach
-    public void setUp() {
-        this.respositorioTurnos = mock(RepositorioTurnosImpl.class);
-        this.servicioProfesional = mock(ServicioProfesionalImpl.class);
-        this.servicioVeterinaria = mock(ServicioVeterinariaImpl.class);
-        this.servicioMail = mock(ServicioMail.class);
-        this.servicioTurnos = new ServicioTurnosImpl(servicioVeterinaria, respositorioTurnos, servicioMail, servicioProfesional);
+    void setUp() {
+        MockitoAnnotations.openMocks(this); // inicializa todos los @Mock
+        servicioTurnos = new ServicioTurnosImpl(
+                servicioMail,
+                repositorioTurnos,
+                repositorioVeterinaria,
+                repositorioProfesional,
+                repositorioVPH
+        );
     }
 
 
@@ -111,7 +134,6 @@ public class ServicioTurnoTest {
     @Test
     public void queElServicioSeaCapazDeGuardarElTurnoEnUnUsuarioDado() {
         Usuario usuario = new Usuario("Nicolas", "Pozzo","nico@gmail.com","1155225522");
-
         Turno turno = new Turno();
         turno.setHorario(LocalTime.parse("10:00"));
 
@@ -119,6 +141,7 @@ public class ServicioTurnoTest {
 
         assertEquals(1, usuario.getTurnos().size());
         assertEquals(LocalTime.parse("10:00"), usuario.getTurnos().get(0).getHorario());
+        verify(repositorioTurnos).guardar(turno); // comprueba que se llamó al repositorio
     }
 
     @Test
@@ -132,8 +155,8 @@ public class ServicioTurnoTest {
         Profesional prof = new Profesional();
         prof.setDni(222);
 
-        when(servicioVeterinaria.buscarPorId(1L)).thenReturn(vet);
-        when(servicioProfesional.buscarPorDni(222)).thenReturn(prof);
+        when(repositorioVeterinaria.buscarPorId(1L)).thenReturn(vet);
+        when(repositorioProfesional.buscarPorDni(222)).thenReturn(prof);
 
         servicioTurnos.procesarSeleccion(turno);
 
