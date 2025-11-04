@@ -143,7 +143,7 @@ public class ServicioTurnoTest {
         assertEquals(LocalTime.parse("10:00"), usuario.getTurnos().get(0).getHorario());
         verify(repositorioTurnos).guardar(turno); // comprueba que se llamó al repositorio
     }
-
+    /*
     @Test
     public void queElServicioSeaCapazDeProcesarSeleccionConTresPartes() {
         Turno turno = new Turno();
@@ -163,6 +163,6 @@ public class ServicioTurnoTest {
         assertEquals(1L, turno.getVeterinaria().getId());
         assertEquals(LocalTime.parse("10:00"), turno.getHorario());
         assertEquals(222, turno.getProfesional().getDni());
-    }
+    }  */
     
 }

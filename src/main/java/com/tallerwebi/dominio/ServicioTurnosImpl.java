@@ -57,33 +57,33 @@ public class ServicioTurnosImpl implements ServicioTurnos {
         repositorioTurnos.guardar(turno);
     }
 
-
     @Override
     public void procesarSeleccion(Turno turno) {
-        if (turno.getSeleccion() == null) return;
+        if (turno.getSeleccion() == null || turno.getSeleccion().isEmpty()) return;
 
         String[] partes = turno.getSeleccion().split("\\|\\|");
 
-        // Caso 3 partes: veterinaria || horario || profesional
-        if (partes.length == 3) {
-
-            Long idVet = Long.parseLong(partes[0]);
-            String horario = partes[1];
-            Integer idProfesional = Integer.parseInt(partes[2]);
-
-            turno.setVeterinaria(repositorioVeterinaria.buscarPorId(idVet));
-            turno.setHorario(LocalTime.parse(horario));
-            turno.setProfesional(repositorioProfesional.buscarPorDni(idProfesional));
+        if (partes.length != 3) {
+            throw new IllegalArgumentException("Selección inválida, se esperaba formato: vetId||horario||profId");
         }
 
-        // Caso 2 partes: horario || profesional
-        else if (partes.length == 2) {
+        try {
+            // 1️⃣ Veterinaria
+            Long idVet = Long.parseLong(partes[0]);
+            Veterinaria vet = repositorioVeterinaria.buscarPorId(idVet);
+            turno.setVeterinaria(vet);
 
-            String horario = partes[0];
-            Integer idProfesional = Integer.parseInt(partes[1]);
+            // 2️⃣ Horario
+            LocalTime hora = LocalTime.parse(partes[1]);
+            turno.setHorario(hora);
 
-            turno.setHorario(LocalTime.parse(horario));
-            turno.setProfesional(repositorioProfesional.buscarPorDni(idProfesional));
+            // 3️⃣ Profesional
+            Long idProf = Long.parseLong(partes[2]);
+            Profesional prof = repositorioProfesional.buscarPorId(idProf);
+            turno.setProfesional(prof);
+
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("IDs inválidos en la selección: " + turno.getSeleccion(), e);
         }
     }
 

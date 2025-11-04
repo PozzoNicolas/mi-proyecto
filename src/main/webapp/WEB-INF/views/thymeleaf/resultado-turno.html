@@ -27,7 +27,7 @@
 
 <main role="main" class="container">
   <div class = "container">
-    <h1>Resultados</h1>
+    <h1>Resultados3</h1>
     
     <p>Turnos de 
         <span th:text="${turno.especialidad != null ? turno.especialidad.getDesc() : 'N/A'}"></span>
@@ -37,10 +37,11 @@
         <span th:text="${veterinaria != null && !#strings.isEmpty(veterinaria.nombre) ? veterinaria.nombre : 'Indiferente'}"></span>
     </p>
 
+<div th:if="${turno != null}">
     <form th:action="@{/seleccionar-dia}" th:object="${turno}" method="post">
         <label for="fecha">Seleccione el día:</label>
-        <input type="date" th:field="*{fecha}" required
-            th:attr="min=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" />
+<input type="date" th:field="*{fecha}" required
+       th:attr="min=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" />
 
         <input type="hidden" th:field="*{especialidad}" />
         <input type="hidden" th:field="*{practica}" />
@@ -48,11 +49,65 @@
 
         <button type="submit">Ver turnos disponibles</button>
     </form>
+</div>
+
+<form th:if="${turno.fecha != null}" th:action="@{/seleccionar-horario-profesional}" th:object="${turno}" method="post">
+    <p>Seleccione el horario y profesional:</p>
+
+    <div th:if="${turno.fecha != null}" style="border:1px solid #ccc; padding: 15px;">
+
+    <!-- Veterinaria específica -->
+    <div th:if="${veterinaria != null}">
+        <h3 th:text="'Veterinaria: ' + (veterinaria.nombre != null ? veterinaria.nombre : 'N/A')">Veterinaria</h3>
+
+        <div th:each="entry : ${veterinaria.profesionalesEnHorario}">
+            <p><strong th:text="${entry.key != null ? entry.key : 'Horario'}">Horario</strong></p>
+            <ul>
+                <li th:each="prof : ${entry.value}" th:if="${prof != null}">
+                    <label>
+                        <input type="radio" th:field="*{seleccion}" 
+                               th:value="${(veterinaria != null && veterinaria.id != null ? veterinaria.id : '') + '||' + (entry.key != null ? entry.key : '') + '||' + (prof.id != null ? prof.id : '')}" required />
+                        <span th:text="${prof.nombre != null ? prof.nombre : 'N/A'}">Profesional</span>
+                    </label>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Indiferente: todas las veterinarias -->
+    <div th:if="${veterinarias != null}">
+        <div th:each="vet : ${veterinarias}">
+            <h3 th:text="${vet.nombre != null ? vet.nombre : 'N/A'} + ' - ' + (vet.direccion != null ? vet.direccion : 'N/A')">Vet</h3>
+
+            <div th:each="entry : ${vet.profesionalesEnHorario}">
+                <p><strong th:text="${entry.key != null ? entry.key : 'Horario'}">Horario</strong></p>
+                <ul>
+                    <li th:each="prof : ${entry.value}" th:if="${prof != null}">
+                        <label>
+                            <input type="radio" th:field="*{seleccion}" 
+                                   th:value="${(vet != null && vet.id != null ? vet.id : '') + '||' + (entry.key != null ? entry.key : '') + '||' + (prof.id != null ? prof.id : '')}" required />
+                            <span th:text="${prof.nombre != null ? prof.nombre : 'N/A'}">Profesional</span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden fields -->
+    <input type="hidden" th:field="*{especialidad}" />
+    <input type="hidden" th:field="*{practica}" />
+    <input type="hidden" th:field="*{fecha}" />
+    <input type="hidden" th:field="*{idVeterinariaBusqueda}" />
+
+    <button type="submit">Reservar turno</button>
+</div>
+
+</form>
 
 
 <h2>DEBUG: Resultado Turno</h2>
 
-<!-- Show turno info -->
 <div style="border: 1px solid red; padding: 10px; margin-bottom: 20px;">
     <h3>Turno</h3>
     <ul>
@@ -63,7 +118,6 @@
     </ul>
 </div>
 
-<!-- Show single Veterinaria -->
 <div th:if="${veterinaria != null}" style="border: 1px solid blue; padding: 10px; margin-bottom: 20px;">
     <h3>Veterinaria específica</h3>
     <p>Nombre: <span th:text="${veterinaria.nombre}">N/A</span></p>
@@ -80,7 +134,6 @@
     </ul>
 </div>
 
-<!-- Veterinarias (Indiferente) -->
 <div th:if="${veterinarias != null}">
     <div th:each="vet : ${veterinarias}">
         <p><strong th:text="${vet.nombre}">N/A</strong> - <span th:text="${vet.direccion}">N/A</span></p>
@@ -95,7 +148,7 @@
             </li>
         </ul>
     </div>
-</div>
+</div> 
 
     <!--No funciona, si saco los required`s obtengo otros problemas-->
     <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}">

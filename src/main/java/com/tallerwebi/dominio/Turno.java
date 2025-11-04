@@ -99,5 +99,4 @@ public class Turno {
     public void setProfesional(Profesional profesional) {this.profesional = profesional;}
     public void setSeleccion(String n) {this.seleccion = n;}
     public void setIdVeterinariaBusqueda(int n) {this.idveterinariaBusqueda = n;}
-
 }
