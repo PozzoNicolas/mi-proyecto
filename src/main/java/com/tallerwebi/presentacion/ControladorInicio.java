@@ -40,7 +40,7 @@ public class ControladorInicio {
 
         modelo.put("usuarioActual", usuarioActual);
         modelo.put("nombre", usuarioActual.getNombre());
-        modelo.put("mensajeBienvenida", "&iexcl;Bienvenido " + usuarioActual.getNombre() + "!");
+        modelo.put("mensajeBienvenida", "¡Bienvenido " + usuarioActual.getNombre() + "!");
 
         modelo.put("turnos", new ArrayList<>(usuarioConTurnos.getTurnos()));
         
