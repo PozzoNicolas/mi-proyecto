@@ -41,13 +41,9 @@ h2 {
     margin: 1rem 0;
 }
 
-.main-body p {
-    max-width: 800px;
-}
 
-#login-box, #mascotas, #agregar-mascota, #perfil-contenedor {
-    display:flex;
-    flex-direction: column;
+#mascotas, #agregar-mascota, #perfil-contenedor {
+
     align-items: center;
     background-color: #ffffff;
     border-radius: 16px;
