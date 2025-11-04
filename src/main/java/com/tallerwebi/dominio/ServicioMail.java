@@ -32,7 +32,7 @@ public class ServicioMail {
     @Async
     public void enviarConfirmacionDeTurno(Usuario usuario, Long turnoId, String direccion) {
         Turno turno = usuario.getTurnoPorId(turnoId);
-        Veterinaria veterinaria = servicioVeterinaria.buscarPorId(turno.getVeterinaria());
+        Veterinaria veterinaria = turno.getVeterinaria();
         
         String asunto = "Confirmación de turno - " + turno.getEspecialidad().getDesc();
 
@@ -68,7 +68,7 @@ public class ServicioMail {
     @Async
     public void enviarCancelacionDeTurno(Usuario usuario, Long turnoId, String direccion) {
         Turno turno = usuario.getTurnoPorId(turnoId);
-        Veterinaria veterinaria = servicioVeterinaria.buscarPorId(turno.getVeterinaria());
+        Veterinaria veterinaria = turno.getVeterinaria();
 
         String asunto = "Cancelación de turno - " + turno.getEspecialidad().getDesc();
 
@@ -100,7 +100,7 @@ public class ServicioMail {
     }
 
     public void enviarRecordatorioProximoTurno(Turno turno) {
-        Veterinaria veterinaria = servicioVeterinaria.buscarPorId(turno.getVeterinaria());
+        Veterinaria veterinaria = turno.getVeterinaria();
         String direccion = turno.getUsuario().getEmail();
         Usuario usuario = turno.getUsuario();
 

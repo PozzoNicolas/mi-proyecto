@@ -41,7 +41,7 @@ public class ControladorResultadosTurnos {
     public ModelAndView seleccionarDia(@ModelAttribute("turno") Turno turno) {
         ModelMap modelo = new ModelMap();
 
-        if (servicioVeterinaria.buscarPorId(turno.getVeterinaria()).getNombre() == null) {
+        if (turno.getVeterinaria() == null || turno.getVeterinaria().getNombre() == null) {
             modelo.addAttribute("veterinarias", servicioTurno.listarVeterinariasIndiferente());
         } else {
             modelo.addAttribute("veterinaria", servicioTurno.obtenerVeterinariaPorTurno(turno));

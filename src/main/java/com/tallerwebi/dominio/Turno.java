@@ -5,13 +5,9 @@ import com.tallerwebi.dominio.enums.Practica;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Date;
 
 @Entity
 @Transactional
@@ -20,20 +16,30 @@ public class Turno {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Enumerated(EnumType.STRING)
     private Especialidad especialidad;
+
+    @Enumerated(EnumType.STRING)
     private Practica practica;
-    private Long veterinaria;
-    private String fecha;
-    private String horario;
-    private String profesional;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_usuario")
+    @JoinColumn(name = "veterinaria_id")
+    private Veterinaria veterinaria;
+
+    private LocalDate fecha;
+    private LocalTime horario;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profesional_id")
+    private Profesional profesional;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-
-
     //Campo temporal para form en resultado-turnos.
+    @Transient
     private String seleccion;
 
 
@@ -48,31 +54,35 @@ public class Turno {
     public Turno() {
     }
 
-    public Turno(Especialidad especialidad, Practica practica, Long veterinaria, String fecha, String horario ) {
+    public Turno(Especialidad especialidad, Practica practica, Veterinaria veterinaria,
+                 Profesional profesional, LocalDate fecha, LocalTime horario ) {
         this.especialidad = especialidad;
         this.practica = practica;
         this.veterinaria = veterinaria; 
         this.fecha = fecha;
         this.horario = horario;
+        this.profesional = profesional;
     }
 
     public Long getId() {return this.id;}
     public Especialidad getEspecialidad() {return this.especialidad;}
     public Practica getPractica() {return this.practica;}
-    public Long getVeterinaria() {return this.veterinaria;}
-    public String getFecha() {return this.fecha;}
-    public String getHorario() {return this.horario;}
-    public String getProfesional() {return this.profesional;}
+    public Veterinaria getVeterinaria() {return this.veterinaria;}
+    public LocalDate getFecha() {return this.fecha;}
+    public LocalTime getHorario() {return this.horario;}
+    public Profesional getProfesional() {return this.profesional;}
     public String getSeleccion() {return this.seleccion;}
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public void setEspecialidad(Especialidad especialidad) {this.especialidad = especialidad;}
     public void setPractica(Practica practica) {this.practica = practica;}
-    public void setVeterinaria(Long veterinariaId) {
-        this.veterinaria = veterinariaId;
-    }
-    public void setFecha(String fecha) {this.fecha = fecha;}
-    public void setHorario(String horario) {this.horario = horario;}
-    public void setProfesional(String profesional) {this.profesional = profesional;}
+    public void setVeterinaria(Veterinaria veterinariaId) {this.veterinaria = veterinariaId;}
+    public void setFecha(LocalDate fecha) {this.fecha = fecha;}
+    public void setHorario(LocalTime horario) {this.horario = horario;}
+    public void setProfesional(Profesional profesional) {this.profesional = profesional;}
     public void setSeleccion(String n) {this.seleccion = n;}
 
 

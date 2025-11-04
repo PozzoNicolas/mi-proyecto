@@ -14,6 +14,7 @@ import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalTime;
 import java.util.List;
 
 import com.tallerwebi.dominio.enums.Especialidad;
@@ -33,7 +34,7 @@ public class ServicioTurnoTest {
         this.servicioProfesional = mock(ServicioProfesionalImpl.class);
         this.servicioVeterinaria = mock(ServicioVeterinariaImpl.class);
         this.servicioMail = mock(ServicioMail.class);
-        this.servicioTurnos = new ServicioTurnosImpl(servicioVeterinaria, respositorioTurnos, servicioMail);
+        this.servicioTurnos = new ServicioTurnosImpl(servicioVeterinaria, respositorioTurnos, servicioMail, servicioProfesional);
     }
 
 
@@ -78,11 +79,12 @@ public class ServicioTurnoTest {
 
     @Test
     public void queAlHacerUnaBusquedaConUnaVeterinariaEspecificaLaMismaSeRetorne() {
-        Turno turno = new Turno();
-        turno.setVeterinaria(1L);
 
         Veterinaria veterinariaEsperada = new Veterinaria("Vet Uno", "Calle 123");
         veterinariaEsperada.setId(1L);
+
+        Turno turno = new Turno();
+        turno.setVeterinaria(veterinariaEsperada);
 
         when(servicioVeterinaria.buscarPorId(1L))
                 .thenReturn(veterinariaEsperada);
@@ -94,8 +96,9 @@ public class ServicioTurnoTest {
 
     @Test
     public void queAlHacerUnaBusquedaSinUnaVeterinariaEspecificaObtengaUnObjetoVeterinariaVacio() {
+
         Turno turno = new Turno(); 
-        turno.setVeterinaria(0L);
+        turno.setVeterinaria(null);
         Veterinaria v = servicioTurnos.obtenerVeterinariaPorTurno(turno);
 
         assertNotNull(v);
@@ -110,24 +113,33 @@ public class ServicioTurnoTest {
         Usuario usuario = new Usuario("Nicolas", "Pozzo","nico@gmail.com","1155225522");
 
         Turno turno = new Turno();
-        turno.setHorario("10:00");
+        turno.setHorario(LocalTime.parse("10:00"));
 
         servicioTurnos.guardarTurno(usuario, turno);
 
         assertEquals(1, usuario.getTurnos().size());
-        assertEquals("10:00", usuario.getTurnos().get(0).getHorario());
+        assertEquals(LocalTime.parse("10:00"), usuario.getTurnos().get(0).getHorario());
     }
 
     @Test
     public void queElServicioSeaCapazDeProcesarSeleccionConTresPartes() {
         Turno turno = new Turno();
-        turno.setSeleccion("1||10:00||Dr. Smith");
+        turno.setSeleccion("1||10:00||222");
+
+        Veterinaria vet = new Veterinaria();
+        vet.setId(1L);
+
+        Profesional prof = new Profesional();
+        prof.setDni(222);
+
+        when(servicioVeterinaria.buscarPorId(1L)).thenReturn(vet);
+        when(servicioProfesional.buscarPorDni(222)).thenReturn(prof);
 
         servicioTurnos.procesarSeleccion(turno);
 
-        assertEquals(1, turno.getVeterinaria());
-        assertEquals("10:00", turno.getHorario());
-        assertEquals("Dr. Smith", turno.getProfesional());
+        assertEquals(1L, turno.getVeterinaria().getId());
+        assertEquals(LocalTime.parse("10:00"), turno.getHorario());
+        assertEquals(222, turno.getProfesional().getDni());
     }
     
 }

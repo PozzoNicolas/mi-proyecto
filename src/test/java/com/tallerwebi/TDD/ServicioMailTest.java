@@ -13,6 +13,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import com.tallerwebi.dominio.enums.Especialidad;
 import com.tallerwebi.dominio.enums.Practica;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 class ServicioMailTest {
 
     @Mock
@@ -35,22 +38,23 @@ class ServicioMailTest {
         Usuario usuario = new Usuario();
         usuario.setNombre("Juan Pérez");
 
-        Turno turno = new Turno();
-        turno.setEspecialidad(Especialidad.CONTROL);
-        turno.setPractica(Practica.CONTROL_1);
-        turno.setFecha("10/10/2025");
-        turno.setHorario("10:00");
-        turno.setProfesional("Dr. López");
-        turno.setVeterinaria(1L);
+        Profesional profesional = new Profesional("Dr. López", 123);
 
-        // assign id automatically and set back-reference
-        usuario.agregarTurno(turno);
-
-        // Crear Veterinaria mock
         Veterinaria vet = new Veterinaria();
         vet.setId(1L);
         vet.setNombre("VetUno");
         vet.setDireccion("Calle Falsa 123");
+
+        Turno turno = new Turno();
+        turno.setEspecialidad(Especialidad.CONTROL);
+        turno.setPractica(Practica.CONTROL_1);
+        turno.setFecha(LocalDate.of(2025, 10, 10));
+        turno.setHorario(LocalTime.of(10, 0));
+        turno.setProfesional(profesional);
+        turno.setVeterinaria(vet);
+
+        // assign id automatically and set back-reference
+        usuario.agregarTurno(turno);
 
         // Configurar el mock ANTES de llamar al servicio
         when(servicioVeterinaria.buscarPorId(1L)).thenReturn(vet);
@@ -70,16 +74,20 @@ class ServicioMailTest {
         vet.setNombre("VetUno");
         vet.setDireccion("Calle Falsa 123");
 
+        // Crear profesional
+        Profesional profesional = new Profesional("Dra. Gómez", 456);
+
         // Crear usuario y turno
         Usuario usuario = new Usuario();
         usuario.setNombre("Ana");
+
         Turno turno = new Turno();
         turno.setEspecialidad(Especialidad.CONTROL);
         turno.setPractica(Practica.CONTROL_1);
-        turno.setFecha("12/10/2025");
-        turno.setHorario("15:00");
-        turno.setProfesional("Dra. Gómez");
-        turno.setVeterinaria(1L);
+        turno.setFecha(LocalDate.of(2025, 10, 12));
+        turno.setHorario(LocalTime.of(15, 0));
+        turno.setProfesional(profesional);
+        turno.setVeterinaria(vet);
 
         // Agregar turno (assigns a proper ID)
         usuario.agregarTurno(turno);

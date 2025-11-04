@@ -60,7 +60,7 @@ public class ControladorNuevoTurno {
             return new ModelAndView("nuevo-turno", modelo);
         }
 
-        Veterinaria v = servicioVeterinaria.buscarPorId(turno.getVeterinaria());
+        Veterinaria v = turno.getVeterinaria();
 
         modelo.put("veterinaria", v);
         modelo.put("turno", turno);

@@ -5,6 +5,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -14,12 +15,14 @@ public class ServicioTurnosImpl implements ServicioTurnos {
     private final ServicioVeterinaria servicioVeterinaria;
     private final RepositorioTurnos repositorioTurnos;
     private final ServicioMail servicioMail;
+    private final ServicioProfesional servicioProfesional;
 
     @Autowired
-    public ServicioTurnosImpl(ServicioVeterinaria servicioVeterinaria, RepositorioTurnos repositorioTurnos, ServicioMail servicioMail) {
+    public ServicioTurnosImpl(ServicioVeterinaria servicioVeterinaria, RepositorioTurnos repositorioTurnos, ServicioMail servicioMail, ServicioProfesional servicioProfesional) {
         this.servicioVeterinaria = servicioVeterinaria;
         this.repositorioTurnos = repositorioTurnos;
         this.servicioMail = servicioMail;
+        this.servicioProfesional = servicioProfesional;
     }
 
     @Override
@@ -34,7 +37,7 @@ public class ServicioTurnosImpl implements ServicioTurnos {
 
     @Override
     public Veterinaria obtenerVeterinariaPorTurno(Turno turno) {
-        Veterinaria v = servicioVeterinaria.buscarPorId(turno.getVeterinaria());
+        Veterinaria v = turno.getVeterinaria();
         return (v != null) ? v : new Veterinaria();
     }
 
@@ -49,17 +52,30 @@ public class ServicioTurnosImpl implements ServicioTurnos {
 
     @Override
     public void procesarSeleccion(Turno turno) {
-        if (turno.getSeleccion() != null) {
-            String[] partes = turno.getSeleccion().split("\\|\\|");
+        if (turno.getSeleccion() == null) return;
 
-            if (partes.length == 3) { // Caso "Indiferente"
-                turno.setVeterinaria(Long.parseLong(partes[0]));
-                turno.setHorario(partes[1]);
-                turno.setProfesional(partes[2]);
-            } else if (partes.length == 2) { // Veterinaria específica
-                turno.setHorario(partes[0]);
-                turno.setProfesional(partes[1]);
-            }
+        String[] partes = turno.getSeleccion().split("\\|\\|");
+
+        // Caso 3 partes: veterinaria || horario || profesional
+        if (partes.length == 3) {
+
+            Long idVet = Long.parseLong(partes[0]);
+            String horario = partes[1];
+            Integer idProfesional = Integer.parseInt(partes[2]);
+
+            turno.setVeterinaria(servicioVeterinaria.buscarPorId(idVet));
+            turno.setHorario(LocalTime.parse(horario));
+            turno.setProfesional(servicioProfesional.buscarPorDni(idProfesional));
+        }
+
+        // Caso 2 partes: horario || profesional
+        else if (partes.length == 2) {
+
+            String horario = partes[0];
+            Integer idProfesional = Integer.parseInt(partes[1]);
+
+            turno.setHorario(LocalTime.parse(horario));
+            turno.setProfesional(servicioProfesional.buscarPorDni(idProfesional));
         }
     }
 
