@@ -5,6 +5,9 @@ import com.tallerwebi.dominio.enums.Practica;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
@@ -27,6 +30,7 @@ public class Turno {
     @JoinColumn(name = "veterinaria_id")
     private Veterinaria veterinaria;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fecha;
     private LocalTime horario;
 
@@ -43,7 +47,14 @@ public class Turno {
     private String seleccion;
 
     @Transient
-    private int id_veterinaria_Busqueda;
+    private int idveterinariaBusqueda;
+
+    @Transient
+    private String especialidadStr;
+    
+    @Transient
+    private String practicaStr;
+
 
     public Usuario getUsuario() {
         return usuario;
@@ -74,7 +85,7 @@ public class Turno {
     public LocalTime getHorario() {return this.horario;}
     public Profesional getProfesional() {return this.profesional;}
     public String getSeleccion() {return this.seleccion;}
-    public int getIdVeterinariaBusqueda() {return this.id_veterinaria_Busqueda;}
+    public int getIdVeterinariaBusqueda() {return this.idveterinariaBusqueda;}
 
     public void setId(Long id) {
         this.id = id;
@@ -87,6 +98,6 @@ public class Turno {
     public void setHorario(LocalTime horario) {this.horario = horario;}
     public void setProfesional(Profesional profesional) {this.profesional = profesional;}
     public void setSeleccion(String n) {this.seleccion = n;}
-    public void setIdVeterinariaBusqueda(int n) {this.id_veterinaria_Busqueda = n;}
+    public void setIdVeterinariaBusqueda(int n) {this.idveterinariaBusqueda = n;}
 
 }

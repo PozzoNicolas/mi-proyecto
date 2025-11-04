@@ -24,4 +24,18 @@ public class ServicioVPHImpl implements ServicioVPH {
     public void asignarProfesionalHorario(VeterinariaProfesionalHorario vph) {
         repo.guardar(vph);
     }
+
+    @Override
+    public List<VeterinariaProfesionalHorario> obtenerPorVeterinaria(Long idVeterinaria) {
+        List<VeterinariaProfesionalHorario> vphList = repo.obtenerPorVeterinaria(idVeterinaria);
+
+        // ensure profesionales are initialized
+        for (VeterinariaProfesionalHorario vph : vphList) {
+            if (vph.getProfesional() != null) {
+                vph.getProfesional().getNombre();
+            }
+        }
+
+        return vphList;
+    }
 }

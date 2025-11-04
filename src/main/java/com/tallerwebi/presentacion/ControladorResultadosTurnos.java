@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.enums.Especialidad;
+import com.tallerwebi.dominio.enums.Practica;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -37,57 +40,53 @@ public class ControladorResultadosTurnos {
     @GetMapping("/resultado-turno")
     public ModelAndView mostrarVeterinarias() {
         ModelMap modelo = new ModelMap();
-        Turno turno = new Turno(); 
+        Turno turno = new Turno();
         modelo.addAttribute("turno", turno);
         return new ModelAndView("resultado-turno", modelo);
     }
-
 
     @PostMapping("/seleccionar-dia")
     public ModelAndView seleccionarDia(@ModelAttribute("turno") Turno turno) {
         ModelMap modelo = new ModelMap();
 
-        // Caso "Indiferente": mostrar todas las veterinarias
-        if (turno.getVeterinaria() == null || turno.getVeterinaria().getNombre() == null) {
+        Long idVet = turno.getIdVeterinariaBusqueda() == 0 ? null : (long) turno.getIdVeterinariaBusqueda();
 
+        if (idVet == null) {
+            // Indiferente: todas las veterinarias
             List<Veterinaria> todas = servicioVeterinaria.listarVeterinarias();
-
             for (Veterinaria vet : todas) {
-                List<VeterinariaProfesionalHorario> vphList =
-                    servicioVPH.obtenerProfesionalesDeVeterinaria(vet.getId());
-
+                // Fetch horarios + profesionales for each vet
+                List<VeterinariaProfesionalHorario> vphList = servicioVPH.obtenerProfesionalesDeVeterinaria(vet.getId());
                 Map<String, List<Profesional>> mapa = vphList.stream()
-                        .collect(Collectors.groupingBy(
-                                vph -> vph.getHorario().toString(),
-                                Collectors.mapping(VeterinariaProfesionalHorario::getProfesional, Collectors.toList())
-                        ));
-
+                    .filter(vph -> vph.getHorario() != null && vph.getProfesional() != null)
+                    .collect(Collectors.groupingBy(
+                        vph -> vph.getHorario().toString(),
+                        Collectors.mapping(VeterinariaProfesionalHorario::getProfesional, Collectors.toList())
+                    ));
                 vet.setProfesionalesEnHorario(mapa);
             }
-
             modelo.put("veterinarias", todas);
 
         } else {
-            // Caso veterinaria específica
-            Veterinaria vet = servicioTurno.obtenerVeterinariaPorTurno(turno);
-
-            List<VeterinariaProfesionalHorario> vphList =
-                    servicioVPH.obtenerProfesionalesDeVeterinaria(vet.getId());
-
-            Map<String, List<Profesional>> mapa = vphList.stream()
+            // Veterinaria específica
+            Veterinaria vet = servicioVeterinaria.buscarPorId(idVet);
+            if (vet != null) {
+                List<VeterinariaProfesionalHorario> vphList = servicioVPH.obtenerProfesionalesDeVeterinaria(vet.getId());
+                Map<String, List<Profesional>> mapa = vphList.stream()
+                    .filter(vph -> vph.getHorario() != null && vph.getProfesional() != null)
                     .collect(Collectors.groupingBy(
-                            vph -> vph.getHorario().toString(),
-                            Collectors.mapping(VeterinariaProfesionalHorario::getProfesional, Collectors.toList())
+                        vph -> vph.getHorario().toString(),
+                        Collectors.mapping(VeterinariaProfesionalHorario::getProfesional, Collectors.toList())
                     ));
-
-            vet.setProfesionalesEnHorario(mapa);
-
+                vet.setProfesionalesEnHorario(mapa);
+            }
             modelo.put("veterinaria", vet);
         }
 
         modelo.put("turno", turno);
         return new ModelAndView("resultado-turno", modelo);
     }
+
 
 
     @PostMapping("/seleccionar-horario-profesional")

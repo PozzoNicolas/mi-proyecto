@@ -21,9 +21,13 @@ public class RepositorioVPHImpl implements RepositorioVPH {
     @Override
     public List<VeterinariaProfesionalHorario> obtenerPorVeterinaria(Long idVeterinaria) {
         return sessionFactory.getCurrentSession()
-                .createQuery("from VeterinariaProfesionalHorario vph where vph.veterinaria.id = :id order by vph.horario", VeterinariaProfesionalHorario.class)
-                .setParameter("id", idVeterinaria)
-                .list();
+            .createQuery(
+                "select vph from VeterinariaProfesionalHorario vph " +
+                "join fetch vph.profesional p " +  // ensures Profesional is loaded
+                "where vph.veterinaria.id = :id order by vph.horario",
+                VeterinariaProfesionalHorario.class)
+            .setParameter("id", idVeterinaria)
+            .list();
     }
 
     @Override
