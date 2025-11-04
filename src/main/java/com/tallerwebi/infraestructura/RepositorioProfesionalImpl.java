@@ -27,4 +27,9 @@ public class RepositorioProfesionalImpl implements RepositorioProfesional {
                 .setParameter("dni", dni)
                 .uniqueResult();
     }
+
+    @Override
+    public void guardar(Profesional profesional) {
+        sessionFactory.getCurrentSession().save(profesional);
+    }
 }
