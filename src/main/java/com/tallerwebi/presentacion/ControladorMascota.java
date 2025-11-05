@@ -54,7 +54,7 @@ public class ControladorMascota {
             return "mascotas";
         }
 
-        Mascota mascota = new Mascota(dto.getNombre(), dto.getTipoDeMascota(), dto.getRaza(), dto.getEdad());
+        Mascota mascota = new Mascota(dto.getNombre(), dto.getTipoDeMascota(), dto.getRaza(), dto.getEdad(), dto.getSexo());
 
         servicioMascota.registrarMascota(usuarioActual.getId(), mascota);
         Usuario usuarioActualizado = servicioUsuario.buscarUsuarioPorId(usuarioActual.getId());
@@ -119,5 +119,11 @@ public class ControladorMascota {
         public void setDuenio(Usuario duenio) {
             this.duenio = duenio;
         }
+
+        public String getSexo() {
+            return "sexo";
+        }
+
+        public void setSexo(String sexo) {}
     }
 }

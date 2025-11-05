@@ -12,26 +12,31 @@ public class Recomendacion {
     private String titulo;
     private String descripcion;
     private String tipo;
-    private String imagen;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    public Recomendacion() {
+    public Recomendacion() {}
 
-    }
-
-    public Recomendacion(Long id, String titulo, String descripcion, String tipo, String imagen, Usuario usuario) {
-        this.id = id;
+    public Recomendacion(String titulo, String descripcion, String tipo, Usuario usuario) {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.tipo = tipo;
-        this.imagen = imagen;
+        this.usuario = usuario;
+
     }
 
-    public Recomendacion(String registraTuMascota, String mensaje, String general, Usuario usuario) {
+    @Override
+    public String toString() {
+        return "Recomendacion{" +
+                "id=" + id +
+                ", titulo='" + titulo + '\'' +
+                ", tipo='" + tipo + '\'' +
+                ", usuario=" + (usuario != null ? usuario.getNombre() : "sin usuario") +
+                '}';
     }
+
 
     public String getTitulo() {
         return titulo;
@@ -55,14 +60,6 @@ public class Recomendacion {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
-    }
-
-    public String getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
     }
 
     public Usuario getUsuario() {

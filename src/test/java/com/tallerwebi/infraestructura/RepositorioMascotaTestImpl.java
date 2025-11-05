@@ -32,7 +32,7 @@ public class RepositorioMascotaTestImpl {
 
         RepositorioMascota repoMascota = new RepositorioMascotaImpl(this.sessionFactory);
 
-        Mascota mascota = new Mascota("Luna", "Perro", "Pitbull", 8);
+        Mascota mascota = new Mascota("Luna", "Perro", "Pitbull", 8, "Macho");
 
         repoMascota.guardar(mascota);
 
@@ -54,7 +54,7 @@ public class RepositorioMascotaTestImpl {
 
         RepositorioMascota repoMascota = new RepositorioMascotaImpl(this.sessionFactory);
 
-        Mascota mascota = new Mascota ("Luna", "Perro", "Pitbull", 8);
+        Mascota mascota = new Mascota ("Luna", "Perro", "Pitbull", 8, "Macho");
         repoMascota.guardar(mascota);
 
         Mascota mascotaObtenida = repoMascota.buscarMascotaPorId(mascota.getId());
@@ -68,7 +68,7 @@ public class RepositorioMascotaTestImpl {
 
         RepositorioMascota repoMascota = new RepositorioMascotaImpl(this.sessionFactory);
 
-        Mascota mascota = new Mascota ("Luna", "Perro", "Pitbull", 8);
+        Mascota mascota = new Mascota ("Luna", "Perro", "Pitbull", 8, "Macho");
         repoMascota.guardar(mascota);
         mascota.setEdad(9);
 
@@ -83,7 +83,7 @@ public class RepositorioMascotaTestImpl {
 
         RepositorioMascota repoMascota = new RepositorioMascotaImpl(this.sessionFactory);
 
-        Mascota mascota = new Mascota ("Luna", "Perro", "Pitbull", 8);
+        Mascota mascota = new Mascota ("Luna", "Perro", "Pitbull", 8, "Macho");
         repoMascota.guardar(mascota);
 
         repoMascota.eliminarMascota(mascota);
@@ -98,9 +98,9 @@ public class RepositorioMascotaTestImpl {
 
         RepositorioMascota repoMascota = new RepositorioMascotaImpl(this.sessionFactory);
 
-        Mascota mascota1 = new Mascota ("Luna1", "Perro", "Pitbull", 8);
-        Mascota mascota2 = new Mascota ("Luna2", "Perro", "Pitbull", 8);
-        Mascota mascota3 = new Mascota ("Luna3", "Perro", "Pitbull", 8);
+        Mascota mascota1 = new Mascota ("Luna1", "Perro", "Pitbull", 8, "Macho");
+        Mascota mascota2 = new Mascota ("Luna2", "Perro", "Pitbull", 8, "Macho");
+        Mascota mascota3 = new Mascota ("Luna3", "Perro", "Pitbull", 8, "Macho");
         repoMascota.guardar(mascota1);
         repoMascota.guardar(mascota2);
         repoMascota.guardar(mascota3);

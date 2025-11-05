@@ -44,11 +44,13 @@
             <div th:if="${#fields.hasErrors('tipoDeMascota')}" th:errors="*{tipoDeMascota}"></div>
         </div>
 
-
+        <div class = "mb-3">
+            <input class="form-control" th:field="*{sexo}" placeholder="Macho o hembra" value="" />
+            <div th:if="${#fields.hasErrors('sexo')}" th:errors="*{sexo}"></div>
+        </div>
         <div class="mb-3">
             <input class="form-control" th:field="*{raza}" placeholder="Raza" />
         </div>
-
         <div class="mb-3">
             <input class="form-control" th:field="*{edad}" min="0" type="number" placeholder="Edad (en a&ntilde;os)" />
             <div th:if="${#fields.hasErrors('edad')}" th:errors="*{edad}"></div>
@@ -58,6 +60,7 @@
             <input class="form-control" type="file" id="foto" name="foto" accept="image/*">
         </div>
         <button type="submit" class="btn btn-success w-100">Registrar</button>
+        <br>
         <a href="inicio" > <button type="button" class="btn-volver">Regresar</button></a>
     </form>
 
@@ -68,6 +71,7 @@
             <strong th:text="${m.nombre}"></strong> -
             <span th:text="${m.tipoDeMascota}"></span> |
             <span th:text="${m.raza}"></span> |
+            <span th:text="${m.sexo}"></span>
             (<span th:text="${m.edad}"></span> a&ntilde;os)
         </li>
     </ul>
@@ -75,12 +79,11 @@
 </main>
 
 <!-- Footer -->
-<footer class="bg-success text-white text-center mt-5 p-3">
+<footer >
     <div>
         <h6>Integrantes:</h6>
         <h6>Diego Contreras</h6>
         <h6>Nicolas Pozzo</h6>
-        <h6>Mauricio Medina</h6>
         <h6>Joaquin A. Diaz</h6>
     </div>
     <p class="mb-0">VetConnect - Universidad Nacional de La Matanza</p>
