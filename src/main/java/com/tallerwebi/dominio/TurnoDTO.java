@@ -12,7 +12,7 @@ public class TurnoDTO {
     private Integer veterinariaId; 
     private String fecha;
     private String horario;
-    private String profesional;
+    private Long profesionalId;
 
     //Campo temporal para form en resultado-turnos.
     private String seleccion;
@@ -36,7 +36,7 @@ public class TurnoDTO {
     public Integer getVeterinariaId() {return this.veterinariaId;}
     public String getFecha() {return this.fecha;}
     public String getHorario() {return this.horario;}
-    public String getProfesional() {return this.profesional;}
+    public Long getProfesionalId() {return this.profesionalId;}
     public String getSeleccion() {return this.seleccion;}
 
     public void setId(int id) {this.id = id;}
@@ -45,6 +45,6 @@ public class TurnoDTO {
     public void setVeterinariaId(Integer veterinariaId) {this.veterinariaId = veterinariaId;}
     public void setFecha(String fecha) {this.fecha = fecha;}
     public void setHorario(String horario) {this.horario = horario;}
-    public void setProfesional(String profesional) {this.profesional = profesional;}
+    public void setProfesionalId(Long profesionalId) {this.profesionalId = profesionalId;}
     public void setSeleccion(String n) {this.seleccion = n;}
 }

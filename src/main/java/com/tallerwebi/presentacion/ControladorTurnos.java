@@ -46,15 +46,19 @@ public class ControladorTurnos {
     }
 
     @PostMapping("/cancelar-turno")
-    public String cancelarTurno(@RequestParam("turnoId") ModelMap modelo, Long turnoId,
-                                HttpServletRequest request, HttpSession session) {
+    public String cancelarTurno(
+            @RequestParam("turnoId") Long turnoId,
+            HttpSession session,
+            HttpServletRequest request
+    ) {
+        Usuario usuarioActual = (Usuario) session.getAttribute("usuarioActual");
+        if (usuarioActual == null) return "redirect:/login";
 
         String emailPorLogin = (String) request.getSession().getAttribute("EMAIL");
 
-        Usuario usuarioActual =  (Usuario)session.getAttribute("usuarioActual");
-        modelo.addAttribute("usuario", usuarioActual);
         servicioMail.enviarCancelacionDeTurno(usuarioActual, turnoId, emailPorLogin);
         servicioUsuario.cancelarTurno(usuarioActual, turnoId);
+
         return "redirect:/turnos";
     }
 }

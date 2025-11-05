@@ -64,12 +64,14 @@
         </article>
     </aside>
 
+
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNotificaciones" aria-labelledby="offcanvasNotificacionesLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasNotificacionesLabel">Notificaciones</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
+            <!-- Esto se rompe. Estoy casi seguro que hay que tener un segundo TDO para la vista :(
             <div th:if="${#lists.isEmpty(turnos)}">
                 <p>No hay Notificaciones</p>
             </div>
@@ -84,9 +86,10 @@
                         <a href="#" class="card-link">Cancelar Turno</a>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
+    
     <!-- Contenido principal -->
     <main class="main">
         <section class="cajas">

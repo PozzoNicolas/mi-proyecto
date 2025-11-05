@@ -89,7 +89,7 @@ public class ControladorSacarTurno {
         Veterinaria v = servicioTurnos.getVeterinariaPorTurnoDTO(turnoDTO);
         //Se carga la/s veterinaria/s que el usuario busco, y se su be al modelo
         //Aca se transforma los datos del VPH en un mapa Transient para comunicarse con el front
-        if(v == null) { //Vet es nula, el usuario no eligio ninguna...
+        if(turnoDTO.getVeterinariaId() == null || turnoDTO.getVeterinariaId() == 0) { //Vet es nula, el usuario no eligio ninguna...
             List<Veterinaria> todas = servicioVeterinaria.listarVeterinarias();
             for (Veterinaria vet : todas) {
                 List<VeterinariaProfesionalHorario> vphList = servicioVPH.obtenerProfesionalesDeVeterinaria(vet.getId());
@@ -134,12 +134,10 @@ public class ControladorSacarTurno {
 
     @PostMapping("/seleccionar-dia")
     public ModelAndView seleccionarDia(@ModelAttribute("turnoDTO") TurnoDTO turnoDTO) {
-        ModelMap modelo = new ModelMap();
         if (turnoDTO.getSeleccion() == null) {
             turnoDTO.setSeleccion("");
         }
-        modelo.put("turnoDTO", turnoDTO);
-        return new ModelAndView("resultado-turno", modelo);
+        return new ModelAndView("redirect:/turno/resultado-turno");
     }
 
     @PostMapping("/seleccionar-horario-profesional")

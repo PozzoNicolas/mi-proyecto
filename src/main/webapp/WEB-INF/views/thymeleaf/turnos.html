@@ -32,21 +32,39 @@
     <div th:if="${#lists.isEmpty(turnos)}">
       <p>No hay turnos disponibles</p>
     </div>
+
     <div th:if="${!#lists.isEmpty(turnos)}">
-      <ul>
-        <li th:each="turno : ${turnos}">
-          Especialidad: <span th:text="${turno.especialidad.getDesc()}"></span>,
-          <span th:text="${turno.practica.getDesc()}"></span> <br>
-          El d&iacute;a: <span th:text="${turno.fecha}"></span>,
-          <span th:text="${turno.horario}"></span> <br>
-          Profesional: <span th:text="${turno.profesional}"></span> <br>
-          <form th:action="@{/cancelar-turno}" method="post">
-            <input type="hidden" name="turnoId" th:value="${turno.id}"/>
-            <input type="hidden" name="turnoFecha" th:value="${turno.fecha}">
-            <button type="submit">Cancelar turno</button>
-          </form>
-        </li>
-      </ul>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Especialidad</th>
+            <th>Práctica</th>
+            <th>Fecha</th>
+            <th>Horario</th>
+            <th>Veterinaria</th>
+            <th>Profesional</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr th:each="turno : ${turnos}">
+            <td th:text="${turno.especialidad != null ? turno.especialidad.desc : 'N/A'}"></td>
+            <td th:text="${turno.practica != null ? turno.practica.desc : 'N/A'}"></td>
+            <td th:text="${turno.fecha}"></td>
+            <td th:text="${turno.horario}"></td>
+            <td th:text="${turno.veterinaria != null ? turno.veterinaria.nombre : 'N/A'}"></td>
+            <td th:text="${turno.profesional != null ? turno.profesional.nombre : 'N/A'}"></td>
+
+            <td>
+              <form th:action="@{/cancelar-turno}" method="post">
+                <input type="hidden" name="turnoId" th:value="${turno.id}"/>
+                <button class="btn btn-danger btn-sm" type="submit">Cancelar</button>
+              </form>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <a href="./turno/nuevo-turno" class="btn btn-lg btn-primary btn-block">Nuevo Turno</a>
     <a href="./inicio" class="btn btn-lg btn-primary btn-block">Volver</a>

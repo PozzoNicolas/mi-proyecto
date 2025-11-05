@@ -69,8 +69,8 @@ public class ServicioTurnosImpl implements ServicioTurnos {
 
             // 3ra parte Profesional. Usar el nombre hace que no contemplemos
             // Dos prodesionales con el mismo nombre ojo
-            String prof = partes[2];
-            turnoDTO.setProfesional(prof);
+            Long idProf = Long.valueOf(partes[2]);
+            turnoDTO.setProfesionalId(idProf);
 
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("IDs inválidos en la selección: " + turnoDTO.getSeleccion(), e);
@@ -152,7 +152,7 @@ public class ServicioTurnosImpl implements ServicioTurnos {
             turno.setHorario(horario);
 
             // Buscar profesional por nombre o ID
-            Profesional profesional = repositorioProfesional.buscarPorNombre(turnoDTO.getProfesional());
+            Profesional profesional = repositorioProfesional.buscarPorId(turnoDTO.getProfesionalId());
             if (profesional == null) {
                 throw new IllegalArgumentException("Profesional no encontrado");
             }

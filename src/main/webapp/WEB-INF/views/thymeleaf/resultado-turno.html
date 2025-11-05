@@ -59,9 +59,8 @@
   <div style="border:1px solid #ccc; padding: 15px;">
 
     <!-- Veterinaria específica -->
-    <div th:if="${turnoDTO.veterinariaId != null}">
-      <h3 th:text="'Veterinaria: ' + (veterinaria.nombre != null ? veterinaria.nombre : 'N/A')">Veterinaria</h3>
-
+<div th:if="${turnoDTO.veterinariaId != null and turnoDTO.veterinariaId != 0}">
+    <h3 th:text="'Veterinaria: ' + (veterinaria != null ? veterinaria.nombre : 'N/A')"></h3>
       <div th:each="entry : ${veterinaria.profesionalesEnHorario}">
         <p><strong th:text="${entry.key != null ? entry.key : 'Horario'}">Horario</strong></p>
         <ul>
@@ -76,25 +75,30 @@
       </div>
     </div>
 
-    <!-- Indiferente: todas las veterinarias -->
     <div th:if="${turnoDTO.veterinariaId == 0}">
       <div th:each="vet : ${veterinarias}">
-        <h3 th:text="${vet.nombre != null ? vet.nombre : 'N/A'} + ' - ' + (vet.direccion != null ? vet.direccion : 'N/A')">Vet</h3>
+
+        <h3 th:text="${vet.nombre} + ' - ' + ${vet.direccion}"></h3>
 
         <div th:each="entry : ${vet.profesionalesEnHorario}">
-          <p><strong th:text="${entry.key != null ? entry.key : 'Horario'}">Horario</strong></p>
+          <p><strong th:text="${entry.key != null ? entry.key : 'Horario'}"></strong></p>
+
           <ul>
             <li th:each="prof : ${entry.value}" th:if="${prof != null}">
               <label>
-                <input type="radio" th:field="*{seleccion}"
-                       th:value="${veterinaria.id + '||' + (entry.key != null ? entry.key : '') + '||' + (prof.id != null ? prof.id : '')}" required />
-                <span th:text="${prof.nombre != null ? prof.nombre : 'N/A'}">Profesional</span>
+                <input type="radio"
+                      th:field="*{seleccion}"
+                      th:value="${vet.id + '||' + entry.key + '||' + prof.id}"
+                      required />
+                <span th:text="${prof.nombre}">Profesional</span>
               </label>
             </li>
           </ul>
         </div>
+
       </div>
     </div>
+
 
     <!-- Hidden binder fields (DTO props) -->
     <input type="hidden" th:field="*{especialidad}" />
