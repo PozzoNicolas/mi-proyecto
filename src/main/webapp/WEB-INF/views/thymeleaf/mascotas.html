@@ -45,7 +45,7 @@
         </div>
 
         <div class = "mb-3">
-            <input class="form-control" th:field="*{sexo}" placeholder="Macho o hembra" value="" />
+            <input class="form-control" th:field="*{sexo}" placeholder="Macho o hembra"  />
             <div th:if="${#fields.hasErrors('sexo')}" th:errors="*{sexo}"></div>
         </div>
         <div class="mb-3">
