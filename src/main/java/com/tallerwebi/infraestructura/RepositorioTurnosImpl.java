@@ -2,13 +2,9 @@ package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.RepositorioTurnos;
 import com.tallerwebi.dominio.Turno;
-import com.tallerwebi.dominio.Usuario;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;

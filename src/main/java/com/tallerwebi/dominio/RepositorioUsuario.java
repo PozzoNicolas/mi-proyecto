@@ -21,5 +21,7 @@ public interface RepositorioUsuario {
     void eliminar(Usuario usuario);
 
     void flush();
+    
+    Usuario buscarPorIdConTurnos(Long id);
 }
 

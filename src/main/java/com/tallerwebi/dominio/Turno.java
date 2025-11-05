@@ -10,7 +10,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
 @Entity
 @Transactional
@@ -42,20 +41,6 @@ public class Turno {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    //Campo temporal para form en resultado-turnos.
-    @Transient
-    private String seleccion;
-
-    @Transient
-    private int idveterinariaBusqueda;
-
-    @Transient
-    private String especialidadStr;
-    
-    @Transient
-    private String practicaStr;
-
-
     public Usuario getUsuario() {
         return usuario;
     }
@@ -84,8 +69,6 @@ public class Turno {
     public LocalDate getFecha() {return this.fecha;}
     public LocalTime getHorario() {return this.horario;}
     public Profesional getProfesional() {return this.profesional;}
-    public String getSeleccion() {return this.seleccion;}
-    public int getIdVeterinariaBusqueda() {return this.idveterinariaBusqueda;}
 
     public void setId(Long id) {
         this.id = id;
@@ -97,6 +80,4 @@ public class Turno {
     public void setFecha(LocalDate fecha) {this.fecha = fecha;}
     public void setHorario(LocalTime horario) {this.horario = horario;}
     public void setProfesional(Profesional profesional) {this.profesional = profesional;}
-    public void setSeleccion(String n) {this.seleccion = n;}
-    public void setIdVeterinariaBusqueda(int n) {this.idveterinariaBusqueda = n;}
 }

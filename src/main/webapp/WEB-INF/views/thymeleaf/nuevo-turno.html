@@ -30,39 +30,37 @@
   <div class = "container">
     <h1>Nuevo turno</h1>
 
-    <form action="#" th:action="@{/validar-datos-turno}" method="post" th:object="${datosBusqueda}">
-    <label for="especialidad">Especialidad:</label>
-    <select id="especialidad" th:field="*{especialidad}" onchange="mostrarPracticas(this.value)">
-      <option value="" th:text="'-- Seleccione --'" selected></option>
-      <option th:each="esp : ${especialidades}"
-              th:value="${esp}"
-              th:text="${esp.getDesc()}">
-      </option>
-    </select>
+    <form th:action="@{/turno/validar-datos-turno}" method="post" th:object="${turnoDTO}">
+      <label for="especialidad">Especialidad:</label>
+      <select id="especialidad" th:field="*{especialidad}" onchange="mostrarPracticas(this.value)">
+        <option value="" th:text="'-- Seleccione --'"></option>
+        <option th:each="esp : ${especialidades}"
+                th:value="${esp}"
+                th:text="${esp.getDesc()}"></option>
+      </select>
 
-    <label for="practica">Pr&aacute;ctica:</label>
-    <select id="practica" th:field="*{practica}">
+      <label for="practica">Práctica:</label>
+      <select id="practica" th:field="*{practica}">
         <option value="">-- Seleccione una especialidad primero --</option>
-    </select>
+      </select>
 
-    <div id="practicas-data" style="display:none">
-      <div th:each="esp : ${especialidades}" th:attr="data-esp=${esp.name()}">
+      <div id="practicas-data" style="display:none">
+        <div th:each="esp : ${especialidades}" th:attr="data-esp=${esp.name()}">
           <span th:each="pr : ${esp.practicas}"
                 th:attr="data-name=${pr.name()},data-desc=${pr.desc}">
           </span>
+        </div>
       </div>
-    </div>
 
       <label for="lugar">Lugar:</label>
-      <select id="lugar" th:field="*{idVeterinariaBusqueda}">
+      <select id="lugar" th:field="*{veterinariaId}">
         <option value="0">-- Indiferente --</option>
-        <option th:each="vet : ${veterinarias}" 
-                th:value="${vet.id}" 
-                th:text="${vet.nombre}">
-        </option>
+        <option th:each="vet : ${veterinarias}"
+                th:value="${vet.id}"
+                th:text="${vet.nombre}"></option>
       </select>
 
-      <button class = "btn-success">Buscar disponibles</button>
+      <button class="btn-success" type="submit">Buscar disponibles</button>
 
     <script>
     function mostrarPracticas(especialidad) {

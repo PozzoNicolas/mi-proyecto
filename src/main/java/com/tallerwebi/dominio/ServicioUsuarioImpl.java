@@ -78,11 +78,16 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
         return new ArrayList<>(storage.values());
     }
 
-
-    
     @Override
-    public void cancelarTurno(Usuario usuario, Long id) {
-        usuario.cancelarTurno(id);
+    public void cancelarTurno(Usuario usuarioEnSesion, Long idTurno) {
+
+        // Reload fresh user WITH turnos from DB
+        Usuario usuario = repositorioUsuario.buscarPorIdConTurnos(usuarioEnSesion.getId());
+
+        usuario.cancelarTurno(idTurno); // modify list
+
+        // Persist changes
+        repositorioUsuario.actualizar(usuario);
     }
 
     @Transactional
@@ -101,21 +106,12 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
     @Transactional
     public Usuario buscarUsuarioPorIdConTurnos(Long id) {
         if (repositorioUsuario != null) {
-            Usuario usuario = repositorioUsuario.buscarPorId(id);
-            if (usuario != null) {
-                // Initialize lazy collection
-                usuario.getTurnos().size();
-            }
-            return usuario;
+            return repositorioUsuario.buscarPorIdConTurnos(id);
         }
-        // fallback for in-memory tests
+
+        // In-memory fallback
         Usuario usuario = storage.get(id);
-        if (usuario != null) {
-            usuario.getTurnos().size(); // safe, just a normal list
-        }
+        if (usuario != null) usuario.getTurnos().size();
         return usuario;
-    } 
-
-
-
+    }
 }

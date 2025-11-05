@@ -3,10 +3,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import com.tallerwebi.dominio.Turno;
-
 public class TDDTest {
 
     @Test

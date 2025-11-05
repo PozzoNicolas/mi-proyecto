@@ -32,4 +32,9 @@ public class RepositorioProfesionalImpl implements RepositorioProfesional {
     public void guardar(Profesional profesional) {
         sessionFactory.getCurrentSession().save(profesional);
     }
+
+    @Override
+    public Profesional buscarPorNombre(String nombre) {
+        return sessionFactory.getCurrentSession().get(Profesional.class, nombre);
+    }
 }

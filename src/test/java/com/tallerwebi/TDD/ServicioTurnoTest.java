@@ -8,8 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 import com.tallerwebi.dominio.*;
-import com.tallerwebi.infraestructura.RepositorioTurnosImpl;
-import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,8 +16,6 @@ import java.util.List;
 
 import com.tallerwebi.dominio.enums.Especialidad;
 import com.tallerwebi.dominio.enums.Practica;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -62,26 +58,26 @@ public class ServicioTurnoTest {
 
 
     @Test
-    public void devolverTrueCuandoLaBusquedaDeUnTurnoSeaValida() {
-        Turno turno = new Turno();
+    public void debeDebolverTrueCuandoLaEspYPractDeUnTurnoDtoSeanValidas() {
+        TurnoDTO turnoDTO = new TurnoDTO();
 
-        turno.setEspecialidad(Especialidad.ESTUDIO);
-        turno.setPractica(Practica.ESTUDIO_1);
-        assertTrue(servicioTurnos.esTurnoValido(turno)); 
+        turnoDTO.setEspecialidad(Especialidad.ESTUDIO);
+        turnoDTO.setPractica(Practica.ESTUDIO_1);
+        assertTrue(servicioTurnos.esTurnoDTOEspPracValidas(turnoDTO)); 
     }
 
     @Test
     public void devolverFalseAlBuscarUnTurnoSinEspecialidad() {
-        Turno turno = new Turno();
-        turno.setPractica(Practica.VACUNA_1);
-        assertFalse(servicioTurnos.esTurnoValido(turno)); 
+        TurnoDTO turnoDTO = new TurnoDTO();
+        turnoDTO.setPractica(Practica.VACUNA_1);
+        assertFalse(servicioTurnos.esTurnoDTOEspPracValidas(turnoDTO)); 
     }
 
     @Test 
     public void devolverFalseAlBuscarUnTurnoSinPractica() {
-        Turno turno = new Turno();
-        turno.setEspecialidad(Especialidad.ESTUDIO);
-        assertFalse(servicioTurnos.esTurnoValido(turno));
+        TurnoDTO turnoDTO = new TurnoDTO();
+        turnoDTO.setEspecialidad(Especialidad.ESTUDIO);
+        assertFalse(servicioTurnos.esTurnoDTOEspPracValidas(turnoDTO));
     }
 
     @Test 
@@ -106,13 +102,13 @@ public class ServicioTurnoTest {
         Veterinaria veterinariaEsperada = new Veterinaria("Vet Uno", "Calle 123");
         veterinariaEsperada.setId(1L);
 
-        Turno turno = new Turno();
-        turno.setIdVeterinariaBusqueda(1);
+        TurnoDTO turnoDTO = new TurnoDTO();
+        turnoDTO.setVeterinariaId(1);
 
         when(repositorioVeterinaria.buscarPorId(1L))
             .thenReturn(veterinariaEsperada);
 
-        Veterinaria veterinariaObtenida = servicioTurnos.obtenerVeterinariaPorTurno(turno);
+        Veterinaria veterinariaObtenida = servicioTurnos.getVeterinariaPorTurnoDTO(turnoDTO);
 
         assertEquals(veterinariaEsperada, veterinariaObtenida);
     }
@@ -120,9 +116,9 @@ public class ServicioTurnoTest {
     @Test
     public void queAlHacerUnaBusquedaSinUnaVeterinariaEspecificaObtengaUnObjetoVeterinariaVacio() {
 
-        Turno turno = new Turno(); 
-        turno.setVeterinaria(null);
-        Veterinaria v = servicioTurnos.obtenerVeterinariaPorTurno(turno);
+        TurnoDTO turnoDTO = new TurnoDTO(); 
+        turnoDTO.setVeterinariaId(null);
+        Veterinaria v = servicioTurnos.getVeterinariaPorTurnoDTO(turnoDTO);
 
         assertNotNull(v);
         assertNull(v.getNombre());
@@ -143,26 +139,4 @@ public class ServicioTurnoTest {
         assertEquals(LocalTime.parse("10:00"), usuario.getTurnos().get(0).getHorario());
         verify(repositorioTurnos).guardar(turno); // comprueba que se llamó al repositorio
     }
-    /*
-    @Test
-    public void queElServicioSeaCapazDeProcesarSeleccionConTresPartes() {
-        Turno turno = new Turno();
-        turno.setSeleccion("1||10:00||222");
-
-        Veterinaria vet = new Veterinaria();
-        vet.setId(1L);
-
-        Profesional prof = new Profesional();
-        prof.setDni(222);
-
-        when(repositorioVeterinaria.buscarPorId(1L)).thenReturn(vet);
-        when(repositorioProfesional.buscarPorDni(222)).thenReturn(prof);
-
-        servicioTurnos.procesarSeleccion(turno);
-
-        assertEquals(1L, turno.getVeterinaria().getId());
-        assertEquals(LocalTime.parse("10:00"), turno.getHorario());
-        assertEquals(222, turno.getProfesional().getDni());
-    }  */
-    
 }
