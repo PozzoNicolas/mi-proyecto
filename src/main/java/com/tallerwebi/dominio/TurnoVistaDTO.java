@@ -3,9 +3,6 @@ package com.tallerwebi.dominio;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import com.tallerwebi.dominio.enums.Especialidad;
-import com.tallerwebi.dominio.enums.Practica;
-
 public class TurnoVistaDTO {
 
     private Long id;
@@ -29,9 +26,7 @@ public class TurnoVistaDTO {
         this.profesionalNombre = profesionalNombre;
     }
 
-    public TurnoVistaDTO() {
-        //TODO Auto-generated constructor stub
-    }
+    public TurnoVistaDTO() {}
 
     public Long getId() {
         return this.id;

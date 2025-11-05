@@ -39,10 +39,9 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
         return (Usuario) session.get(Usuario.class, id);
     }
 
-
     @Override
     public void guardar(Usuario usuario) {
-        sessionFactory.getCurrentSession().save(usuario);
+        sessionFactory.getCurrentSession().saveOrUpdate(usuario);
     }
 
     @Override
@@ -59,7 +58,7 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 
     @Override
     public void actualizar(Usuario usuario) {
-
+        sessionFactory.getCurrentSession().update(usuario);
     }
 
     @Override

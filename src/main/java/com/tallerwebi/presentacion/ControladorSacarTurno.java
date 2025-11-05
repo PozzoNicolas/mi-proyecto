@@ -85,6 +85,11 @@ public class ControladorSacarTurno {
             return new ModelAndView("home", modelo);
         }
 
+        Boolean paso1 = (Boolean) session.getAttribute("turno_flow");
+        if (paso1 == null || !paso1) {
+            return new ModelAndView("redirect:/nuevo-turno");
+        }
+
         //Veterinaria v = turno.getVeterinaria();
         Veterinaria v = servicioTurnos.getVeterinariaPorTurnoDTO(turnoDTO);
         //Se carga la/s veterinaria/s que el usuario busco, y se su be al modelo
@@ -119,7 +124,8 @@ public class ControladorSacarTurno {
     }
 
     @PostMapping("/validar-datos-turno")
-    public ModelAndView validarDatos(@ModelAttribute("turnoDTO") TurnoDTO turnoDTO) {
+    public ModelAndView validarDatos(@ModelAttribute("turnoDTO") TurnoDTO turnoDTO,
+                                    HttpSession session) {
         ModelMap modelo = new ModelMap();
 
         if(!servicioTurnos.esTurnoDTOEspPracValidas(turnoDTO)) {
@@ -127,6 +133,8 @@ public class ControladorSacarTurno {
             modelo.put("datosBusqueda", turnoDTO);
             return new ModelAndView("nuevo-turno", modelo);
         }
+
+        session.setAttribute("turno_flow", true);
 
         modelo.put("turnoDTO", turnoDTO);
         return new ModelAndView("resultado-turno", modelo);
@@ -177,7 +185,7 @@ public class ControladorSacarTurno {
 
         // Clear the DTO from session because flow finished
         status.setComplete();
-
+        session.removeAttribute("turno_flow");
         // Redirect to turnos list page (or confirmation)
         return "redirect:/turnos";
     }

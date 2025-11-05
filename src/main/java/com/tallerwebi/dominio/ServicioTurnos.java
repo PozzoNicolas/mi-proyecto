@@ -1,7 +1,5 @@
 package com.tallerwebi.dominio;
 
-import org.springframework.scheduling.annotation.Scheduled;
-
 import java.time.LocalTime;
 import java.util.List;
 

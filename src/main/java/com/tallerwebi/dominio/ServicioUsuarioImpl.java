@@ -78,11 +78,16 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
         return new ArrayList<>(storage.values());
     }
 
-
-    
     @Override
-    public void cancelarTurno(Usuario usuario, Long id) {
-        usuario.cancelarTurno(id);
+    public void cancelarTurno(Usuario usuarioEnSesion, Long idTurno) {
+
+        // Reload fresh user WITH turnos from DB
+        Usuario usuario = repositorioUsuario.buscarPorIdConTurnos(usuarioEnSesion.getId());
+
+        usuario.cancelarTurno(idTurno); // modify list
+
+        // Persist changes
+        repositorioUsuario.actualizar(usuario);
     }
 
     @Transactional

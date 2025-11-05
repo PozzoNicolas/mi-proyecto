@@ -3,6 +3,7 @@ package com.tallerwebi.dominio;
 import javax.persistence.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,9 +26,13 @@ public class Usuario {
     private List<Mascota> mascotas = new ArrayList<Mascota>();
 
     // Si uso EAGER para turnos, se rompe todo. 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(
+        mappedBy = "usuario",
+        cascade = CascadeType.ALL,
+        fetch = FetchType.LAZY,
+        orphanRemoval = true // ← delete turno when removed from list
+    )
     private List<Turno> turnos = new ArrayList<>();
-
 
     public Usuario(String nombre, String apellido, String email, String telefono) {
         this.nombre = nombre;
@@ -112,21 +117,25 @@ public class Usuario {
     }
 
     public boolean cancelarTurno(Long idTurno) {
-        // fail fast: test expects an exception when there are no turnos at all
+
         if (this.turnos.isEmpty()) {
             throw new IllegalArgumentException("El usuario no tiene turnos registrados");
         }
 
-        // avoid NPEs by using Objects.equals which is null-safe
-        boolean removed = this.turnos.removeIf(t -> Objects.equals(t.getId(), idTurno));
+        Iterator<Turno> iterator = this.turnos.iterator();
 
-        if (!removed) {
-            // If there were turnos but none matched -> test might expect exception
-            throw new IllegalArgumentException("Turno no encontrado");
+        while (iterator.hasNext()) {
+            Turno t = iterator.next();
+            if (Objects.equals(t.getId(), idTurno)) {
+                iterator.remove();
+                t.setUsuario(null); // 🔥 mark it as orphan
+                return true;
+            }
         }
 
-        return true;
+        throw new IllegalArgumentException("Turno no encontrado");
     }
+
 
     public Turno getTurnoPorId(Long turnoId) {
         return this.getTurnos().stream()

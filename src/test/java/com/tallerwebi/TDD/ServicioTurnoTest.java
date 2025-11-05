@@ -8,8 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 import com.tallerwebi.dominio.*;
-import com.tallerwebi.infraestructura.RepositorioTurnosImpl;
-import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,8 +16,6 @@ import java.util.List;
 
 import com.tallerwebi.dominio.enums.Especialidad;
 import com.tallerwebi.dominio.enums.Practica;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -143,26 +139,4 @@ public class ServicioTurnoTest {
         assertEquals(LocalTime.parse("10:00"), usuario.getTurnos().get(0).getHorario());
         verify(repositorioTurnos).guardar(turno); // comprueba que se llamó al repositorio
     }
-    /*
-    @Test
-    public void queElServicioSeaCapazDeProcesarSeleccionConTresPartes() {
-        Turno turno = new Turno();
-        turno.setSeleccion("1||10:00||222");
-
-        Veterinaria vet = new Veterinaria();
-        vet.setId(1L);
-
-        Profesional prof = new Profesional();
-        prof.setDni(222);
-
-        when(repositorioVeterinaria.buscarPorId(1L)).thenReturn(vet);
-        when(repositorioProfesional.buscarPorDni(222)).thenReturn(prof);
-
-        servicioTurnos.procesarSeleccion(turno);
-
-        assertEquals(1L, turno.getVeterinaria().getId());
-        assertEquals(LocalTime.parse("10:00"), turno.getHorario());
-        assertEquals(222, turno.getProfesional().getDni());
-    }  */
-    
 }

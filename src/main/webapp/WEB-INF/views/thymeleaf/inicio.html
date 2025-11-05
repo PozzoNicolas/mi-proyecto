@@ -71,22 +71,21 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <!-- Esto se rompe. Estoy casi seguro que hay que tener un segundo TDO para la vista :(
+            <!-- Esto se rompe. Estoy casi seguro que hay que tener un segundo TDO para la vista :( -->
             <div th:if="${#lists.isEmpty(turnos)}">
                 <p>No hay Notificaciones</p>
             </div>
             <div th:if="${!#lists.isEmpty(turnos)}">
                 <div th:each="turno : ${turnos}" class="card">
                     <div class="card-body">
-                        <h5 class="card-title"> <span th:text="${turno.especialidad.getDesc()}"></span> </h5>
-                        <h6 class="card-subtitle mb-2 text-muted"><span th:text="${turno.practica.getDesc()}"></span></h6>
+                        <h5 class="card-title"> <span th:text="${turno.especialidad}"></span> </h5>
+                        <h6 class="card-subtitle mb-2 text-muted"><span th:text="${turno.practica}"></span></h6>
                         <p class="card-text">Fecha <span th:text="${turno.fecha}"></span>, <span th:text="${turno.horario}"></span> <br>
-                            Profesional: <span th:text="${turno.profesional}"></span></p>
+                            Profesional: <span th:text="${turno.profesionalNombre}"></span></p>
                         <a href="./turnos" class="card-link">Ver Turnos</a>
-                        <a href="#" class="card-link">Cancelar Turno</a>
                     </div>
                 </div>
-            </div> -->
+            </div> 
         </div>
     </div>
     
