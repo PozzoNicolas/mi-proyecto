@@ -18,4 +18,5 @@ public interface ServicioTurnos {
     Veterinaria getVeterinariaPorTurnoDTO(TurnoDTO turnoDTO);
     boolean esTurnoDTOEspPracValidas(TurnoDTO turnoDTO);
     Turno crearTurnoConDTO(TurnoDTO turnoDTO);
+    TurnoVistaDTO mapearTurnoATurnoVistaDTO(Turno turno);
 }

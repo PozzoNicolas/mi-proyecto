@@ -2,6 +2,10 @@ package com.tallerwebi.dominio;
 
 import java.util.List;
 
+import org.jboss.logging.Param;
+
+import retrofit2.http.Query;
+
 public interface RepositorioUsuario {
 
     Usuario buscarUsuario(String email, String password);
@@ -21,5 +25,7 @@ public interface RepositorioUsuario {
     void eliminar(Usuario usuario);
 
     void flush();
+    
+    Usuario buscarPorIdConTurnos(Long id);
 }
 

@@ -167,11 +167,22 @@ public class ServicioTurnosImpl implements ServicioTurnos {
         }
     }
 
-    /*
-    @Override
-    public boolean esTurnoValido(Turno turno) {
-        return turno.getEspecialidad() != null && turno.getPractica() != null;
-    }
-    */
+    public TurnoVistaDTO mapearTurnoATurnoVistaDTO(Turno turno) {
+        TurnoVistaDTO dto = new TurnoVistaDTO();
+        dto.setId(turno.getId());
+        dto.setEspecialidad(turno.getEspecialidad().toString());
+        dto.setPractica(turno.getPractica().toString());
+        dto.setFecha(turno.getFecha());
+        dto.setHorario(turno.getHorario());
 
+        dto.setVeterinariaNombre(
+            turno.getVeterinaria() != null ? turno.getVeterinaria().getNombre() : "N/A"
+        );
+
+        dto.setProfesionalNombre(
+            turno.getProfesional() != null ? turno.getProfesional().getNombre() : "N/A"
+        );
+
+        return dto;
+    }
 }

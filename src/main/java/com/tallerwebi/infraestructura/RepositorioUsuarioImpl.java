@@ -88,5 +88,16 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
         sessionFactory.getCurrentSession().flush();
     }
 
-
+    @Override
+    public Usuario buscarPorIdConTurnos(Long id) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery(
+            "SELECT DISTINCT u FROM Usuario u " +
+            "LEFT JOIN FETCH u.turnos t " +
+            "LEFT JOIN FETCH t.veterinaria " +
+            "LEFT JOIN FETCH t.profesional " +
+            "WHERE u.id = :id", Usuario.class)
+            .setParameter("id", id)
+            .uniqueResult();
+    }
 }

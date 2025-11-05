@@ -1,6 +1,9 @@
 package com.tallerwebi.presentacion;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -13,18 +16,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.tallerwebi.dominio.ServicioUsuario;
+import com.tallerwebi.dominio.Turno;
+import com.tallerwebi.dominio.TurnoVistaDTO;
 import com.tallerwebi.dominio.ServicioMail;
+import com.tallerwebi.dominio.ServicioTurnos;
 
 @Controller
 public class ControladorTurnos {
 
     private final ServicioUsuario servicioUsuario;
     private final ServicioMail servicioMail;
+    private final ServicioTurnos servicioTurnos; 
 
     @Autowired
-    public ControladorTurnos(ServicioUsuario servicioUsuario, ServicioMail servicioMail) {
+    public ControladorTurnos(ServicioUsuario servicioUsuario, ServicioMail servicioMail, ServicioTurnos servicioTurnos) {
         this.servicioUsuario = servicioUsuario;
         this.servicioMail = servicioMail; 
+        this.servicioTurnos = servicioTurnos;
     }
 
     @GetMapping("/turnos")
@@ -41,7 +49,14 @@ public class ControladorTurnos {
         }
         modelo.addAttribute("email", email);
         Usuario usuarioConTurnos = servicioUsuario.buscarUsuarioPorIdConTurnos(usuarioActual.getId());
-        modelo.addAttribute("turnos", new ArrayList<>(usuarioConTurnos.getTurnos()));
+        
+        List<TurnoVistaDTO> turnosDTO = usuarioConTurnos.getTurnos()
+            .stream()
+            .map((Turno turno) -> servicioTurnos.mapearTurnoATurnoVistaDTO(turno))
+            .collect(Collectors.toList());
+
+        modelo.addAttribute("turnos", turnosDTO);
+
         return "turnos";
     }
 

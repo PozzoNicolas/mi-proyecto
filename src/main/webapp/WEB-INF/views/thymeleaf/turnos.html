@@ -49,21 +49,21 @@
 
         <tbody>
           <tr th:each="turno : ${turnos}">
-            <td th:text="${turno.especialidad != null ? turno.especialidad.desc : 'N/A'}"></td>
-            <td th:text="${turno.practica != null ? turno.practica.desc : 'N/A'}"></td>
-            <td th:text="${turno.fecha}"></td>
-            <td th:text="${turno.horario}"></td>
-            <td th:text="${turno.veterinaria != null ? turno.veterinaria.nombre : 'N/A'}"></td>
-            <td th:text="${turno.profesional != null ? turno.profesional.nombre : 'N/A'}"></td>
+              <td th:text="${turno.especialidad}"></td>
+              <td th:text="${turno.practica}"></td>
+              <td th:text="${turno.fecha}"></td>
+              <td th:text="${turno.horario}"></td>
+              <td th:text="${turno.veterinariaNombre}"></td>
+              <td th:text="${turno.profesionalNombre}"></td>
 
-            <td>
-              <form th:action="@{/cancelar-turno}" method="post">
-                <input type="hidden" name="turnoId" th:value="${turno.id}"/>
-                <button class="btn btn-danger btn-sm" type="submit">Cancelar</button>
-              </form>
-            </td>
+              <td>
+                  <form th:action="@{/cancelar-turno}" method="post">
+                      <input type="hidden" name="turnoId" th:value="${turno.id}"/>
+                      <button class="btn btn-danger btn-sm" type="submit">Cancelar</button>
+                  </form>
+              </td>
           </tr>
-        </tbody>
+          </tbody>
       </table>
     </div>
     <a href="./turno/nuevo-turno" class="btn btn-lg btn-primary btn-block">Nuevo Turno</a>
