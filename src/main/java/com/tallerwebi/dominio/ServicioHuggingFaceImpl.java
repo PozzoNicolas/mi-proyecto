@@ -30,52 +30,63 @@ public class ServicioHuggingFaceImpl implements ServicioHuggingFace {
     public ServicioHuggingFaceImpl(HttpClient httpClient) {
         this.httpClient = httpClient;
     }
+@Override
+public String obtenerRespuesta(String mensajeUsuario) {
+    try {
+        Map<String, Object> body = new HashMap<>();
+        body.put("model", "openai/gpt-oss-safeguard-20b:groq");
 
-    @Override
-    public String obtenerRespuesta(String mensajeUsuario) {
-        try {
-            // Build router-style JSON payload
-            Map<String, Object> body = new HashMap<>();
-            body.put("model", "MiniMaxAI/MiniMax-M2:novita"); // replace with your desired model
+        Map<String, String> systemMessage = Map.of(
+            "role", "system",
+            "content", "Sos VetGPT, un asistente veterinario profesional y amable. "
+                    + "Nunca des diagnósticos ni tratamientos médicos. "
+                    + "Saludá cordialmente y pedí información: especie, nombre, edad, peso, sexo, síntomas, historial, vacunas y medicación. "
+                    + "Sé breve, claro y útil. Habla en español."
+        );
 
-            List<Map<String, String>> messages = List.of(
-                    Map.of("role", "system", "content", "Sos un asistente veterinario amable llamado VetGPT."),
-                    Map.of("role", "user", "content", mensajeUsuario)
-            );
+        Map<String, String> assistantExample = Map.of(
+            "role", "assistant",
+            "content", "¡Hola! Soy VetGPT 😊 ¿Cómo se llama tu mascota y qué especie es?"
+        );
 
-            body.put("messages", messages);
+        Map<String, String> userMessage = Map.of(
+            "role", "user",
+            "content", mensajeUsuario
+        );
 
-            String requestBody = mapper.writeValueAsString(body);
+        List<Map<String, String>> messages = List.of(systemMessage, assistantExample, userMessage);
+        body.put("messages", messages);
 
-            // Build HTTP request
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(API_URL))
-                    .header("Authorization", "Bearer " + API_KEY)
-                    .header("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                    .build();
+        String requestBody = mapper.writeValueAsString(body);
 
-            // Send request
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(API_URL))
+            .header("Authorization", "Bearer " + API_KEY)
+            .header("Content-Type", "application/json")
+            .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+            .build();
 
-            // Parse response
-            if (response.statusCode() == 200) {
-                Map<String, Object> json = mapper.readValue(response.body(), Map.class);
-                List<Map<String, Object>> choices = (List<Map<String, Object>>) json.get("choices");
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
-                if (choices != null && !choices.isEmpty()) {
-                    Map<String, Object> message = (Map<String, Object>) choices.get(0).get("message");
-                    return message.get("content").toString().trim();
-                } else {
-                    return "❌ No se encontró una respuesta válida en la API.";
-                }
+        if (response.statusCode() == 200) {
+            Map<String, Object> json = mapper.readValue(response.body(), Map.class);
+            List<Map<String, Object>> choices = (List<Map<String, Object>>) json.get("choices");
+
+            if (choices != null && !choices.isEmpty()) {
+                Map<String, Object> message = (Map<String, Object>) choices.get(0).get("message");
+                return message.get("content").toString().trim();
             } else {
-                return "❌ Error en la conexión con Hugging Face. Código: "
-                        + response.statusCode() + ". Respuesta: " + response.body();
+                return "❌ No se encontró una respuesta válida en la API.";
             }
-
-        } catch (Exception e) {
-            return "Error al conectar con Hugging Face: " + e.getMessage();
+        } else {
+            return "❌ Error en la conexión con Hugging Face. Código: "
+                + response.statusCode() + ". Respuesta: " + response.body();
         }
+
+    } catch (Exception e) {
+        return "Error al conectar con Hugging Face: " + e.getMessage();
     }
+}
+
+
 }
