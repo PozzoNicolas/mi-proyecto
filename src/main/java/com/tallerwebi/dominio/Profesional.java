@@ -21,11 +21,24 @@ public class Profesional {
         this.dni = dni; 
     }
 
+
     public String getNombre() {
         return this.nombre; 
     }
 
     public Integer getDni() {
         return this.dni; 
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setDni(Integer dni) {
+        this.dni = dni;
     }
 }

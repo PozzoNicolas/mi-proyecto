@@ -7,12 +7,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.hamcrest.Matchers.containsString;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Collection;
 
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.*;
 import org.junit.jupiter.api.Test;
-import com.tallerwebi.dominio.ServicioUsuarioImpl;
-import com.tallerwebi.dominio.Turno;
 import com.tallerwebi.dominio.enums.Especialidad;
 import com.tallerwebi.dominio.enums.Practica;
 
@@ -99,9 +99,15 @@ public class ServicioUsuarioTest {
 
     @Test
     public void dadoUnUsuarioConTurnosRegistradosPuedoCancelarUno() {
+        Veterinaria vet = new Veterinaria();
+        vet.setId(1L);
+        Profesional prof = new Profesional();
+        prof.setId(1L);
         Usuario usuario = new Usuario("Joauquin", "Diaz", "joaquindiazantunez02@gmail.com","1131522182");
-        Turno t1 = new Turno(Especialidad.CONTROL, Practica.CONTROL_1, 1L,"2025-05-14","10:00");
-        Turno t2 = new Turno(Especialidad.ESTUDIO, Practica.ESTUDIO_2, 1L,"2025-05-15","10:30");
+        Turno t1 = new Turno(Especialidad.CONTROL, Practica.CONTROL_1, vet, prof, LocalDate.parse("2025-05-14"), LocalTime.parse("10:00"));
+        Turno t2 = new Turno(Especialidad.ESTUDIO, Practica.ESTUDIO_2,vet, prof,LocalDate.parse("2025-05-15"), LocalTime.parse("10:30"));
+        t1.setId(1L);
+        t2.setId(2L);
 
         usuario.agregarTurno(t1);
         usuario.agregarTurno(t2);
@@ -119,9 +125,15 @@ public class ServicioUsuarioTest {
 
     @Test
     public void dadoUnUsuarioConTurnosSiBuscoUnoRegistradoPorIdLoObtengo() {
+        Veterinaria vet = new Veterinaria();
+        vet.setId(1L);
+        Profesional prof = new Profesional();
+        prof.setId(1L);
         Usuario usuario = new Usuario("Joauquin", "Diaz", "joaquindiazantunez02@gmail.com","1131522182");
-        Turno t1 = new Turno(Especialidad.CONTROL, Practica.CONTROL_1, 1L,"2025-05-14","10:00");
-        Turno t2 = new Turno(Especialidad.ESTUDIO, Practica.ESTUDIO_2, 1L,"2025-05-15","10:30");
+        Turno t1 = new Turno(Especialidad.CONTROL, Practica.CONTROL_1, vet, prof, LocalDate.parse("2025-05-14"), LocalTime.parse("10:00"));
+        Turno t2 = new Turno(Especialidad.ESTUDIO, Practica.ESTUDIO_2,vet, prof,LocalDate.parse("2025-05-15"), LocalTime.parse("10:30"));
+        t1.setId(1L);
+        t2.setId(2L);
 
         usuario.agregarTurno(t1);
         usuario.agregarTurno(t2);

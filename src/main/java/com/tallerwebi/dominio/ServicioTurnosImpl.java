@@ -5,21 +5,32 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @EnableScheduling
 public class ServicioTurnosImpl implements ServicioTurnos {
-    
-    private final ServicioVeterinaria servicioVeterinaria;
-    private final RepositorioTurnos repositorioTurnos;
+
     private final ServicioMail servicioMail;
+    private final RepositorioTurnos repositorioTurnos;
+    private final RepositorioVeterinaria repositorioVeterinaria;
+    private final RepositorioProfesional repositorioProfesional;
+    private final RepositorioVPH repositorioVPH;
 
     @Autowired
-    public ServicioTurnosImpl(ServicioVeterinaria servicioVeterinaria, RepositorioTurnos repositorioTurnos, ServicioMail servicioMail) {
-        this.servicioVeterinaria = servicioVeterinaria;
-        this.repositorioTurnos = repositorioTurnos;
+    public ServicioTurnosImpl(ServicioMail servicioMail,
+                              RepositorioTurnos repositorioTurnos,
+                              RepositorioVeterinaria repositorioVeterinaria,
+                              RepositorioProfesional repositorioProfesional,
+                              RepositorioVPH repositorioVPH
+    ) {
         this.servicioMail = servicioMail;
+        this.repositorioTurnos = repositorioTurnos;
+        this.repositorioVeterinaria = repositorioVeterinaria;
+        this.repositorioProfesional = repositorioProfesional;
+        this.repositorioVPH = repositorioVPH;
     }
 
     @Override
@@ -29,12 +40,12 @@ public class ServicioTurnosImpl implements ServicioTurnos {
 
     @Override
     public List<Veterinaria> listarVeterinariasIndiferente() {
-        return servicioVeterinaria.listarVeterinarias();
+        return repositorioVeterinaria.listarVeterinarias();
     }
 
     @Override
     public Veterinaria obtenerVeterinariaPorTurno(Turno turno) {
-        Veterinaria v = servicioVeterinaria.buscarPorId(turno.getVeterinaria());
+        Veterinaria v = repositorioVeterinaria.buscarPorId((long) turno.getIdVeterinariaBusqueda());
         return (v != null) ? v : new Veterinaria();
     }
 
@@ -46,20 +57,33 @@ public class ServicioTurnosImpl implements ServicioTurnos {
         repositorioTurnos.guardar(turno);
     }
 
-
     @Override
     public void procesarSeleccion(Turno turno) {
-        if (turno.getSeleccion() != null) {
-            String[] partes = turno.getSeleccion().split("\\|\\|");
+        if (turno.getSeleccion() == null || turno.getSeleccion().isEmpty()) return;
 
-            if (partes.length == 3) { // Caso "Indiferente"
-                turno.setVeterinaria(Long.parseLong(partes[0]));
-                turno.setHorario(partes[1]);
-                turno.setProfesional(partes[2]);
-            } else if (partes.length == 2) { // Veterinaria específica
-                turno.setHorario(partes[0]);
-                turno.setProfesional(partes[1]);
-            }
+        String[] partes = turno.getSeleccion().split("\\|\\|");
+
+        if (partes.length != 3) {
+            throw new IllegalArgumentException("Selección inválida, se esperaba formato: vetId||horario||profId");
+        }
+
+        try {
+            // 1️⃣ Veterinaria
+            Long idVet = Long.parseLong(partes[0]);
+            Veterinaria vet = repositorioVeterinaria.buscarPorId(idVet);
+            turno.setVeterinaria(vet);
+
+            // 2️⃣ Horario
+            LocalTime hora = LocalTime.parse(partes[1]);
+            turno.setHorario(hora);
+
+            // 3️⃣ Profesional
+            Long idProf = Long.parseLong(partes[2]);
+            Profesional prof = repositorioProfesional.buscarPorId(idProf);
+            turno.setProfesional(prof);
+
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("IDs inválidos en la selección: " + turno.getSeleccion(), e);
         }
     }
 
@@ -73,4 +97,32 @@ public class ServicioTurnosImpl implements ServicioTurnos {
 
         }
     }
+
+    @Override
+    public List<String> horariosDisponibles(Long idVet) {
+        return repositorioVPH.obtenerPorVeterinaria(idVet)
+                .stream()
+                .map(vph -> vph.getHorario().toString())
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Profesional> profesionalesPorVeterinariaYHorario(Long idVet, LocalTime horario) {
+        return repositorioVPH.obtenerPorVeterinariaYHorario(idVet, horario)
+                .stream()
+                .map(VeterinariaProfesionalHorario::getProfesional)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Profesional> profesionalesDisponibles(Long idVet, LocalTime horario) {
+        return repositorioVPH.obtenerPorVeterinariaYHorario(idVet, horario)
+                .stream()
+                .map(VeterinariaProfesionalHorario::getProfesional)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
 }

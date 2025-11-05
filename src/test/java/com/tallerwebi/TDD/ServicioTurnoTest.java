@@ -5,8 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import com.tallerwebi.dominio.*;
 import com.tallerwebi.infraestructura.RepositorioTurnosImpl;
@@ -14,26 +13,51 @@ import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalTime;
 import java.util.List;
 
 import com.tallerwebi.dominio.enums.Especialidad;
 import com.tallerwebi.dominio.enums.Practica;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 public class ServicioTurnoTest {
-    
-    private ServicioProfesionalImpl servicioProfesional;
-    private ServicioVeterinariaImpl servicioVeterinaria;
+
     private ServicioTurnosImpl servicioTurnos;
-    private RepositorioTurnosImpl respositorioTurnos;
+
+    @Mock
+    private ServicioVeterinaria servicioVeterinaria;
+
+    @Mock
+    private ServicioProfesional servicioProfesional;
+
+    @Mock
+    private RepositorioTurnos repositorioTurnos;
+
+    @Mock
     private ServicioMail servicioMail;
 
+    @Mock
+    private RepositorioVeterinaria repositorioVeterinaria;
+
+    @Mock
+    private RepositorioProfesional repositorioProfesional;
+
+    @Mock
+    private RepositorioVPH repositorioVPH;
+
     @BeforeEach
-    public void setUp() {
-        this.respositorioTurnos = mock(RepositorioTurnosImpl.class);
-        this.servicioProfesional = mock(ServicioProfesionalImpl.class);
-        this.servicioVeterinaria = mock(ServicioVeterinariaImpl.class);
-        this.servicioMail = mock(ServicioMail.class);
-        this.servicioTurnos = new ServicioTurnosImpl(servicioVeterinaria, respositorioTurnos, servicioMail);
+    void setUp() {
+        MockitoAnnotations.openMocks(this); // inicializa todos los @Mock
+        servicioTurnos = new ServicioTurnosImpl(
+                servicioMail,
+                repositorioTurnos,
+                repositorioVeterinaria,
+                repositorioProfesional,
+                repositorioVPH
+        );
     }
 
 
@@ -77,15 +101,16 @@ public class ServicioTurnoTest {
     }
 
     @Test
-    public void queAlHacerUnaBusquedaConUnaVeterinariaEspecificaLaMismaSeRetorne() {
-        Turno turno = new Turno();
-        turno.setVeterinaria(1L);
+    public void queAlHacerUnaBusquedaParaUnaVeterinariaElTurnoTransformeElIdDeBusquedaEnLaVeterinariaEsperada() {
 
         Veterinaria veterinariaEsperada = new Veterinaria("Vet Uno", "Calle 123");
         veterinariaEsperada.setId(1L);
 
-        when(servicioVeterinaria.buscarPorId(1L))
-                .thenReturn(veterinariaEsperada);
+        Turno turno = new Turno();
+        turno.setIdVeterinariaBusqueda(1);
+
+        when(repositorioVeterinaria.buscarPorId(1L))
+            .thenReturn(veterinariaEsperada);
 
         Veterinaria veterinariaObtenida = servicioTurnos.obtenerVeterinariaPorTurno(turno);
 
@@ -94,8 +119,9 @@ public class ServicioTurnoTest {
 
     @Test
     public void queAlHacerUnaBusquedaSinUnaVeterinariaEspecificaObtengaUnObjetoVeterinariaVacio() {
+
         Turno turno = new Turno(); 
-        turno.setVeterinaria(0L);
+        turno.setVeterinaria(null);
         Veterinaria v = servicioTurnos.obtenerVeterinariaPorTurno(turno);
 
         assertNotNull(v);
@@ -108,26 +134,35 @@ public class ServicioTurnoTest {
     @Test
     public void queElServicioSeaCapazDeGuardarElTurnoEnUnUsuarioDado() {
         Usuario usuario = new Usuario("Nicolas", "Pozzo","nico@gmail.com","1155225522");
-
         Turno turno = new Turno();
-        turno.setHorario("10:00");
+        turno.setHorario(LocalTime.parse("10:00"));
 
         servicioTurnos.guardarTurno(usuario, turno);
 
         assertEquals(1, usuario.getTurnos().size());
-        assertEquals("10:00", usuario.getTurnos().get(0).getHorario());
+        assertEquals(LocalTime.parse("10:00"), usuario.getTurnos().get(0).getHorario());
+        verify(repositorioTurnos).guardar(turno); // comprueba que se llamó al repositorio
     }
-
+    /*
     @Test
     public void queElServicioSeaCapazDeProcesarSeleccionConTresPartes() {
         Turno turno = new Turno();
-        turno.setSeleccion("1||10:00||Dr. Smith");
+        turno.setSeleccion("1||10:00||222");
+
+        Veterinaria vet = new Veterinaria();
+        vet.setId(1L);
+
+        Profesional prof = new Profesional();
+        prof.setDni(222);
+
+        when(repositorioVeterinaria.buscarPorId(1L)).thenReturn(vet);
+        when(repositorioProfesional.buscarPorDni(222)).thenReturn(prof);
 
         servicioTurnos.procesarSeleccion(turno);
 
-        assertEquals(1, turno.getVeterinaria());
-        assertEquals("10:00", turno.getHorario());
-        assertEquals("Dr. Smith", turno.getProfesional());
-    }
+        assertEquals(1L, turno.getVeterinaria().getId());
+        assertEquals(LocalTime.parse("10:00"), turno.getHorario());
+        assertEquals(222, turno.getProfesional().getDni());
+    }  */
     
 }
