@@ -30,125 +30,91 @@
     <h1>Resultados3</h1>
     
     <p>Turnos de 
-        <span th:text="${turno.especialidad != null ? turno.especialidad.getDesc() : 'N/A'}"></span>
+        <span th:text="${turnoDTO.especialidad != null ? turnoDTO.especialidad.getDesc() : 'N/A'}"></span>
         para: 
-        <span th:text="${turno.practica != null ? turno.practica.getDesc() : 'N/A'}"></span>
+        <span th:text="${turnoDTO.practica != null ? turnoDTO.practica.getDesc() : 'N/A'}"></span>
         En: 
         <span th:text="${veterinaria != null && !#strings.isEmpty(veterinaria.nombre) ? veterinaria.nombre : 'Indiferente'}"></span>
     </p>
 
-<div th:if="${turno != null}">
-    <form th:action="@{/seleccionar-dia}" th:object="${turno}" method="post">
-        <label for="fecha">Seleccione el día:</label>
-<input type="date" th:field="*{fecha}" required
-       th:attr="min=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" />
+<!-- First: form to select a day -->
+<div th:if="${turnoDTO != null}">
+  <form th:action="@{/turno/seleccionar-dia}" th:object="${turnoDTO}" method="post">
+    <label for="fecha">Seleccione el día:</label>
+    <input type="date" th:field="*{fecha}" required
+           th:attr="min=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" />
 
-        <input type="hidden" th:field="*{especialidad}" />
-        <input type="hidden" th:field="*{practica}" />
-        <input type="hidden" th:field="*{idVeterinariaBusqueda}" />
+    <input type="hidden" th:field="*{especialidad}" />
+    <input type="hidden" th:field="*{practica}" />
+    <input type="hidden" th:field="*{veterinariaId}" />
 
-        <button type="submit">Ver turnos disponibles</button>
-    </form>
+    <button type="submit">Ver turnos disponibles</button>
+  </form>
 </div>
 
-<form th:if="${turno.fecha != null}" th:action="@{/seleccionar-horario-profesional}" th:object="${turno}" method="post">
-    <p>Seleccione el horario y profesional:</p>
+<!-- Second: choose horario + profesional (visible after fecha chosen) -->
+<form th:if="${turnoDTO.fecha != null}" th:action="@{/turno/seleccionar-horario-profesional}" th:object="${turnoDTO}" method="post">
+  <p>Seleccione el horario y profesional:</p>
 
-    <div th:if="${turno.fecha != null}" style="border:1px solid #ccc; padding: 15px;">
+  <div style="border:1px solid #ccc; padding: 15px;">
 
     <!-- Veterinaria específica -->
-    <div th:if="${veterinaria != null}">
-        <h3 th:text="'Veterinaria: ' + (veterinaria.nombre != null ? veterinaria.nombre : 'N/A')">Veterinaria</h3>
+    <div th:if="${turnoDTO.veterinariaId != null}">
+      <h3 th:text="'Veterinaria: ' + (veterinaria.nombre != null ? veterinaria.nombre : 'N/A')">Veterinaria</h3>
 
-        <div th:each="entry : ${veterinaria.profesionalesEnHorario}">
-            <p><strong th:text="${entry.key != null ? entry.key : 'Horario'}">Horario</strong></p>
-            <ul>
-                <li th:each="prof : ${entry.value}" th:if="${prof != null}">
-                    <label>
-                        <input type="radio" th:field="*{seleccion}" 
-                               th:value="${(veterinaria != null && veterinaria.id != null ? veterinaria.id : '') + '||' + (entry.key != null ? entry.key : '') + '||' + (prof.id != null ? prof.id : '')}" required />
-                        <span th:text="${prof.nombre != null ? prof.nombre : 'N/A'}">Profesional</span>
-                    </label>
-                </li>
-            </ul>
-        </div>
+      <div th:each="entry : ${veterinaria.profesionalesEnHorario}">
+        <p><strong th:text="${entry.key != null ? entry.key : 'Horario'}">Horario</strong></p>
+        <ul>
+          <li th:each="prof : ${entry.value}" th:if="${prof != null}">
+            <label>
+              <input type="radio" th:field="*{seleccion}"
+                     th:value="${veterinaria.id + '||' + (entry.key != null ? entry.key : '') + '||' + (prof.id != null ? prof.id : '')}" required />
+              <span th:text="${prof.nombre != null ? prof.nombre : 'N/A'}">Profesional</span>
+            </label>
+          </li>
+        </ul>
+      </div>
     </div>
 
     <!-- Indiferente: todas las veterinarias -->
-    <div th:if="${veterinarias != null}">
-        <div th:each="vet : ${veterinarias}">
-            <h3 th:text="${vet.nombre != null ? vet.nombre : 'N/A'} + ' - ' + (vet.direccion != null ? vet.direccion : 'N/A')">Vet</h3>
+    <div th:if="${turnoDTO.veterinariaId == 0}">
+      <div th:each="vet : ${veterinarias}">
+        <h3 th:text="${vet.nombre != null ? vet.nombre : 'N/A'} + ' - ' + (vet.direccion != null ? vet.direccion : 'N/A')">Vet</h3>
 
-            <div th:each="entry : ${vet.profesionalesEnHorario}">
-                <p><strong th:text="${entry.key != null ? entry.key : 'Horario'}">Horario</strong></p>
-                <ul>
-                    <li th:each="prof : ${entry.value}" th:if="${prof != null}">
-                        <label>
-                            <input type="radio" th:field="*{seleccion}" 
-                                   th:value="${(vet != null && vet.id != null ? vet.id : '') + '||' + (entry.key != null ? entry.key : '') + '||' + (prof.id != null ? prof.id : '')}" required />
-                            <span th:text="${prof.nombre != null ? prof.nombre : 'N/A'}">Profesional</span>
-                        </label>
-                    </li>
-                </ul>
-            </div>
+        <div th:each="entry : ${vet.profesionalesEnHorario}">
+          <p><strong th:text="${entry.key != null ? entry.key : 'Horario'}">Horario</strong></p>
+          <ul>
+            <li th:each="prof : ${entry.value}" th:if="${prof != null}">
+              <label>
+                <input type="radio" th:field="*{seleccion}"
+                       th:value="${veterinaria.id + '||' + (entry.key != null ? entry.key : '') + '||' + (prof.id != null ? prof.id : '')}" required />
+                <span th:text="${prof.nombre != null ? prof.nombre : 'N/A'}">Profesional</span>
+              </label>
+            </li>
+          </ul>
         </div>
+      </div>
     </div>
 
-    <!-- Hidden fields -->
+    <!-- Hidden binder fields (DTO props) -->
     <input type="hidden" th:field="*{especialidad}" />
     <input type="hidden" th:field="*{practica}" />
     <input type="hidden" th:field="*{fecha}" />
-    <input type="hidden" th:field="*{idVeterinariaBusqueda}" />
+    <input type="hidden" th:if="${turnoDTO.veterinariaId != null}" th:field="*{veterinariaId}" />
 
     <button type="submit">Reservar turno</button>
-</div>
+  </div>
 
 </form>
 
-
-<h2>DEBUG: Resultado Turno</h2>
-
-<div style="border: 1px solid red; padding: 10px; margin-bottom: 20px;">
-    <h3>Turno</h3>
-    <ul>
-        <li>ID Veterinaria Busqueda: <span th:text="${turno.idVeterinariaBusqueda}">N/A</span></li>
-        <li>Especialidad: <span th:text="${turno.especialidad}">N/A</span></li>
-        <li>Practica: <span th:text="${turno.practica}">N/A</span></li>
-        <li>Fecha: <span th:text="${turno.fecha}">N/A</span></li>
-    </ul>
-</div>
-
-<div th:if="${veterinaria != null}" style="border: 1px solid blue; padding: 10px; margin-bottom: 20px;">
-    <h3>Veterinaria específica</h3>
-    <p>Nombre: <span th:text="${veterinaria.nombre}">N/A</span></p>
-    <p>Profesionales en horario:</p>
-    <ul>
-        <li th:each="entry : ${veterinaria.profesionalesEnHorario}">
-            Horario: <span th:text="${entry.key}">N/A</span>
-            <ul>
-                <li th:each="prof : ${entry.value}">
-                    Nombre profesional: <span th:text="${prof.nombre}">NULL</span>
-                </li>
-            </ul>
-        </li>
-    </ul>
-</div>
-
-<div th:if="${veterinarias != null}">
-    <div th:each="vet : ${veterinarias}">
-        <p><strong th:text="${vet.nombre}">N/A</strong> - <span th:text="${vet.direccion}">N/A</span></p>
-        <ul>
-            <li th:each="entry : ${vet.profesionalesEnHorario}">
-                Horario: <span th:text="${entry.key}">N/A</span>
-                <ul>
-                    <li th:each="prof : ${entry.value}">
-                        Nombre profesional: <span th:text="${prof.nombre}">NULL</span>
-                    </li>
-                </ul>
-            </li>
-        </ul>
+    <div style="background:#222; color:#0f0; padding:10px; margin-top:20px; font-size:14px;">
+        <strong>DEBUG: TurnoDTO state</strong><br>
+        Especialidad: <span th:text="${turnoDTO.especialidad}"></span><br>
+        Práctica: <span th:text="${turnoDTO.practica}"></span><br>
+        Id Veterinaria Busqueda: <span th:text="${turnoDTO.veterinariaId}"></span><br>
+        Selección (vet||hora||prof): <span th:text="${turnoDTO.seleccion}"></span><br>
+        Fecha: <span th:text="${turnoDTO.fecha}"></span><br>
     </div>
-</div> 
 
     <!--No funciona, si saco los required`s obtengo otros problemas-->
     <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}">

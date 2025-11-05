@@ -5,6 +5,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,19 +35,8 @@ public class ServicioTurnosImpl implements ServicioTurnos {
     }
 
     @Override
-    public boolean esTurnoValido(Turno turno) {
-        return turno.getEspecialidad() != null && turno.getPractica() != null;
-    }
-
-    @Override
     public List<Veterinaria> listarVeterinariasIndiferente() {
         return repositorioVeterinaria.listarVeterinarias();
-    }
-
-    @Override
-    public Veterinaria obtenerVeterinariaPorTurno(Turno turno) {
-        Veterinaria v = repositorioVeterinaria.buscarPorId((long) turno.getIdVeterinariaBusqueda());
-        return (v != null) ? v : new Veterinaria();
     }
 
     @Override
@@ -58,32 +48,32 @@ public class ServicioTurnosImpl implements ServicioTurnos {
     }
 
     @Override
-    public void procesarSeleccion(Turno turno) {
-        if (turno.getSeleccion() == null || turno.getSeleccion().isEmpty()) return;
+    public void procesarSeleccion(TurnoDTO turnoDTO) {
+        if (turnoDTO.getSeleccion() == null || turnoDTO.getSeleccion().isEmpty()) return;
 
-        String[] partes = turno.getSeleccion().split("\\|\\|");
+        String[] partes = turnoDTO.getSeleccion().split("\\|\\|");
 
-        if (partes.length != 3) {
-            throw new IllegalArgumentException("Selección inválida, se esperaba formato: vetId||horario||profId");
+        if (partes.length != 3 || partes[0].isBlank() || partes[1].isBlank() || partes[2].isBlank()) {
+            throw new IllegalArgumentException("Selección inválida: " + turnoDTO.getSeleccion());
         }
 
         try {
-            // 1️⃣ Veterinaria
-            Long idVet = Long.parseLong(partes[0]);
-            Veterinaria vet = repositorioVeterinaria.buscarPorId(idVet);
-            turno.setVeterinaria(vet);
+            // Primera parte veterinaria. 
+            int idVet = Integer.valueOf(partes[0]);
+            turnoDTO.setVeterinariaId(idVet);
 
-            // 2️⃣ Horario
-            LocalTime hora = LocalTime.parse(partes[1]);
-            turno.setHorario(hora);
+            // 2da parte horario. Queda como string
+            //La traduccion de String a LocalTime se hace en crear turno con DTO
+            String hora = partes[1];
+            turnoDTO.setHorario(hora);
 
-            // 3️⃣ Profesional
-            Long idProf = Long.parseLong(partes[2]);
-            Profesional prof = repositorioProfesional.buscarPorId(idProf);
-            turno.setProfesional(prof);
+            // 3ra parte Profesional. Usar el nombre hace que no contemplemos
+            // Dos prodesionales con el mismo nombre ojo
+            String prof = partes[2];
+            turnoDTO.setProfesional(prof);
 
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("IDs inválidos en la selección: " + turno.getSeleccion(), e);
+            throw new IllegalArgumentException("IDs inválidos en la selección: " + turnoDTO.getSeleccion(), e);
         }
     }
 
@@ -124,5 +114,64 @@ public class ServicioTurnosImpl implements ServicioTurnos {
                 .distinct()
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Veterinaria getVeterinariaPorTurnoDTO(TurnoDTO turnoDTO) {
+        // If no vet was selected -> return an empty object
+        if (turnoDTO.getVeterinariaId() == null) {
+            return new Veterinaria();
+        }
+
+        Veterinaria v = repositorioVeterinaria.buscarPorId((long) turnoDTO.getVeterinariaId());
+        return (v != null) ? v : new Veterinaria();
+    }
+
+    @Override
+    public boolean esTurnoDTOEspPracValidas(TurnoDTO turnoDTO) {
+        return turnoDTO.getEspecialidad() != null && turnoDTO.getPractica() != null;
+    }
+
+    @Override
+    public Turno crearTurnoConDTO(TurnoDTO turnoDTO) {
+        try {
+            Turno turno = new Turno();
+
+            turno.setEspecialidad(turnoDTO.getEspecialidad());
+            turno.setPractica(turnoDTO.getPractica());
+
+            Veterinaria vet = repositorioVeterinaria.buscarPorId((long) turnoDTO.getVeterinariaId());
+            if (vet == null) {
+                throw new IllegalArgumentException("Veterinaria no encontrada");
+            }
+            turno.setVeterinaria(vet);
+
+            // Parse fecha y horario
+            LocalDate fecha = LocalDate.parse(turnoDTO.getFecha());
+            LocalTime horario = LocalTime.parse(turnoDTO.getHorario());
+            turno.setFecha(fecha);
+            turno.setHorario(horario);
+
+            // Buscar profesional por nombre o ID
+            Profesional profesional = repositorioProfesional.buscarPorNombre(turnoDTO.getProfesional());
+            if (profesional == null) {
+                throw new IllegalArgumentException("Profesional no encontrado");
+            }
+            turno.setProfesional(profesional);
+
+            // usuario se setea en otro método (como dijiste)
+
+            return turno;
+
+        } catch (Exception e) {
+            throw new IllegalArgumentException("El Dto contiene errores: " + e.getMessage(), e);
+        }
+    }
+
+    /*
+    @Override
+    public boolean esTurnoValido(Turno turno) {
+        return turno.getEspecialidad() != null && turno.getPractica() != null;
+    }
+    */
 
 }
