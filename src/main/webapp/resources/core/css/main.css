@@ -143,8 +143,8 @@ footer h6 {
 .btn-chatgpt {
     position: fixed;
     bottom: 20px;
-    right: 20px;
-    background-color: #2e7d32;
+    left: 20px;
+    background-color: #0126ed;
     color: white;
     border: none;
     padding: 1rem 1.2rem;
@@ -152,6 +152,7 @@ footer h6 {
     font-size: 1.4rem;
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    z-index: 998;
 }
 
 .modal {
