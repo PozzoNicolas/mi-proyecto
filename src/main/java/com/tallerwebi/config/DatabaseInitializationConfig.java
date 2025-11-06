@@ -17,7 +17,6 @@ public class DatabaseInitializationConfig {
     private DataSource dataSource;
 
     @Bean
-    @DependsOn("sessionFactory")
     public DataSourceInitializer dataSourceInitializer() {
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScript(new ClassPathResource("data.sql"));

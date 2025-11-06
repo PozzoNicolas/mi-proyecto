@@ -207,11 +207,23 @@
         <br>
 
         <section class = "cajas2">
-            <article class="recomendaciones-card" >
+            <article class="recomendaciones-card">
                 <h3>Consejos para tu mascota</h3>
                 <div  id="recomendaciones-container">
                     <ul id="recomendaciones-list" th:if="${recomendaciones}">
-                        <li th:each="rec : ${recomendaciones}" th:text="${rec}" class="recomendacion-item"></li>
+                        <li th:each="rec : ${recomendaciones}" class="recomendacion-item">
+
+                            <strong th:text="${rec.titulo}">Título de la Recomendación</strong>
+                            <p th:text="${rec.descripcion}">Descripción del consejo o producto.</p>
+
+                            <p>Aplica a: <span th:text="${rec.tipo} + ' - ' + ${rec.etapa}"></span></p>
+
+                            <a th:if="${rec.link}" th:href="${rec.link}" target="_blank">Ver Producto</a>
+
+                        </li>
+                        <li th:if="${recomendaciones.isEmpty()}">
+                            A&uacute;n no encontramos recomendaciones para tus mascotas.
+                        </li>
                     </ul>
                 </div>
             </article>
