@@ -6,7 +6,7 @@ VALUES ('Felicidades por tu cachorro!', 'Asegurate que tu perrito conozca su amb
         'Perro', 'Cachorro', 'Macho', 'https://articulo.mercadolibre.com.ar/MLA-854035124-kong-puppy-large-juguete-perros-cachorros-_JM');
 
 INSERT INTO Recomendacion (titulo, descripcion, tipo, etapa, sexo, link)
-VALUES ('Vacunación y Desparasitación', 'Los primeros meses son claves. Sigue el calendario de vacunas y desparasita regularmente.',
+VALUES ('Vacunación y Desparasitacion', 'Los primeros meses son claves. Sigue el calendario de vacunas y desparasita regularmente.',
         'Perro', 'Cachorro', 'Ambos', 'https://www.lamatanza.gov.ar/saludpublica/centro-zoonosis');
 
 
