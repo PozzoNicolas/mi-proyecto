@@ -14,7 +14,7 @@ public class ServicioVPHImpl implements ServicioVPH {
     }
 
     public List<VeterinariaProfesionalHorario> obtenerProfesionalesDeVeterinaria(Long idVet) {
-        return repo.obtenerPorVeterinaria(idVet);
+        return repo.obtenerProfesionalesDeVeterinaria(idVet);
     }
 
     public List<VeterinariaProfesionalHorario> obtenerProfesionalesEnHorario(Long idVet, LocalTime hora) {

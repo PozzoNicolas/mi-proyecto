@@ -1,5 +1,6 @@
 package com.tallerwebi.presentacion;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -78,50 +79,87 @@ public class ControladorSacarTurno {
     }
 
     @GetMapping("/resultado-turno")
-    public ModelAndView mostrarVeterinarias(@ModelAttribute("turnoDTO") TurnoDTO turnoDTO,
-                                            HttpSession session) {
-        ModelMap modelo = new ModelMap();
-        if (session.getAttribute("usuarioActual") == null){
-            return new ModelAndView("home", modelo);
-        }
+public ModelAndView mostrarVeterinarias(@ModelAttribute("turnoDTO") TurnoDTO turnoDTO,
+                                        HttpSession session) {
 
-        Boolean paso1 = (Boolean) session.getAttribute("turno_flow");
-        if (paso1 == null || !paso1) {
-            return new ModelAndView("redirect:/nuevo-turno");
-        }
+    ModelMap modelo = new ModelMap();
 
-        //Veterinaria v = turno.getVeterinaria();
-        Veterinaria v = servicioTurnos.getVeterinariaPorTurnoDTO(turnoDTO);
-        //Se carga la/s veterinaria/s que el usuario busco, y se su be al modelo
-        //Aca se transforma los datos del VPH en un mapa Transient para comunicarse con el front
-        if(turnoDTO.getVeterinariaId() == null || turnoDTO.getVeterinariaId() == 0) { //Vet es nula, el usuario no eligio ninguna...
-            List<Veterinaria> todas = servicioVeterinaria.listarVeterinarias();
-            for (Veterinaria vet : todas) {
-                List<VeterinariaProfesionalHorario> vphList = servicioVPH.obtenerProfesionalesDeVeterinaria(vet.getId());
-                Map<String, List<Profesional>> mapa = vphList.stream()
+    // ✅ Validación de sesión
+    if (session.getAttribute("usuarioActual") == null) {
+        return new ModelAndView("home", modelo);
+    }
+
+    // ✅ Validación de paso anterior del flujo
+    Boolean paso1 = (Boolean) session.getAttribute("turno_flow");
+    if (paso1 == null || !paso1) {
+        return new ModelAndView("redirect:/nuevo-turno");
+    }
+
+    // ✅ Obtener veterinaria seleccionada (puede ser null)
+    Veterinaria v = servicioTurnos.getVeterinariaPorTurnoDTO(turnoDTO);
+
+    // ✅ Caso: NO eligió veterinaria todavía → mostrar todas
+    if (turnoDTO.getVeterinariaId() == null || turnoDTO.getVeterinariaId() == 0) {
+
+        List<Veterinaria> todas = servicioVeterinaria.listarVeterinarias();
+
+        for (Veterinaria vet : todas) {
+
+            // ✅ CARGA CON FETCH JOIN (evita LazyInitializationException)
+            List<VeterinariaProfesionalHorario> vphList =
+                    servicioVPH.obtenerProfesionalesDeVeterinaria(vet.getId());
+
+            // ✅ Genera mapa horario → lista de profesionales
+            Map<String, List<Profesional>> mapa = vphList.stream()
                     .filter(vph -> vph.getHorario() != null && vph.getProfesional() != null)
                     .collect(Collectors.groupingBy(
-                        vph -> vph.getHorario().toString(),
-                        Collectors.mapping(VeterinariaProfesionalHorario::getProfesional, Collectors.toList())
-                    ));
-                vet.setProfesionalesEnHorario(mapa);
-            }
-            modelo.put("veterinarias", todas);
-        } else { //Vet es un objeto, se carga solo ese
-            List<VeterinariaProfesionalHorario> vphList = servicioVPH.obtenerProfesionalesDeVeterinaria(v.getId());
-            Map<String, List<Profesional>> mapaHorarioProfesionales = vphList.stream()
-                    .collect(Collectors.groupingBy(
                             vph -> vph.getHorario().toString(),
-                            Collectors.mapping(VeterinariaProfesionalHorario::getProfesional, Collectors.toList())
+                            Collectors.mapping(VeterinariaProfesionalHorario::getProfesional,
+                                    Collectors.toList())
                     ));
-            v.setProfesionalesEnHorario(mapaHorarioProfesionales); // Mapa como existia antes
-            modelo.put("veterinaria", v);
+
+            vet.setProfesionalesEnHorario(mapa);
         }
 
-        modelo.put("turnoDTO", turnoDTO);
-
-        return new ModelAndView("resultado-turno", modelo);
+        modelo.put("veterinarias", todas);
     }
+
+    // ✅ Caso: SÍ eligió veterinaria → mostrar solo esa con sus horarios
+    else {
+
+        List<VeterinariaProfesionalHorario> vphList =
+                servicioVPH.obtenerProfesionalesDeVeterinaria(v.getId());
+
+        Map<String, List<Profesional>> mapaHorarioProfesionales = vphList.stream()
+                .collect(Collectors.groupingBy(
+                        vph -> vph.getHorario().toString(),
+                        Collectors.mapping(VeterinariaProfesionalHorario::getProfesional,
+                                Collectors.toList())
+                ));
+
+        v.setProfesionalesEnHorario(mapaHorarioProfesionales);
+        modelo.put("veterinaria", v);
+    }
+
+    // ✅ Siempre agregar el turnoDTO
+    modelo.put("turnoDTO", turnoDTO);
+
+    // ✅ Si ya seleccionó veterinaria + fecha → cargar horarios disponibles
+    if (turnoDTO.getVeterinariaId() != null
+            && turnoDTO.getVeterinariaId() != 0
+            && turnoDTO.getFecha() != null) {
+
+        Long idVet = turnoDTO.getVeterinariaId().longValue();
+        LocalDate fecha = LocalDate.parse(turnoDTO.getFecha());
+
+        List<String> horariosDisponibles =
+                servicioTurnos.horariosDisponibles(idVet, fecha);
+
+        modelo.put("horariosDisponibles", horariosDisponibles);
+    }
+
+    return new ModelAndView("resultado-turno", modelo);
+}
 
     @PostMapping("/validar-datos-turno")
     public ModelAndView validarDatos(@ModelAttribute("turnoDTO") TurnoDTO turnoDTO,

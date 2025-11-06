@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Repository
@@ -44,5 +45,24 @@ public class RepositorioTurnosImpl implements RepositorioTurnos {
                         Turno.class)
                 .setParameter("hoy", hoy)
                 .list();
+    }
+
+    @Override
+    public boolean existeTurno(Long vetId, Integer profesionalDni, LocalDate fecha, LocalTime horario) {
+        Long count = sessionFactory.getCurrentSession()
+            .createQuery(
+                    "select count(t) from Turno t " +
+                    "where t.veterinaria.id = :vetId " +
+                    "and t.profesional.dni = :profesionalDni " +
+                    "and t.fecha = :fecha " +
+                    "and t.horario = :horario",
+                    Long.class)
+            .setParameter("vetId", vetId)
+            .setParameter("profesionalDni", profesionalDni)
+            .setParameter("fecha", fecha)
+            .setParameter("horario", horario)
+            .uniqueResult();
+
+        return count != null && count > 0;
     }
 }

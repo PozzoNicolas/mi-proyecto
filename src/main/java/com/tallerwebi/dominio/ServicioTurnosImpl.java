@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,11 +23,10 @@ public class ServicioTurnosImpl implements ServicioTurnos {
 
     @Autowired
     public ServicioTurnosImpl(ServicioMail servicioMail,
-                              RepositorioTurnos repositorioTurnos,
-                              RepositorioVeterinaria repositorioVeterinaria,
-                              RepositorioProfesional repositorioProfesional,
-                              RepositorioVPH repositorioVPH
-    ) {
+            RepositorioTurnos repositorioTurnos,
+            RepositorioVeterinaria repositorioVeterinaria,
+            RepositorioProfesional repositorioProfesional,
+            RepositorioVPH repositorioVPH) {
         this.servicioMail = servicioMail;
         this.repositorioTurnos = repositorioTurnos;
         this.repositorioVeterinaria = repositorioVeterinaria;
@@ -41,7 +41,13 @@ public class ServicioTurnosImpl implements ServicioTurnos {
 
     @Override
     public void guardarTurno(Usuario usuario, Turno turno) {
-
+        if (repositorioTurnos.existeTurno(
+                turno.getVeterinaria().getId(),
+                turno.getProfesional().getDni(),
+                turno.getFecha(),
+                turno.getHorario())) {
+            throw new IllegalStateException("El turno ya ha sido reservado.");
+        }
         usuario.agregarTurno(turno);
         turno.setUsuario(usuario);
         repositorioTurnos.guardar(turno);
@@ -49,7 +55,8 @@ public class ServicioTurnosImpl implements ServicioTurnos {
 
     @Override
     public void procesarSeleccion(TurnoDTO turnoDTO) {
-        if (turnoDTO.getSeleccion() == null || turnoDTO.getSeleccion().isEmpty()) return;
+        if (turnoDTO.getSeleccion() == null || turnoDTO.getSeleccion().isEmpty())
+            return;
 
         String[] partes = turnoDTO.getSeleccion().split("\\|\\|");
 
@@ -58,12 +65,12 @@ public class ServicioTurnosImpl implements ServicioTurnos {
         }
 
         try {
-            // Primera parte veterinaria. 
+            // Primera parte veterinaria.
             int idVet = Integer.valueOf(partes[0]);
             turnoDTO.setVeterinariaId(idVet);
 
             // 2da parte horario. Queda como string
-            //La traduccion de String a LocalTime se hace en crear turno con DTO
+            // La traduccion de String a LocalTime se hace en crear turno con DTO
             String hora = partes[1];
             turnoDTO.setHorario(hora);
 
@@ -81,7 +88,7 @@ public class ServicioTurnosImpl implements ServicioTurnos {
     @Override
     public void envioReportesTurnosProximos() {
         System.out.println("Executing fixed rate method...");
-        List<Turno> turnosAEnviar =  repositorioTurnos.obtenerTurnosProximos();
+        List<Turno> turnosAEnviar = repositorioTurnos.obtenerTurnosProximos();
         for (Turno turno : turnosAEnviar) {
             servicioMail.enviarRecordatorioProximoTurno(turno);
 
@@ -89,14 +96,14 @@ public class ServicioTurnosImpl implements ServicioTurnos {
     }
 
     @Override
-    public List<String> horariosDisponibles(Long idVet) {
-        return repositorioVPH.obtenerPorVeterinaria(idVet)
-                .stream()
-                .map(vph -> vph.getHorario().toString())
-                .distinct()
-                .sorted()
-                .collect(Collectors.toList());
-    }
+public List<String> horariosDisponibles(Long idVet, LocalDate fecha) {
+    List<LocalTime> horarios = horariosDeVeterinaria(idVet);
+
+    return horarios.stream()
+            .filter(h -> profesionalesDisponibles(idVet, fecha, h).size() > 0) // solo horarios con al menos un profesional libre
+            .map(LocalTime::toString)
+            .collect(Collectors.toList());
+}
 
     @Override
     public List<Profesional> profesionalesPorVeterinariaYHorario(Long idVet, LocalTime horario) {
@@ -107,13 +114,47 @@ public class ServicioTurnosImpl implements ServicioTurnos {
     }
 
     @Override
-    public List<Profesional> profesionalesDisponibles(Long idVet, LocalTime horario) {
-        return repositorioVPH.obtenerPorVeterinariaYHorario(idVet, horario)
-                .stream()
-                .map(VeterinariaProfesionalHorario::getProfesional)
-                .distinct()
+    public List<Profesional> profesionalesDisponibles(Long idVet, LocalDate fecha, LocalTime horario) {
+
+        // 1️⃣ Traemos TODOS los VPH de esa veterinaria (ya con fetch join)
+        List<VeterinariaProfesionalHorario> vphList = repositorioVPH.obtenerProfesionalesDeVeterinaria(idVet);
+
+        // 2️⃣ Filtramos solo los del horario solicitado
+        List<VeterinariaProfesionalHorario> vphFiltrados = vphList.stream()
+                .filter(vph -> horario.equals(vph.getHorario()))
                 .collect(Collectors.toList());
+
+        // 3️⃣ Tomamos solo los profesionales que NO tienen turno en esa fecha y horario
+        List<Profesional> disponibles = vphFiltrados.stream()
+                .map(VeterinariaProfesionalHorario::getProfesional)
+                .filter(prof -> !repositorioTurnos.existeTurno(idVet, prof.getDni(), fecha, horario))
+                .collect(Collectors.toList());
+
+        return disponibles;
     }
+
+    public List<LocalTime> horariosDeVeterinaria(Long idVet) {
+    // Traemos todos los VPH con profesionales ya cargados
+    List<VeterinariaProfesionalHorario> vphList = repositorioVPH.obtenerProfesionalesDeVeterinaria(idVet);
+
+    // Extraemos solo los horarios distintos
+    return vphList.stream()
+            .map(VeterinariaProfesionalHorario::getHorario)
+            .filter(Objects::nonNull)
+            .distinct()
+            .sorted()
+            .collect(Collectors.toList());
+}
+
+    // @Override
+    // public List<Profesional> profesionalesDisponibles(Long idVet, LocalTime
+    // horario) {
+    // return repositorioVPH.obtenerPorVeterinariaYHorario(idVet, horario)
+    // .stream()
+    // .map(VeterinariaProfesionalHorario::getProfesional)
+    // .distinct()
+    // .collect(Collectors.toList());
+    // }
 
     @Override
     public Veterinaria getVeterinariaPorTurnoDTO(TurnoDTO turnoDTO) {
@@ -176,12 +217,10 @@ public class ServicioTurnosImpl implements ServicioTurnos {
         dto.setHorario(turno.getHorario());
 
         dto.setVeterinariaNombre(
-            turno.getVeterinaria() != null ? turno.getVeterinaria().getNombre() : "N/A"
-        );
+                turno.getVeterinaria() != null ? turno.getVeterinaria().getNombre() : "N/A");
 
         dto.setProfesionalNombre(
-            turno.getProfesional() != null ? turno.getProfesional().getNombre() : "N/A"
-        );
+                turno.getProfesional() != null ? turno.getProfesional().getNombre() : "N/A");
 
         return dto;
     }
