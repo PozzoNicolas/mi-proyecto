@@ -76,6 +76,9 @@ public class ControladorMascota {
         private Integer edad;
         private Usuario duenio;
 
+        @NotBlank(message = "El sexo es obligatorio")
+        private String sexo;
+
 
         // getters y setters
 
@@ -121,9 +124,10 @@ public class ControladorMascota {
         }
 
         public String getSexo() {
-            return "sexo";
+            return sexo;
         }
 
-        public void setSexo(String sexo) {}
+
+        public void setSexo(String sexo) { this.sexo = sexo; }
     }
 }

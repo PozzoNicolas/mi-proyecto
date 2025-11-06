@@ -44,10 +44,15 @@
             <div th:if="${#fields.hasErrors('tipoDeMascota')}" th:errors="*{tipoDeMascota}"></div>
         </div>
 
-        <div class = "mb-3">
-            <input class="form-control" th:field="*{sexo}" placeholder="Macho o hembra"  />
-            <div th:if="${#fields.hasErrors('sexo')}" th:errors="*{sexo}"></div>
+        <div class="mb-3">
+            <label for="sexo">Sexo</label>
+            <select id="sexo" class="form-control" th:field="*{sexo}" required>
+                <option value="" disabled selected>Seleccioná una opción</option>
+                <option value="Macho">Macho</option>
+                <option value="Hembra">Hembra</option>
+            </select>
         </div>
+
         <div class="mb-3">
             <input class="form-control" th:field="*{raza}" placeholder="Raza" />
         </div>
