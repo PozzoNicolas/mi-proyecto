@@ -42,13 +42,13 @@ h2 {
 }
 
 
-#mascotas, #agregar-mascota, #perfil-contenedor {
+#mascotas, #agregar-mascota, #perfil-contenedor, #loginbox {
 
     align-items: center;
     background-color: #ffffff;
     border-radius: 16px;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-    padding: 2.5rem 3rem;
+    padding: 2rem 3rem;
     max-width: 480px;
     width: 100%;
     margin: auto;
@@ -143,8 +143,8 @@ footer h6 {
 .btn-chatgpt {
     position: fixed;
     bottom: 20px;
-    right: 20px;
-    background-color: #2e7d32;
+    left: 20px;
+    background-color: #0126ed;
     color: white;
     border: none;
     padding: 1rem 1.2rem;
@@ -152,6 +152,7 @@ footer h6 {
     font-size: 1.4rem;
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    z-index: 998;
 }
 
 .modal {

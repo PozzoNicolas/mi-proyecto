@@ -54,7 +54,7 @@ public class ControladorMascota {
             return "mascotas";
         }
 
-        Mascota mascota = new Mascota(dto.getNombre(), dto.getTipoDeMascota(), dto.getRaza(), dto.getEdad());
+        Mascota mascota = new Mascota(dto.getNombre(), dto.getTipoDeMascota(), dto.getRaza(), dto.getEdad(), dto.getSexo());
 
         servicioMascota.registrarMascota(usuarioActual.getId(), mascota);
         Usuario usuarioActualizado = servicioUsuario.buscarUsuarioPorId(usuarioActual.getId());
@@ -75,6 +75,9 @@ public class ControladorMascota {
         @Max(value = 40, message = "La edad máxima permitida es 40 años")
         private Integer edad;
         private Usuario duenio;
+
+        @NotBlank(message = "El sexo es obligatorio")
+        private String sexo;
 
 
         // getters y setters
@@ -119,5 +122,12 @@ public class ControladorMascota {
         public void setDuenio(Usuario duenio) {
             this.duenio = duenio;
         }
+
+        public String getSexo() {
+            return sexo;
+        }
+
+
+        public void setSexo(String sexo) { this.sexo = sexo; }
     }
 }

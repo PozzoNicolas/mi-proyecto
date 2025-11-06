@@ -11,6 +11,7 @@ public class Mascota {
     private String tipoDeMascota;
     private String raza;
     private Integer edad;
+    private String sexo;
     @ManyToOne
     @JoinColumn (name = "id_usuario")
     private Usuario duenio;
@@ -19,11 +20,12 @@ public class Mascota {
     //Constructores: siempre que definamos un constructor con parámetros, tenemos que crear un constructor vacío.
     public Mascota() { }
 
-    public Mascota (String nombre, String tipoDeMascota, String raza, Integer edad) {
+    public Mascota (String nombre, String tipoDeMascota, String raza, Integer edad, String sexo) {
         this.nombre = nombre;
         this.tipoDeMascota = tipoDeMascota;
         this.raza = raza;
         this.edad = edad;
+        this.sexo = sexo;
     }
 
 
@@ -60,5 +62,7 @@ public class Mascota {
         this.duenio = duenio;
     }
 
+    public String getSexo() { return sexo; }
+    public void setSexo(String sexo) { this.sexo = sexo; }
 
 }
