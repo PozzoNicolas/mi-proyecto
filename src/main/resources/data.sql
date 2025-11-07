@@ -61,9 +61,9 @@ VALUES ('Juego Diario', 'Asegúrate de jugar al menos 15 minutos al día con tu 
 
 INSERT INTO Recomendacion (titulo, descripcion, tipo, etapa, sexo, link)
 VALUES ('Suplemento Articular', 'Considera suplementos de glucosamina y condroitina para mejorar la salud de las articulaciones.',
-        'Perro', 'Senior', 'Ambos', 'https://www.farmaciaveterinaria.com.ar/artri-vet');
+        'Perro', 'Senior', 'Ambos', 'https://www.mercadolibre.com.ar/condroprotector-sosten-cg-perrosgatos-x-80-comprimidos/p/MLA53751157');
 
 INSERT INTO Recomendacion (titulo, descripcion, tipo, etapa, sexo, link)
 VALUES ('Monitoreo Renal', 'En gatos mayores, es crucial realizar análisis de sangre anuales para detectar problemas renales a tiempo.',
-        'Gato', 'Senior', 'Ambos', 'https://www.mercadolibre.com.ar/condroprotector-sosten-cg-perrosgatos-x-80-comprimidos/p/MLA53751157');
+        'Gato', 'Senior', 'Ambos', 'https://www.zooplus.es/magazine/gatos/salud-del-gato-y-cuidados/hemograma-en-gatos');
 

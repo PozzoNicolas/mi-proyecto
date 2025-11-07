@@ -22,49 +22,57 @@ public class ServicioRecomendacionesImpl implements ServicioRecomendaciones {
         List<Recomendacion> recomendacionesFinales = new ArrayList<>();
         if (usuario == null || usuario.getMascotas() == null || usuario.getMascotas().isEmpty()) {
 
-            return recomendacionesFinales;
+            return new ArrayList<>();
         }
 
-        usuario.getMascotas().forEach(mascota -> {
-            // 1. Determinar los criterios de búsqueda (Tipo, Etapa, Sexo)
-            String tipo = determinarTipo(mascota);
-            String etapa = determinarEtapa(mascota);
-            String sexo = determinarSexo(mascota);
+        Mascota mascota = usuario.getMascotas().get(0);
 
-            // 2. Llamar al repositorio para obtener las recomendaciones de la DB
-            List<Recomendacion> recomendacionesPorMascota =
-                    repositorioRecomendacion.buscarPorCriterios(tipo, etapa, sexo);
+        String tipo = mascota.getTipoDeMascota() != null ? mascota.getTipoDeMascota() : "General";
+        String sexo = mascota.getSexo() != null ? mascota.getSexo() : "Ambos";
 
-            // 3. Agregar los resultados a la lista final
-            recomendacionesFinales.addAll(recomendacionesPorMascota);
-        });
+        // Lógica de mapeo de edad a Etapa (Cachorro, Adulto, Senior)
+        String etapa;
+        int edad = mascota.getEdad() != null ? mascota.getEdad() : 0;
 
-        // Opcional: Eliminar duplicados si una misma recomendación aplica a varias mascotas
-        // Aunque por ahora no es necesario, ya que estamos solo agregando.
+        if (edad <= 1) {
+            etapa = "Cachorro";
+        } else if (edad <= 7) {
+            etapa = "Adulto";
+        } else {
+            etapa = "Senior";
+        }
 
-        return recomendacionesFinales;
+
+        return repositorioRecomendacion.buscarPorCriterios(tipo, etapa, sexo);
     }
 
     // --- Métodos de apoyo para estandarizar los filtros ---
 
     private String determinarTipo(Mascota mascota) {
-        // Asumiendo que TipoDeMascota devuelve "Perro", "Gato", etc.
-        return mascota.getTipoDeMascota() != null ? mascota.getTipoDeMascota() : "General";
+
+        String tipo = mascota.getTipoDeMascota();
+        return tipo != null ?
+                tipo.substring(0, 1).toUpperCase() + tipo.substring(1).toLowerCase() : // Capitalizar para HQL
+                "General";
     }
 
     private String determinarEtapa(Mascota mascota) {
         int edad = mascota.getEdad() != null ? mascota.getEdad() : 0;
 
-        if (mascota.getTipoDeMascota().equalsIgnoreCase("Gato")) {
+        String tipo = mascota.getTipoDeMascota();
+
+        if (tipo != null && tipo.equalsIgnoreCase("Gato")) {
             // Criterios para Gatos (ejemplo)
             if (edad <= 1) return "Cachorro";    // 0 a 1 año (Kitten)
             if (edad <= 8) return "Adulto";      // 1 a 8 años
             return "Senior";                     // 8+ años
-        } else {
+        } else if (tipo != null && tipo.equalsIgnoreCase("Perro")) {
             // Criterios para Perros (ejemplo)
             if (edad <= 1) return "Cachorro";    // 0 a 1 año (Puppy)
             if (edad <= 7) return "Adulto";      // 1 a 7 años
             return "Senior";                     // 7+ años
+        } else {
+            return "General";
         }
     }
 
