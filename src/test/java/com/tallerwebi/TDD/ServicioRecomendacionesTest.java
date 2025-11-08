@@ -25,45 +25,35 @@ public class ServicioRecomendacionesTest {
 
     @BeforeEach
     public void init (){
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
-
     @Test
-    public void queSeGenereUnaRecomendacionParaUnaMascotaconCriteriosEspecificios() {
-        //
+    public void queSeGenereUnaRecomendacionParaUnaMascotaConCriteriosEspecificos() {
+        // ARRANGE
         Usuario usuario = new Usuario();
-        Mascota mascota = mock (Mascota.class);
-
-        //
-
+        Mascota mascota = mock(Mascota.class);
         when(mascota.getTipoDeMascota()).thenReturn("Perro");
         when(mascota.getEdad()).thenReturn(5);
         when(mascota.getSexo()).thenReturn("Macho");
+        usuario.setMascotas(List.of(mascota));
 
-        List<Mascota> mascotas = Arrays.asList(mascota);
-        usuario.setMascotas(mascotas);
-
-        List<Recomendacion> recomendacionesMock = Arrays.asList(
-                new Recomendacion("Paseos", "Haz paseos largos", "Perro",
-                        "Adulto", "Ambos", null, null, null),
-                new Recomendacion("Alimento", "Alimento premium", "Perro", "Adulto",
-                        "Ambos", null, null, null),
-                new Recomendacion("Juguete", "Jueguete para mordida", "Perro", "Adulto", "Macho",
-                        null, null, null)
+        List<Recomendacion> recomendacionesMock = List.of(
+                new Recomendacion("Paseos", "Haz paseos largos", "Perro", "Adulto", "Ambos", null, null, null),
+                new Recomendacion("Alimento", "Alimento premium", "Perro", "Adulto", "Ambos", null, null, null),
+                new Recomendacion("Juguete", "Juguete para mordida", "Perro", "Adulto", "Macho", null, null, null)
         );
-
         when(repositorioRecomendacionMock.buscarPorCriterios("Perro", "Adulto", "Macho"))
                 .thenReturn(recomendacionesMock);
 
+        // ACT
         List<Recomendacion> resultado = servicioRecomendaciones.generarRecomendaciones(usuario);
-        // Verificacion //
 
-        assertEquals(0, resultado.size());
-        verify(repositorioRecomendacionMock, times(1))
-                .buscarPorCriterios("Perro", "Adulto", "Macho");
+        // ASSERT
+        verify(repositorioRecomendacionMock).buscarPorCriterios("Perro", "Adulto", "Macho");
+        assertEquals(3, resultado.size());
         assertEquals("Paseos", resultado.get(0).getTitulo());
-
     }
+
 
     @Test
     public void queDevuelvaLaListaVaciaSiElUsuarioNoTieneMascotas() {
@@ -77,6 +67,8 @@ public class ServicioRecomendacionesTest {
         // ASSERT
         assertTrue(resultado.isEmpty());
     }
+
+
 
 
 
