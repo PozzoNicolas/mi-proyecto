@@ -75,7 +75,25 @@ public class ServicioRecomendacionesTest {
 
     }
 
-   
+    @Test
+    void devuelveListaVaciaSiRepositorioNoEncuentraNada() {
+        Mascota mascota = new Mascota();
+        mascota.setTipoDeMascota("Perro");
+        mascota.setEdad(4);
+        mascota.setSexo("Macho");
+        Usuario usuario = new Usuario();
+        usuario.setMascotas(List.of(mascota));
+
+        when(repositorioRecomendacionMock.buscarPorCriterios(any(), any(), any()))
+                .thenReturn(new ArrayList<>());
+
+        List<Recomendacion> resultado = servicioRecomendaciones.generarRecomendaciones(usuario);
+
+        assertNotNull(resultado);
+        assertTrue(resultado.isEmpty());
+    }
+
+
 
 
 
