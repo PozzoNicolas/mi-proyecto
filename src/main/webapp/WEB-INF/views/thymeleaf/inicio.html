@@ -67,10 +67,6 @@
     <!-- Menú lateral -->
     <aside class="opciones">
         <article class="opciones-article">
-            <img th:src="@{img/clientes.png}" alt="Clientes" class="icono-opciones">
-            <a href="clientes.html" class="span-opciones">Clientes</a>
-        </article>
-        <article class="opciones-article">
             <img th:src="@{img/mascotas-inicio.png}" alt="Mascotas" class="icono-opciones">
             <a href="mis-mascotas.html" class="span-opciones">Mis Mascotas</a>
         </article>
@@ -173,11 +169,16 @@
 
                             <p>Aplica a: <span th:text="${rec.tipo} + ' - ' + ${rec.etapa}"></span></p>
 
-                            <a th:if="${rec.link}" th:href="${rec.link}" target="_blank">Te podria interesar</a>
+                            <a th:if="${rec.link}" th:href="${rec.link}" target="_blank">Te podr&iacute;a interesar</a>
 
                         </li>
                         <li th:if="${recomendaciones.isEmpty()}">
-                            A&uacute;n no encontramos recomendaciones para tus mascotas.
+                            ¡Agrega tu mascota para recibir recomendaciones!
+                            Si no tienes un animalito, te podr&iacute;a interesar adoptar
+                            <a href="https://proyecto4patas.org/" target="_blank">
+                                <img src="https://proyecto4patas.org/wp-content/uploads/2023/11/p4p-logo.svg"
+                                     alt="p4p" width="20" height="20">
+                                Proyecto Cuatro Patas </a>
                         </li>
                     </ul>
                 </div>
@@ -191,7 +192,6 @@
         </section>
     </main>
 </div>
-
 
 
 

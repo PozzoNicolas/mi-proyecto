@@ -35,15 +35,14 @@ public class ServicioMascotaImpl implements ServicioMascota {
         repositorioMascota.guardar(mascota);
         System.out.println("Mascota guardada: " + mascota.getNombre());
     }
+
+    public void eliminarMascota(Long id) {
+        Mascota mascota = repositorioMascota.buscarMascotaPorId(id);
+        if (mascota != null) {
+            repositorioMascota.eliminar(mascota);
+        }
+
     }
 
-//        Usuario duenio = servicioUsuario.buscarUsuarioPorId(id);
-//        if (duenio == null) {
-//            throw new RuntimeException("Dueño no encontrado para registrar mascota.");
-//        }
-//        mascota.setDuenio(duenio);
-//        duenio.getMascotas().add(mascota);
-//
-//        System.out.println("Mascota guardada: " + mascota.getNombre());
-//    }
-//}
+}
+

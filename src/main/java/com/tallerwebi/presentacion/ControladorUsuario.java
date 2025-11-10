@@ -56,25 +56,6 @@ public class ControladorUsuario {
         public void setTelefono(String telefono) { this.telefono = telefono; }
     }
 
-    // === Métodos del controlador ===
-    @GetMapping
-    public String listar(Model model) {
-        List<Usuario> usuarios = servicioUsuario.listarTodos();
-        model.addAttribute("clientes", usuarios);
-        model.addAttribute("nuevoCliente", new UsuarioDto());
-        return "clientes";
-    }
 
-    @PostMapping
-    public String crear(@Valid @ModelAttribute("nuevoCliente") UsuarioDto dto, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("clientes", servicioUsuario.listarTodos());
-            return "clientes";
-        }
-
-        Usuario nuevo = new Usuario(dto.getNombre(), dto.getApellido(), dto.getCorreo(), dto.getTelefono());
-        servicioUsuario.registrarUsuario(nuevo);
-        return "redirect:/clientes";
-    }
 }
 

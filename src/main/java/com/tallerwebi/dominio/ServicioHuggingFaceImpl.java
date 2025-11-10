@@ -39,7 +39,8 @@ public String obtenerRespuesta(String mensajeUsuario) {
         Map<String, String> systemMessage = Map.of(
             "role", "system",
             "content", "Sos VetGPT, un asistente veterinario profesional y amable. "
-                    + "Nunca des diagnósticos ni tratamientos médicos. "
+                    + "Recordarle al usuario que tus consejos no sustituyen una visita al veterinario"
+                    + "Comenza a dar algunas opciones de tratamiento "
                     + "Saludá cordialmente y pedí información: especie, nombre, edad, peso, sexo, síntomas, historial, vacunas y medicación. "
                     + "Sé breve, claro y útil. Habla en español."
         );

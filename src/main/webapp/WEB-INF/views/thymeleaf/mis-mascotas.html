@@ -6,7 +6,6 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}">
     <!-- Estilos personalizados -->
-    <link rel="stylesheet" th:href="@{/css/inicio.css}">
     <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 <body>
@@ -24,7 +23,7 @@
 </nav>
 
 <!-- Contenido -->
-<main id = "mascotas" class="container mt-5 pt-4">
+<main id = "mascotas" >
     <h1 class="mb-4">Mis Mascotas</h1>
 
     <div th:if="${mascotas == null or #lists.isEmpty(mascotas)}">
@@ -33,9 +32,9 @@
     </div>
 
     <div class="row" th:each="m : ${mascotas}">
-        <div class="col-md-4">
-            <div class="card shadow-sm mb-4">
-                <div class="card-body">
+        <div >
+            <div>
+                <div>
                     <h5 class="card-title" th:text="${m.nombre}">Nombre</h5>
                     <p class="card-text">
                         <strong>Especie:</strong> <span th:text="${m.tipoDeMascota}">Perro</span><br>
@@ -48,12 +47,16 @@
         </div>
         <div>
             <a href="mascotas.html">
-                <button type="button">Agregar Mascota</button>
+                <button type="button" class = "btn">Agregar Mascota</button>
             </a>
         </div>
+        <form th:action="@{/eliminar-mascota}" method="post">
+            <input type="hidden" name="idMascota" th:value="${mascotas.id}" />
+            <button type="submit" class="btn-eliminar">Eliminar</button>
+        </form>
         <div>
             <a href="inicio.html">
-                <button type="button">Volver</button>
+                <button type="button" class = "btn" >Volver</button>
             </a>
         </div>
     </div>

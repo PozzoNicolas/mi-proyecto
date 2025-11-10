@@ -66,5 +66,6 @@ public class Mascota {
     public void setSexo(String sexo) { this.sexo = sexo; }
 
     public void setTipoDeMascota(String tipoDeMascota) {
+        this.tipoDeMascota = tipoDeMascota;
     }
 }

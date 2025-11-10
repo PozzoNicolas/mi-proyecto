@@ -42,7 +42,21 @@ h2 {
 }
 
 
-#mascotas, #agregar-mascota, #perfil-contenedor, #loginbox {
+#mascotas{
+    background-color: #ffffff;
+    border: 2px solid #4caf50;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 15px auto;
+    width: 250px; /* más ancho para evitar cortes de texto */
+    text-align: center;
+    font-family: "Segoe UI", Arial, sans-serif;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+
+#agregar-mascota, #perfil-contenedor, #loginbox {
 
     align-items: center;
     background-color: #ffffff;
@@ -113,6 +127,7 @@ h2 {
     transition: all 0.3s ease;
     color: white;
 }
+
 
 
 .btn-success:hover {

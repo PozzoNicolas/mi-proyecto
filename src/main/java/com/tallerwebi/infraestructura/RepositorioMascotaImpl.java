@@ -43,4 +43,9 @@ public class RepositorioMascotaImpl implements RepositorioMascota {
         String hql = "from Mascota";
         return this.sessionFactory.getCurrentSession().createQuery(hql, Mascota.class).getResultList();
     }
+
+    @Override
+    public void eliminar(Mascota mascota) {
+
+    }
 }

@@ -11,4 +11,6 @@ public interface RepositorioMascota {
     void eliminarMascota(Mascota mascota);
 
     List<Mascota> listarMascotas();
+
+    void eliminar(Mascota mascota);
 }
