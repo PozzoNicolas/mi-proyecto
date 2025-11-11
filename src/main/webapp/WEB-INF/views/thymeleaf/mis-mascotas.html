@@ -41,20 +41,21 @@
             <strong>Especie:</strong> <span th:text="${m.tipoDeMascota}">Perro</span><br>
             <strong>Raza:</strong> <span th:text="${m.raza}">Mestizo</span><br>
             <strong>Fecha de nacimiento:</strong>
-            <span th:text="${#temporals.format(m.fechaDeNacimiento, 'dd/MM/yyyy')}">01/01/2020</span><br>
+            <span th:text="${m.fechaDeNacimiento}">fecha</span>
             <strong>Edad:</strong> <span th:text="${m.edad}">3</span> años<br>
             <strong>Sexo:</strong> <span th:text="${m.sexo}">Hembra</span>
           </p>
 
           <div class="d-flex justify-content-between mt-3">
-            <a th:href="@{/historiales-de-vacunacion/mascota/{id}(id=${m.id})}"
+            <a href="historiales-de-vacunacion.html"
                class="btn btn-outline-primary btn-sm">
               Ver historial
             </a>
-            <a th:href="@{/historiales-de-vacunacion/modificar/{id}(id=${m.id})}"
+            <!-- 
+            <a href="@{/historiales-de-vacunacion/modificar/{id}(id=${m.id})}"
                class="btn btn-outline-warning btn-sm">
               Modificar historial
-            </a>
+            </a> -->
           </div>
         </div>
       </div>

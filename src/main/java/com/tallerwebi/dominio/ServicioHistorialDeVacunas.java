@@ -14,4 +14,5 @@ public interface ServicioHistorialDeVacunas {
     HistorialDeVacunas getHistorialDeUnaMascota(Mascota mascota);
     List<HistorialDeVacunas> listarTodosLosHistorialesDeUnUsuario(Usuario usuario);
     HistorialDeVacunas getPorId(Long id);
+    void guardar(HistorialDeVacunas historial);
 }

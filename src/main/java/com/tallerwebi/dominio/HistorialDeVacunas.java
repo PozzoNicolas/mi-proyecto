@@ -21,7 +21,7 @@ public class HistorialDeVacunas {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "id_historial") 
     private List<Vacunacion> vacunaciones = new ArrayList<>();
-
+    
     public HistorialDeVacunas() {
     }
 

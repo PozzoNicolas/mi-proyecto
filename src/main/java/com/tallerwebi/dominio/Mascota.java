@@ -20,6 +20,9 @@ public class Mascota {
     @JoinColumn (name = "id_usuario")
     private Usuario duenio;
 
+    @OneToOne(mappedBy = "mascota", cascade = CascadeType.ALL, orphanRemoval = true)
+    private HistorialDeVacunas historialDeVacunas;
+
 
     //Constructores: siempre que definamos un constructor con parámetros, tenemos que crear un constructor vacío.
     public Mascota() { }
@@ -33,13 +36,17 @@ public class Mascota {
         this.sexo = sexo;
     }
 
-    public Mascota (String nombre, String tipoDeMascota, String raza, Integer edad, String sexo, LocalDate fecha) {
+    public Mascota(String nombre, String tipoDeMascota, String raza, Integer edad, String sexo, LocalDate fecha) {
         this.nombre = nombre;
         this.tipoDeMascota = tipoDeMascota;
         this.raza = raza;
         this.fechaDeNacimiento = fecha;
         this.edad = this.getEdad();
         this.sexo = sexo;
+
+        HistorialDeVacunas historial = new HistorialDeVacunas();
+        historial.setMascota(this);
+        this.historialDeVacunas = historial;
     }
 
 
@@ -93,5 +100,13 @@ public class Mascota {
     public void setSexo(String sexo) { this.sexo = sexo; }
 
     public void setTipoDeMascota(String tipoDeMascota) {
+    }
+
+    public HistorialDeVacunas getHistorialDeVacunas() {
+        return historialDeVacunas;
+    }
+
+    public void setHistorialDeVacunas(HistorialDeVacunas historialDeVacunas) {
+        this.historialDeVacunas = historialDeVacunas;
     }
 }

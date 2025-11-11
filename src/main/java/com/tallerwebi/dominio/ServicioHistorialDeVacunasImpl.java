@@ -35,8 +35,17 @@ public class ServicioHistorialDeVacunasImpl implements ServicioHistorialDeVacuna
         return repositorioHistorialDeVacunas.listarPorUsuario(usuario);
     }
 
-    @Override
+    @Transactional
     public HistorialDeVacunas getPorId(Long id) {
-        return repositorioHistorialDeVacunas.buscarPorId(id);
+        HistorialDeVacunas h = repositorioHistorialDeVacunas.buscarPorId(id);
+        if (h != null) {
+            h.getVacunaciones().size(); // forces initialization
+        }
+        return h;
+    }
+
+    @Override
+    public void guardar(HistorialDeVacunas historial) {
+        repositorioHistorialDeVacunas.guardar(historial);
     }
 }
