@@ -11,11 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -126,6 +122,8 @@ public class ControladorSacarTurno {
     @PostMapping("/validar-datos-turno")
     public ModelAndView validarDatos(@ModelAttribute("turnoDTO") TurnoDTO turnoDTO,
                                     HttpSession session) {
+
+        System.out.println(">>> VET ID EN VALIDAR = " + turnoDTO.getVeterinariaId());
         ModelMap modelo = new ModelMap();
 
         if(!servicioTurnos.esTurnoDTOEspPracValidas(turnoDTO)) {
@@ -188,6 +186,19 @@ public class ControladorSacarTurno {
         session.removeAttribute("turno_flow");
         // Redirect to turnos list page (or confirmation)
         return "redirect:/turnos";
+    }
+
+    @GetMapping("/nuevo-turno-desde-mapa")
+    public ModelAndView mostrarNuevoTurno(
+            @RequestParam Long v,
+            ModelMap modelo) {
+
+        Veterinaria vet = servicioVeterinaria.buscarPorId(v);
+
+        modelo.put("veterinariaSeleccionada", vet);
+        modelo.put("turnoDTO", new TurnoDTO());
+
+        return new ModelAndView("nuevo-turno", modelo);
     }
 
 }
