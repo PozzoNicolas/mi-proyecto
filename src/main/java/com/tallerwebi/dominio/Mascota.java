@@ -1,6 +1,7 @@
 package com.tallerwebi.dominio;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 import javax.persistence.*;
 
@@ -23,6 +24,7 @@ public class Mascota {
     //Constructores: siempre que definamos un constructor con parámetros, tenemos que crear un constructor vacío.
     public Mascota() { }
 
+    //Queda por los tests...
     public Mascota (String nombre, String tipoDeMascota, String raza, Integer edad, String sexo) {
         this.nombre = nombre;
         this.tipoDeMascota = tipoDeMascota;
@@ -35,9 +37,9 @@ public class Mascota {
         this.nombre = nombre;
         this.tipoDeMascota = tipoDeMascota;
         this.raza = raza;
-        this.edad = edad;
-        this.sexo = sexo;
         this.fechaDeNacimiento = fecha;
+        this.edad = this.getEdad();
+        this.sexo = sexo;
     }
 
 
@@ -54,6 +56,10 @@ public class Mascota {
         return nombre;
     }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
     public String getTipoDeMascota() {
         return tipoDeMascota;
     }
@@ -62,8 +68,9 @@ public class Mascota {
         return raza;
     }
 
-    public Integer getEdad() {
-        return edad;
+    public int getEdad() {
+        if (fechaDeNacimiento == null) return 0;
+        return Period.between(fechaDeNacimiento, LocalDate.now()).getYears();
     }
 
     public Usuario getDuenio() {

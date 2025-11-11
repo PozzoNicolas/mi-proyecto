@@ -24,39 +24,47 @@
 </nav>
 
 <!-- Contenido -->
-<main id = "mascotas" class="container mt-5 pt-4">
-    <h1 class="mb-4">Mis Mascotas</h1>
+<main id="mascotas" class="container mt-5 pt-4">
+  <h1 class="mb-4">Mis Mascotas</h1>
 
-    <div th:if="${mascotas == null or #lists.isEmpty(mascotas)}">
-        <p class="text-muted">Sin mascotas</p>
-        <a href="mascotas.html"> Agregar </a>
-    </div>
+  <div th:if="${mascotas == null or #lists.isEmpty(mascotas)}">
+    <p class="text-muted">Sin mascotas</p>
+  </div>
 
-    <div class="row" th:each="m : ${mascotas}">
-        <div class="col-md-4">
-            <div class="card shadow-sm mb-4">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${m.nombre}">Nombre</h5>
-                    <p class="card-text">
-                        <strong>Especie:</strong> <span th:text="${m.tipoDeMascota}">Perro</span><br>
-                        <strong>Raza:</strong> <span th:text="${m.raza}">Mestizo</span><br>
-                        <strong>Edad:</strong> <span th:text="${m.edad}">3</span> a&ntilde;os
-                        <strong>Sexo:</strong> <span th:text="${m.sexo}">Hembra</span>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div>
-            <a href="mascotas.html">
-                <button type="button">Agregar Mascota</button>
+  <div class="row" th:each="m : ${mascotas}">
+    <div class="col-md-4">
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+          <h5 class="card-title" th:text="${m.nombre}">Nombre</h5>
+
+          <p class="card-text">
+            <strong>Especie:</strong> <span th:text="${m.tipoDeMascota}">Perro</span><br>
+            <strong>Raza:</strong> <span th:text="${m.raza}">Mestizo</span><br>
+            <strong>Fecha de nacimiento:</strong>
+            <span th:text="${#temporals.format(m.fechaDeNacimiento, 'dd/MM/yyyy')}">01/01/2020</span><br>
+            <strong>Edad:</strong> <span th:text="${m.edad}">3</span> años<br>
+            <strong>Sexo:</strong> <span th:text="${m.sexo}">Hembra</span>
+          </p>
+
+          <div class="d-flex justify-content-between mt-3">
+            <a th:href="@{/historiales-de-vacunacion/mascota/{id}(id=${m.id})}"
+               class="btn btn-outline-primary btn-sm">
+              Ver historial
             </a>
-        </div>
-        <div>
-            <a href="inicio.html">
-                <button type="button">Volver</button>
+            <a th:href="@{/historiales-de-vacunacion/modificar/{id}(id=${m.id})}"
+               class="btn btn-outline-warning btn-sm">
+              Modificar historial
             </a>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
+
+  <div class="text-center mt-4">
+    <a href="mascotas.html" class="btn btn-success me-2">Agregar Mascota</a>
+    <a th:href="@{/inicio}" class="btn btn-secondary">Volver</a>
+  </div>
 </main>
 
 <br>
