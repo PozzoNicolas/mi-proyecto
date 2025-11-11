@@ -138,7 +138,6 @@
                 </div>
             </div>
 
-
             <article>
                 <h3>Historial</h3>
                 <div class="secciones-datos">
@@ -147,6 +146,29 @@
                     </div>
                 </div>
             </article>
+
+
+<!--            <article class="diagnostico">-->
+<!--                <h3>Ingresa el diagnostico de tu mascota</h3>-->
+<!--                <div  id="diagnostico-container" class = "secciones-datos">-->
+<!--                    <ul id="diagnostico-list" th:if="${recomendaciones}">-->
+<!--                        <li th:each="rec : ${recomendaciones}" class="diagnostico-item">-->
+
+<!--                            <strong th:text="${rec.titulo}">Enfermedad</strong>-->
+<!--                            <p th:text="${rec.descripcion}">Descripción del consejo o producto.</p>-->
+
+<!--                            <p>Aplica a: <span th:text="${rec.tipo} + ' - ' + ${rec.etapa}"></span></p>-->
+
+<!--                            <a th:if="${rec.link}" th:href="${rec.link}" target="_blank">Te podr&iacute;a interesar</a>-->
+
+<!--                        </li>-->
+<!--                        <li th:if="${recomendaciones.isEmpty()}">-->
+<!--                            ¿Tu mascota tiene algun problema? Podes agregar el diagnostico especifico y ver lo que-->
+<!--                            le pasa-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </article>-->
 
             <article class="credencial">
                 <img th:src="@{img/credecial.png}" alt="VetConnect" id="logo-credencial">
