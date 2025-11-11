@@ -50,7 +50,7 @@
                   </tr>
                 </thead>
                   <tbody>
-                    <tr th:if="${mascota.historialDeVacunas == null or #lists.isEmpty(mascota.historialDeVacunas.vacunaciones)}">
+                    <tr th:if="${mascota.historialDeVacunas == null or (mascota.historialDeVacunas.vacunaciones != null and #lists.isEmpty(mascota.historialDeVacunas.vacunaciones))}">
                       <td colspan="2" class="text-muted">No hay vacunas registradas</td>
                     </tr>
                     <tr th:each="vac : ${mascota.historialDeVacunas != null ? mascota.historialDeVacunas.vacunaciones : {}}">
