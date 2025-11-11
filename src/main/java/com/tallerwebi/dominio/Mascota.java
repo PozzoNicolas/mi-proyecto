@@ -1,5 +1,7 @@
 package com.tallerwebi.dominio;
 
+import java.time.LocalDate;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,6 +13,7 @@ public class Mascota {
     private String tipoDeMascota;
     private String raza;
     private Integer edad;
+    private LocalDate fechaDeNacimiento; 
     private String sexo;
     @ManyToOne
     @JoinColumn (name = "id_usuario")
@@ -26,6 +29,15 @@ public class Mascota {
         this.raza = raza;
         this.edad = edad;
         this.sexo = sexo;
+    }
+
+    public Mascota (String nombre, String tipoDeMascota, String raza, Integer edad, String sexo, LocalDate fecha) {
+        this.nombre = nombre;
+        this.tipoDeMascota = tipoDeMascota;
+        this.raza = raza;
+        this.edad = edad;
+        this.sexo = sexo;
+        this.fechaDeNacimiento = fecha;
     }
 
 
@@ -58,8 +70,16 @@ public class Mascota {
         return duenio;
     }
 
+    public LocalDate getFechaDeNacimiento(){
+        return this.fechaDeNacimiento; 
+    }
+
     public void setDuenio(Usuario duenio) {
         this.duenio = duenio;
+    }
+
+    public void setFechaDeNacimiento(LocalDate fecha) {
+        this.fechaDeNacimiento = fecha;
     }
 
     public String getSexo() { return sexo; }
