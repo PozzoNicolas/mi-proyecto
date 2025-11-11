@@ -443,3 +443,7 @@ footer {
     margin-top: auto;
 }
 
+.mi-ubicacion-icon {
+    filter: hue-rotate(180deg) saturate(180%); /* cambia el color */
+}
+

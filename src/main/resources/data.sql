@@ -6,6 +6,9 @@ VALUES ('Vet Uno', 'Calle Falsa 123');
 INSERT INTO Veterinaria (nombre, direccion)
 VALUES ('Vet Dos', 'Juan B. Justo');
 
+INSERT INTO Veterinaria (nombre, direccion)
+VALUES ('Vet Tres', 'Juan B. Justo');
+
 INSERT INTO Profesional (id, nombre, dni)
 VALUES
 (null, 'Dr. Juan Martinez', 12345678),
