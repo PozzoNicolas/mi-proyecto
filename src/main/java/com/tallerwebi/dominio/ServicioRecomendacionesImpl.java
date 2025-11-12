@@ -32,7 +32,7 @@ public class ServicioRecomendacionesImpl implements ServicioRecomendaciones {
 
         // Lógica de mapeo de edad a Etapa (Cachorro, Adulto, Senior)
         String etapa;
-        int edad = mascota.getEdad() != null ? mascota.getEdad() : 0;
+        int edad = mascota.getEdad();
 
         if (edad <= 1) {
             etapa = "Cachorro";
@@ -57,7 +57,7 @@ public class ServicioRecomendacionesImpl implements ServicioRecomendaciones {
     }
 
     private String determinarEtapa(Mascota mascota) {
-        int edad = mascota.getEdad() != null ? mascota.getEdad() : 0;
+        int edad = mascota.getEdad();
 
         String tipo = mascota.getTipoDeMascota();
 

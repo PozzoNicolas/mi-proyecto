@@ -57,9 +57,10 @@
             <input class="form-control" th:field="*{raza}" placeholder="Raza" />
         </div>
         <div class="mb-3">
-            <input class="form-control" th:field="*{edad}" min="0" type="number" placeholder="Edad (en a&ntilde;os)" />
-            <div th:if="${#fields.hasErrors('edad')}" th:errors="*{edad}"></div>
+            <label for="fechaDeNacimiento" class="form-label">Fecha de nacimiento</label>
+            <input type="date" class="form-control" id="fechaDeNacimiento" th:field="*{fechaDeNacimiento}" th:attr="max=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"/>
         </div>
+
         <div class="mb-3">
             <label for="foto" class="form-label">Foto de la mascota</label>
             <input class="form-control" type="file" id="foto" name="foto" accept="image/*">
