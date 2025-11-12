@@ -18,8 +18,7 @@ public class HistorialDeVacunas {
     private Mascota mascota;
 
     // Relación 1 a muchos con Vacunacion
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "id_historial") 
+    @OneToMany(mappedBy = "historial", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Vacunacion> vacunaciones = new ArrayList<>();
     
     public HistorialDeVacunas() {

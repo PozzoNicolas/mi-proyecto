@@ -55,7 +55,7 @@
                     </tr>
                     <tr th:each="vac : ${mascota.historialDeVacunas != null ? mascota.historialDeVacunas.vacunaciones : {}}">
                       <td th:text="${vac.vacuna.desc}"></td>
-                      <td th:text="${#temporals.format(vac.fecha, 'dd/MM/yyyy')}"></td>
+                      <td th:text="${vac.fecha}"></td>
                     </tr>
                   </tbody>
               </table>

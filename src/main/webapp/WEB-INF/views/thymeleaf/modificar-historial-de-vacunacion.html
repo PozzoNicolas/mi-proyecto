@@ -35,8 +35,7 @@
         <hr>
 
         <form th:action="@{/guardar-vacuna}" th:object="${nuevaVacunacion}" method="post" class="row g-3">
-        <input type="hidden" name="historialId" value="1"> 
-        <span th:text="${historial.id}"></span>
+        <input type="hidden" th:field="*{historialId}" /> 
 
           <div class="col-md-6">
             <label class="form-label">Vacuna</label>
@@ -67,20 +66,19 @@
 
         <hr class="my-4">
 
-        <h5>Vacunas aplicadas</h5>
           <table class="table table-striped table-sm">
             <thead>
               <tr>
-                <th>Vacuna</th>
+                <th>Vacunas aplicadas</th>
                 <th>Fecha</th>
               </tr>
             </thead>
             <tbody>
               <tr th:each="vac : ${historial.vacunaciones}">
                 <td th:text="${vac.vacuna.desc}"></td>
-                <td th:text="${vac.fecha != null ? #temporals.format(vac.fecha, 'dd/MM/yyyy') : '—'}"></td>
+                <td th:text="${vac.fecha}"></td>
               </tr>
-              <tr th:if="${#lists.isEmpty(historial.vacunaciones)}">
+                <tr th:if="${#lists.isEmpty(historial.vacunaciones)}">
                 <td colspan="2" class="text-muted">Aún no hay vacunas registradas.</td>
               </tr>
             </tbody>
