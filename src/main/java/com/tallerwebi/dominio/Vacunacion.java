@@ -20,6 +20,18 @@ public class Vacunacion {
     @Column(nullable = false)
     private LocalDate fecha;
 
+    @ManyToOne
+    @JoinColumn(name = "id_historial")
+    private HistorialDeVacunas historial;
+
+    public HistorialDeVacunas getHistorial() {
+        return historial;
+    }
+
+    public void setHistorial(HistorialDeVacunas historial) {
+        this.historial = historial;
+    }
+
     public Vacunacion() {
     }
 

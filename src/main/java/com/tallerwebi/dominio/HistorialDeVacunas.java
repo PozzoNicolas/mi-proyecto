@@ -30,6 +30,7 @@ public class HistorialDeVacunas {
     }
 
     public void agregarVacunacion(Vacunacion vacunacion) {
+        vacunacion.setHistorial(this);   // link back!
         vacunaciones.add(vacunacion);
     }
 
@@ -39,6 +40,10 @@ public class HistorialDeVacunas {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public Mascota getMascota() {

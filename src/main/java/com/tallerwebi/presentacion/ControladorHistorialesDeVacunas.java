@@ -105,8 +105,13 @@ public class ControladorHistorialesDeVacunas {
         }
 
         HistorialDeVacunas historial = servicioHistorialDeVacunas.getPorId(dto.getHistorialId());
+
         if (historial == null) {
             return new ModelAndView("redirect:/historiales-de-vacunacion");
+        }
+
+        if (dto.getFecha() == null) {
+            dto.setFecha(LocalDate.now()); // or reject the request gracefully
         }
 
         Vacunacion nuevaVacunacion = new Vacunacion(
@@ -115,7 +120,34 @@ public class ControladorHistorialesDeVacunas {
         );
 
         historial.agregarVacunacion(nuevaVacunacion);
+        servicioHistorialDeVacunas.guardar(historial);
 
-        return prepararVistaHistorial(usuarioActual, historial, "Vacuna registrada correctamente.");
+
+
+        
+
+
+        Mascota mascota = historial.getMascota();
+
+
+        List<Vacuna> vacunasFiltradas = Arrays.stream(Vacuna.values())
+                .filter(v -> v.getTipoDeMascota().equals(mascota.getTipoDeMascota()))
+                .collect(Collectors.toList());
+
+        ModelMap modelo = new ModelMap();
+        modelo.addAttribute("usuarioActual", usuarioActual);
+        modelo.addAttribute("historial", historial);
+        modelo.addAttribute("mascota", mascota);
+        modelo.addAttribute("vacunas", vacunasFiltradas);
+        modelo.addAttribute("minDate", java.sql.Date.valueOf(historial.getMascota().getFechaDeNacimiento()));
+        modelo.addAttribute("hoy", java.sql.Date.valueOf(LocalDate.now()));
+        modelo.addAttribute("nuevaVacunacion", new VacunacionDTO());
+
+
+        return new ModelAndView("historiales-de-vacunacion", modelo);
+
+
+
+
     }
 }

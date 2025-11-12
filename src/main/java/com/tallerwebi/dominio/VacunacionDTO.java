@@ -2,11 +2,15 @@ package com.tallerwebi.dominio;
 
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.tallerwebi.dominio.enums.Vacuna;
 
 public class VacunacionDTO {
     private Long historialId;
     private Vacuna vacuna;
+    
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate fecha;
     
     public Long getHistorialId() {

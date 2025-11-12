@@ -23,10 +23,11 @@ public class RepositorioHistorialDeVacunasImpl implements RepositorioHistorialDe
         this.sessionFactory = sessionFactory;
     }
 
-     @Override
+    @Override
     public void guardar(HistorialDeVacunas historial) {
         final Session session = sessionFactory.getCurrentSession();
         session.saveOrUpdate(historial);
+        session.flush(); 
     }
 
     @Override
