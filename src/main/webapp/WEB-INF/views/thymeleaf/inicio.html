@@ -67,10 +67,6 @@
     <!-- Menú lateral -->
     <aside class="opciones">
         <article class="opciones-article">
-            <img th:src="@{img/clientes.png}" alt="Clientes" class="icono-opciones">
-            <a href="clientes.html" class="span-opciones">Clientes</a>
-        </article>
-        <article class="opciones-article">
             <img th:src="@{img/mascotas-inicio.png}" alt="Mascotas" class="icono-opciones">
             <a href="mis-mascotas.html" class="span-opciones">Mis Mascotas</a>
         </article>
@@ -177,7 +173,15 @@
 
                         </li>
                         <li th:if="${recomendaciones.isEmpty()}">
-                            A&uacute;n no encontramos recomendaciones para tus mascotas.
+                            Agrega una mascota para recibir recomendaciones personalizadas.
+                            Si buscas adoptar te recomendamos:
+                            <br>
+                            <a href="https://proyecto4patas.org/" target="_blank">
+                                Proyecto Cuatro Patas
+                                <img th:src="@{/img/p4p-logo.png}"
+                                     alt="Logo Proyecto Cuatro Patas"
+                                     style="height: 25px; vertical-align: middle; margin-left: 5px;"/>
+                            </a>
                         </li>
                     </ul>
                 </div>
