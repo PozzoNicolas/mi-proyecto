@@ -1,3 +1,5 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 /* === General === */
 body {
     padding-top: 70px; /* evita que la navbar tape contenido */
@@ -147,6 +149,7 @@ footer {
     color: white;
     padding: 1rem !important;
     margin-top: auto;
+    font-size: 0.9rem;
 }
 
 footer h6 {
