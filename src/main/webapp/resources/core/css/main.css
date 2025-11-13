@@ -44,7 +44,7 @@ h2 {
 }
 
 
-#mascotas, #agregar-mascota, #perfil-contenedor, #loginbox {
+#mascotas, #agregar-mascota, #perfil-contenedor {
 
     align-items: center;
     background-color: #ffffff;
@@ -55,6 +55,19 @@ h2 {
     width: 100%;
     margin: auto;
     text-align: center;
+}
+
+#loginbox{
+        align-items: center;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    padding: 2rem 3rem;
+    max-width: 68dvh;
+    width: 100%;
+    margin: auto;
+    text-align: center;
+    margin-bottom: 7%;
 }
 
 .contenedor-mascota{
@@ -111,7 +124,7 @@ h2 {
 
 /* === Botones === */
 
-#btn-success, #btn-login, .btn-agregar-mascota,.btn-registrarse, .btn-volver{
+#btn-success, #btn-login, .btn-agregar-mascota, .btn-volver{
     background-color: #2e7d32;
     border: none;
     padding: 0.8rem 1.5rem;
@@ -119,6 +132,17 @@ h2 {
     border-radius: 30px;
     transition: all 0.3s ease;
     color: white;
+}
+
+.btn-registrarse{
+    background-color: #2e7d32;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-size: 1.1rem;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    color: white;
+    margin-top: 4%;
 }
 
 .btn {
