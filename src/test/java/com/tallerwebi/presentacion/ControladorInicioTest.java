@@ -3,6 +3,8 @@ package com.tallerwebi.presentacion;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import com.tallerwebi.dominio.ServicioEnlaceAdopcion;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,6 +40,8 @@ public class ControladorInicioTest {
         @Mock
         private ServicioRecomendaciones servicioRecomendaciones;
         @Mock
+        private ServicioEnlaceAdopcion servicioEnlaceAdopcion;
+        @Mock
         private ServicioTurnos servicioTurnos;
         private MockMvc mockMvc;
 
@@ -45,7 +49,7 @@ public class ControladorInicioTest {
         public void setup() {
                 // Inicializa los Mocks
                 MockitoAnnotations.openMocks(this);
-                controlador = new ControladorInicio(servicioUsuario, servicioRecomendaciones, servicioTurnos);
+                controlador = new ControladorInicio(servicioUsuario, servicioRecomendaciones, servicioTurnos, servicioEnlaceAdopcion);
                 InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
                 viewResolver.setPrefix("/WEB-INF/views/");
                 viewResolver.setSuffix(".html"); // si tus vistas son html

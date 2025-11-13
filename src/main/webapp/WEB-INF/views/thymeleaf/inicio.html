@@ -39,10 +39,7 @@
             <a href ="perfil.html" class = "span-opciones-header"> Perfil </a>
             <i class="bi bi-box-arrow-in-left"></i>
             <a href ="home.html" class = "span-opciones-header"> Salir </a>
-
         </div>
-
-
     </div>
 </header>
 
@@ -109,36 +106,28 @@
     <main class="main">
         <section class="cajas">
             <article>
-                <h3>Agenda</h3>
-                    <div id="left-turnos">
-                        <div id="cartelFecha" class="fecha-actual"></div>
-                        <button id="boton-agenda">Abrir</button>
-                    </div>
-            </article>
+                <h3>Adopta hoy un compa&ntilde;erito</h3>
 
-            <script>
-                // === Mostrar la fecha actual ===
-                function mostrarFechaActual() {
-                    const cartel = document.getElementById('cartelFecha');
-                    const hoy = new Date();
-
-                    const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                    const fechaFormateada = hoy.toLocaleDateString('es-ES', opciones);
-
-                    cartel.textContent = `Hoy es ${fechaFormateada.charAt(0).toUpperCase() + fechaFormateada.slice(1)}`;
-                }
-
-                window.addEventListener('DOMContentLoaded', mostrarFechaActual);
-
-            </script>
-            <!-- Modal de Agenda -->
-            <div id="modalAgenda" class="modal">
-                <div class="modal-content">
-                    <span class="cerrar" id="cerrarAgenda">&times;</span>
+                <div id="enlace-activo-container" class="card-body">
+                    <p class="text-muted text-center" th:if="${enlacesAdopcion == null or #lists.isEmpty(enlacesAdopcion)}">
+                        No hay recursos de adopción cargados.
+                    </p>
                 </div>
-            </div>
 
+                <div class="card-footer text-center">
+                    <button id="anterior" class="btn-anterior"> Anterior</button>
+                    <button id="siguiente" class="btn-siguiente">Siguiente </button>
+                </div>
 
+                <div id="enlaces-data-oculta" style="display: none;">
+                    <div th:each="enlace : ${enlacesAdopcion}" class="enlace-data">
+                        <span class="nombre" th:text="${enlace.nombre}"></span>
+                        <span class="url" th:text="${enlace.url}"></span>
+                        <span class="descripcion" th:text="${enlace.descripcion}"></span>
+                        <span class="provincia" th:text="${enlace.provincia}"></span>
+                    </div>
+                </div>
+            </article>
             <article>
                 <h3>Historial</h3>
                 <div class="secciones-datos">
@@ -149,9 +138,12 @@
             </article>
 
             <article class="credencial">
-                <img th:src="@{img/credecial.png}" alt="VetConnect" id="logo-credencial">
-                <span id="span-credencial">Mi Credencial</span>
-                <img th:src="@{img/editar.png}" alt="Editar" id="icono-editar">
+                <h3>Mi Credencial</h3>
+                <div class="card-body text-center">
+                    <a th:href="@{/credencial/descargar}" class="btn btn-primary mt-3">
+                        Descargar PDF
+                    </a>
+                </div>
             </article>
         </section>
 
@@ -220,6 +212,7 @@
 <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
 <script type="text/javascript" th:src="@{/js/mapa.js}"></script>
 <script type="text/javascript" th:src="@{/js/API-IA.js}"></script>
+<script type="text/javascript" th:src="@{/js/adopcion.js}"></script>
 
 </body>
 </html>

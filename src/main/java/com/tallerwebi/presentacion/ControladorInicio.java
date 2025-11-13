@@ -1,5 +1,6 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.ServicioEnlaceAdopcion;
 import com.tallerwebi.dominio.ServicioUsuario;
 import com.tallerwebi.dominio.Turno;
 import com.tallerwebi.dominio.TurnoVistaDTO;
@@ -22,12 +23,15 @@ public class ControladorInicio {
     private final ServicioUsuario servicioUsuario;
     private final ServicioRecomendaciones servicioRecomendaciones;
     private final ServicioTurnos servicioTurnos;
+    private final ServicioEnlaceAdopcion servicioEnlaceAdopcion;
 
     @Autowired
-    public ControladorInicio(ServicioUsuario servicioUsuario, ServicioRecomendaciones servicioRecomendaciones, ServicioTurnos servicioTurnos) {
+    public ControladorInicio(ServicioUsuario servicioUsuario, ServicioRecomendaciones servicioRecomendaciones,
+                             ServicioTurnos servicioTurnos, ServicioEnlaceAdopcion servicioEnlaceAdopcion) {
         this.servicioUsuario = servicioUsuario;
         this.servicioRecomendaciones = servicioRecomendaciones;
         this.servicioTurnos = servicioTurnos;
+        this.servicioEnlaceAdopcion = servicioEnlaceAdopcion;
     }
 
     @GetMapping("/inicio")
@@ -53,8 +57,12 @@ public class ControladorInicio {
         modelo.addAttribute("turnos", turnosDTO);
 
         modelo.put("recomendaciones", servicioRecomendaciones.generarRecomendaciones(usuarioActual));
+        modelo.put("enlacesAdopcion", servicioEnlaceAdopcion.obtenerTodosLosEnlaces());
 
         return new ModelAndView("inicio", modelo);
     }
+
+
+
 
 }

@@ -34,7 +34,7 @@ VALUES ('Felicidades por tu cachorro!', 'Asegurate que tu perrito conozca su amb
         'Perro', 'Cachorro', 'Macho', 'https://articulo.mercadolibre.com.ar/MLA-854035124-kong-puppy-large-juguete-perros-cachorros-_JM');
 
 INSERT INTO Recomendacion (titulo, descripcion, tipo, etapa, sexo, link)
-VALUES ('Vacunaci&oacute;n y Desparasitaci&oacute;n', 'Los primeros meses son claves. Sigue el calendario de vacunas y desparasita regularmente.',
+VALUES ('Vacunacion y Desparasitacion', 'Los primeros meses son claves. Sigue el calendario de vacunas y desparasita regularmente.',
         'Perro', 'Cachorro', 'Ambos', 'https://www.lamatanza.gov.ar/saludpublica/centro-zoonosis');
 
 
@@ -43,7 +43,7 @@ VALUES ('Alimento Sieger', 'Alimento específico para gatitos hasta 1 año. Ayud
        'Gato', 'Cachorro', 'Ambos', 'https://sieger.com.ar/producto/sieger-katze-kitten/'); --
 
 INSERT INTO Recomendacion (titulo, descripcion, tipo, etapa, sexo, link)
-VALUES ('Ejercicio y Paseos', 'Mantén una rutina de ejercicio para prevenir el sobrepeso y problemas de conducta.',
+VALUES ('Ejercicio y Paseos', 'Manten una rutina de ejercicio para prevenir el sobrepeso y problemas de conducta.',
         'Perro', 'Adulto', 'Ambos', 'https://www.mercadolibre.com.ar/correa-retractil-doble-para-2-perros-linterna-y-porta-bolsa-color-negro/p/MLA61388099');
 
 
@@ -58,7 +58,7 @@ VALUES ('Cuidado Urinario', 'Los gatos machos son propensos a problemas urinario
 
 
 INSERT INTO Recomendacion (titulo, descripcion, tipo, etapa, sexo, link)
-VALUES ('Juego Diario', 'Aseg&uacute;rate de jugar al menos 15 minutos al día con tu gato. Es esencial para su salud mental.',
+VALUES ('Juego Diario', 'Asegurate de jugar al menos 15 minutos al día con tu gato. Es esencial para su salud mental.',
         'Gato', 'Adulto', 'Ambos', 'https://www.mercadolibre.com.ar/gimnasio-rascador-para-gatos-juguete-bajo-dakota-felpa-sisal/p/MLA45654436');
 
 
@@ -69,4 +69,22 @@ VALUES ('Suplemento Articular', 'Considera suplementos de glucosamina y condroit
 INSERT INTO Recomendacion (titulo, descripcion, tipo, etapa, sexo, link)
 VALUES ('Monitoreo Renal', 'En gatos mayores, es crucial realizar análisis de sangre anuales para detectar problemas renales a tiempo.',
         'Gato', 'Senior', 'Ambos', 'https://www.zooplus.es/magazine/gatos/salud-del-gato-y-cuidados/hemograma-en-gatos');
+
+
+INSERT INTO EnlaceAdopcion (nombre, url, descripcion, provincia) VALUES
+    ('Proyecto Cuatro Patas', 'https://proyecto4patas.org',
+     'Organizacion dedicada al rescate, rehabilitacion y adopcion responsable de perros y gatos',
+    'Buenos Aires');
+
+INSERT INTO EnlaceAdopcion (nombre, url, descripcion, provincia) VALUES
+    ('El Campito Refugio', 'https://elcampitorefugio.org',
+     'El refugio mas grande de perrros rescatados, ubicado en Esteban Echeverria', 'Buenos Aires');
+
+INSERT INTO EnlaceAdopcion (nombre, url, descripcion, provincia) VALUES
+    ('El Campito Refugio', 'https://www.fundacionvivalavida.com.ar/',
+    'Promueve la adopcion, esterilizacion y educacion para la convivencia responsable con mascotas', 'Buenos Aires' );
+
+INSERT INTO EnlaceAdopcion (nombre, url, descripcion, provincia) VALUES
+    ('APRANI', 'https://aprani.org/', 'Asociacion Proyectora de Animales en todo el pais', 'Buenos Aires');
+
 
