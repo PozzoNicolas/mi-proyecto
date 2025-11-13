@@ -49,7 +49,7 @@
         </div>
         <form th:action="@{/eliminar-mascota}" method="post"
               onsubmit="return confirm('¿Estás seguro de que quieres eliminar a esta mascota? Esta acción es irreversible.');">
-            <input type="hidden" name="idMascota" th:value="${m.id}" />
+            <!-- <input type="hidden" name="idMascota" th:value="${m.id}" /> -->
             <button type="submit" class="btn btn-danger btn-eliminar">Eliminar</button>
         </form>
     </div>
