@@ -45,6 +45,10 @@ h2 {
     margin: 1rem 0;
 }
 
+.offcanvas-body {
+    z-index:2000;
+}
+
 
 #mascotas, #agregar-mascota, #perfil-contenedor {
 

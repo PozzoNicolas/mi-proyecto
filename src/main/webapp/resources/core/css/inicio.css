@@ -24,7 +24,7 @@ body {
     position: fixed;
     top: 3.5rem; /* debajo del navbar */
     width: 100%;
-    z-index: 1000;
+    z-index: 1001;
 }
 
 h6 {
