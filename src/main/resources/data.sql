@@ -34,7 +34,7 @@ VALUES ('Felicidades por tu cachorro!', 'Asegurate que tu perrito conozca su amb
         'Perro', 'Cachorro', 'Macho', 'https://articulo.mercadolibre.com.ar/MLA-854035124-kong-puppy-large-juguete-perros-cachorros-_JM');
 
 INSERT INTO Recomendacion (titulo, descripcion, tipo, etapa, sexo, link)
-VALUES ('Vacunación y Desparasitacion', 'Los primeros meses son claves. Sigue el calendario de vacunas y desparasita regularmente.',
+VALUES ('Vacunaci&oacute;n y Desparasitaci&oacute;n', 'Los primeros meses son claves. Sigue el calendario de vacunas y desparasita regularmente.',
         'Perro', 'Cachorro', 'Ambos', 'https://www.lamatanza.gov.ar/saludpublica/centro-zoonosis');
 
 
@@ -58,7 +58,7 @@ VALUES ('Cuidado Urinario', 'Los gatos machos son propensos a problemas urinario
 
 
 INSERT INTO Recomendacion (titulo, descripcion, tipo, etapa, sexo, link)
-VALUES ('Juego Diario', 'Asegúrate de jugar al menos 15 minutos al día con tu gato. Es esencial para su salud mental.',
+VALUES ('Juego Diario', 'Aseg&uacute;rate de jugar al menos 15 minutos al día con tu gato. Es esencial para su salud mental.',
         'Gato', 'Adulto', 'Ambos', 'https://www.mercadolibre.com.ar/gimnasio-rascador-para-gatos-juguete-bajo-dakota-felpa-sisal/p/MLA45654436');
 
 
