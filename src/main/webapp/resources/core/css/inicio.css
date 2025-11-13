@@ -193,6 +193,30 @@ h6 {
     height: 32px;
 }
 
+#btn-agregar-mascota {
+    margin-bottom: 1%;
+    background-color: #2e7d32;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width:30%
+}
+
+
+#btn-volver-misMascotas {
+    background-color: #2e7d32;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width:30%
+}
+
 
 
 /* === Contenedor general para las dos secciones === */

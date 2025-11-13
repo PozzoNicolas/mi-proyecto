@@ -50,7 +50,7 @@ h2 {
 }
 
 
-#mascotas, #agregar-mascota, #perfil-contenedor {
+#perfil-contenedor {
 
     align-items: center;
     background-color: #ffffff;
@@ -59,6 +59,31 @@ h2 {
     padding: 2rem 3rem;
     max-width: 20dvh;
     width: 100%;
+    margin: auto;
+    text-align: center;
+}
+
+#agregar-mascota {
+    margin-bottom: 5% !important;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    padding: 2rem 3rem;
+    max-width: 92dvh;
+    width: 100%;
+    margin: auto;
+    text-align: center;
+}
+
+#mascotas {
+    margin-bottom: 5% !important;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    padding: 2rem 3rem;
+    width: 65%;
     margin: auto;
     text-align: center;
 }
@@ -138,6 +163,10 @@ h2 {
     border-radius: 30px;
     transition: all 0.3s ease;
     color: white;
+}
+
+.btn-volver{
+    margin-top: 1%;
 }
 
 #btn-login{
