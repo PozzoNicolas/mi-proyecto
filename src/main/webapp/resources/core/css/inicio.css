@@ -1,6 +1,8 @@
 /* ==============================
    Estilos generales
 ============================== */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
 body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
@@ -27,7 +29,7 @@ body {
 
 h6 {
     color: white;
-    font-family: 'Roboto', sans-serif
+    font-family: 'Poppins', sans-serif
 }
 
 .navbar {
@@ -354,6 +356,7 @@ h6 {
    Footer
 ============================== */
 footer {
+    font-family: 'Poppins', sans-serif !important;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -433,6 +436,7 @@ body.modal-activo {
    Footer
 ============================== */
 footer {
+    font-family: 'Poppins', sans-serif !important;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;

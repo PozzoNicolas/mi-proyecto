@@ -1,5 +1,7 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+
+
 /* === General === */
 body {
     padding-top: 70px; /* evita que la navbar tape contenido */
@@ -124,7 +126,7 @@ h2 {
 
 /* === Botones === */
 
-#btn-success, #btn-login, .btn-agregar-mascota, .btn-volver{
+#btn-success, .btn-agregar-mascota, .btn-volver{
     background-color: #2e7d32;
     border: none;
     padding: 0.8rem 1.5rem;
@@ -132,6 +134,20 @@ h2 {
     border-radius: 30px;
     transition: all 0.3s ease;
     color: white;
+}
+
+#btn-login{
+
+    background-color: #2e7d32;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-size: 1.1rem;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    color: white;
+    width: 49%;
+    margin-top: 4%;
+    margin-bottom: 6%;
 }
 
 .btn-registrarse{
