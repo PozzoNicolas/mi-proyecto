@@ -39,10 +39,7 @@
             <a href ="perfil.html" class = "span-opciones-header"> Perfil </a>
             <i class="bi bi-box-arrow-in-left"></i>
             <a href ="home.html" class = "span-opciones-header"> Salir </a>
-
         </div>
-
-
     </div>
 </header>
 
@@ -118,8 +115,8 @@
                 </div>
 
                 <div class="card-footer text-center">
-                    <button id="anterior" class="btn btn-sm btn-outline-success">← Anterior</button>
-                    <button id="siguiente" class="btn btn-sm btn-success">Siguiente →</button>
+                    <button id="anterior" class="btn-anterior"> Anterior</button>
+                    <button id="siguiente" class="btn-siguiente">Siguiente </button>
                 </div>
 
                 <div id="enlaces-data-oculta" style="display: none;">
@@ -131,9 +128,6 @@
                     </div>
                 </div>
             </article>
-
-
-
             <article>
                 <h3>Historial</h3>
                 <div class="secciones-datos">
@@ -144,9 +138,12 @@
             </article>
 
             <article class="credencial">
-                <img th:src="@{img/credecial.png}" alt="VetConnect" id="logo-credencial">
-                <span id="span-credencial">Mi Credencial</span>
-                <img th:src="@{img/editar.png}" alt="Editar" id="icono-editar">
+                <h3>Mi Credencial</h3>
+                <div class="card-body text-center">
+                    <a th:href="@{/credencial/descargar}" class="btn btn-primary mt-3">
+                        Descargar PDF
+                    </a>
+                </div>
             </article>
         </section>
 
