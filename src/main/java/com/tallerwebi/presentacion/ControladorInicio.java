@@ -56,5 +56,4 @@ public class ControladorInicio {
 
         return new ModelAndView("inicio", modelo);
     }
-
 }

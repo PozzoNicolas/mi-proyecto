@@ -22,7 +22,7 @@ public class ServicioHistorialDeVacunasTest {
     @BeforeEach
     public void init() {
         repositorioMock = Mockito.mock(RepositorioHistorialDeVacunas.class);
-        servicio = new ServicioHistorialDeVacunasImpl(repositorioMock);
+        servicio = new ServicioHistorialDeVacunasImpl(repositorioMock, null);
 
         usuario = new Usuario();
         usuario.setNombre("pepe");

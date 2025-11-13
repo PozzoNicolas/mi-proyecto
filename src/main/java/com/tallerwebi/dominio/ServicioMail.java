@@ -20,15 +20,22 @@ public class ServicioMail {
 
     @Async
     public void enviarMail(String para, String asunto, String cuerpo) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(para);
-        message.setSubject(asunto);
-        message.setText(cuerpo);
+        try {
+            System.out.println("📨 Intentando enviar mail a: " + para);
 
-        mailSender.send(message);
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(para);
+            message.setSubject(asunto);
+            message.setText(cuerpo);
+
+            mailSender.send(message);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    //Usuario =/= Usuario !!!
+
     @Async
     public void enviarConfirmacionDeTurno(Usuario usuario, Long turnoId, String direccion) {
         Turno turno = usuario.getTurnoPorId(turnoId);
@@ -64,7 +71,6 @@ public class ServicioMail {
         enviarMail(direccion, asunto, cuerpo);
     }
 
-    //Usuario =/= Usuario !!!
     @Async
     public void enviarCancelacionDeTurno(Usuario usuario, Long turnoId, String direccion) {
         Turno turno = usuario.getTurnoPorId(turnoId);
@@ -99,6 +105,41 @@ public class ServicioMail {
         enviarMail(direccion, asunto, cuerpo);
     }
 
+    @Async
+    public void enviarRecordatorioDeCuidado(Usuario usuario) {
+        String direccion = usuario.getEmail();
+
+        String asunto = "Recordatorio de cuidado para tus mascotas";
+
+        String cuerpo = String.format(
+            "Hola %s,%n%n" +
+            "Queríamos recordarte que una o más de tus mascotas podrían tener vacunas o cuidados pendientes.%n%n" +
+            "Te recomendamos revisar su historial en VetConnect para asegurarte de que estén al día con sus vacunas y revisiones.%n%n" +
+            "Mantener las vacunas y controles al día es clave para su salud y bienestar.%n%n" +
+            "¡Gracias por confiar en nosotros para el cuidado de tus compañeros!%n%n" +
+            "Atentamente,%n" +
+            "El equipo de VetConnect"
+            , usuario.getNombre()
+        );
+
+        enviarMail(direccion, asunto, cuerpo);
+    }
+
+    @Async
+    public void enviarRecordatorioTest(Usuario usuario) {
+                String direccion = usuario.getEmail();
+
+        String asunto = "Recordatorio de cuidado para tus mascotas";
+
+        String cuerpo = String.format(
+            "Este es un test"
+            , usuario.getNombre()
+        );
+
+        enviarMail(direccion, asunto, cuerpo);
+    }
+
+    @Async
     public void enviarRecordatorioProximoTurno(Turno turno) {
         Veterinaria veterinaria = turno.getVeterinaria();
         String direccion = turno.getUsuario().getEmail();
