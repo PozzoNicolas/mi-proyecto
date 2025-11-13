@@ -137,6 +137,22 @@ h6 {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
+.btn-siguiente, .btn-anterior {
+
+    background-color: #2e7d32;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-siguiente:hover, .btn-anterior:hover {
+    background: blue;
+    color: white;
+}
+
 /* Turnos */
 #box-turnos {
     display: flex;
