@@ -70,3 +70,21 @@ INSERT INTO Recomendacion (titulo, descripcion, tipo, etapa, sexo, link)
 VALUES ('Monitoreo Renal', 'En gatos mayores, es crucial realizar análisis de sangre anuales para detectar problemas renales a tiempo.',
         'Gato', 'Senior', 'Ambos', 'https://www.zooplus.es/magazine/gatos/salud-del-gato-y-cuidados/hemograma-en-gatos');
 
+
+INSERT INTO EnlaceAdopcion (nombre, url, descripcion, provincia) VALUES
+    ('Proyecto Cuatro Patas', 'https://proyecto4patas.org',
+     'Organizacion dedicada al rescate, rehabilitacion y adopcion responsable de perros y gatos',
+    'Buenos Aires');
+
+INSERT INTO EnlaceAdopcion (nombre, url, descripcion, provincia) VALUES
+    ('El Campito Refugio', 'https://elcampitorefugio.org',
+     'El refugio mas grande de perrros rescatados, ubicado en Esteban Echeverria', 'Buenos Aires');
+
+INSERT INTO EnlaceAdopcion (nombre, url, descripcion, provincia) VALUES
+    ('El Campito Refugio', 'https://www.fundacionvivalavida.com.ar/',
+    'Promueve la adopcion, esterilizacion y educacion para la convivencia responsable con mascotas', 'Buenos Aires' );
+
+INSERT INTO EnlaceAdopcion (nombre, url, descripcion, provincia) VALUES
+    ('APRANI', 'https://aprani.org/', 'Asociacion Proyectora de Animales en todo el pais', 'Buenos Aires');
+
+
