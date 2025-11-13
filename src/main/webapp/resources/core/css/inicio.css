@@ -1,6 +1,8 @@
 /* ==============================
    Estilos generales
 ============================== */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
 body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
@@ -22,12 +24,12 @@ body {
     position: fixed;
     top: 3.5rem; /* debajo del navbar */
     width: 100%;
-    z-index: 1000;
+    z-index: 1001;
 }
 
 h6 {
     color: white;
-    font-family: 'Roboto', sans-serif
+    font-family: 'Poppins', sans-serif
 }
 
 .navbar {
@@ -207,6 +209,30 @@ h6 {
     height: 32px;
 }
 
+#btn-agregar-mascota {
+    margin-bottom: 1%;
+    background-color: #2e7d32;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width:30%
+}
+
+
+#btn-volver-misMascotas {
+    background-color: #2e7d32;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width:30%
+}
+
 
 
 /* === Contenedor general para las dos secciones === */
@@ -370,6 +396,7 @@ h6 {
    Footer
 ============================== */
 footer {
+    font-family: 'Poppins', sans-serif !important;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -377,7 +404,7 @@ footer {
     text-align: center;
     background-color: #2e7d32;
     color: white;
-    padding: 2rem;
+    padding: 1rem;
     margin-top: auto;
 }
 
@@ -449,13 +476,14 @@ body.modal-activo {
    Footer
 ============================== */
 footer {
+    font-family: 'Poppins', sans-serif !important;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     text-align: center;
     background-color: #2e7d32;
     color: white;
-    padding: 2rem;
+    padding: 1rem;
     margin-top: auto;
 }
 
