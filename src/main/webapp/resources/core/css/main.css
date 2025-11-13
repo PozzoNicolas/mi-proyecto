@@ -145,12 +145,12 @@ footer {
     text-align: center;
     background-color: #2e7d32;
     color: white;
-    padding: 2rem;
+    padding: 1rem !important;
     margin-top: auto;
 }
 
 footer h6 {
-    margin: 0.3rem 0;
+    margin: 0;
     font-weight: normal;
 }
 
