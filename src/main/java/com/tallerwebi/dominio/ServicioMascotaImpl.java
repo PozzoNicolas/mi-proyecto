@@ -35,15 +35,24 @@ public class ServicioMascotaImpl implements ServicioMascota {
         repositorioMascota.guardar(mascota);
         System.out.println("Mascota guardada: " + mascota.getNombre());
     }
-    }
 
-//        Usuario duenio = servicioUsuario.buscarUsuarioPorId(id);
-//        if (duenio == null) {
-//            throw new RuntimeException("Dueño no encontrado para registrar mascota.");
-//        }
-//        mascota.setDuenio(duenio);
-//        duenio.getMascotas().add(mascota);
-//
-//        System.out.println("Mascota guardada: " + mascota.getNombre());
-//    }
-//}
+    @Override
+    @Transactional // 🔥 CRÍTICO: Abre la transacción para la operación de base de datos
+    public void eliminarMascota(Long idMascota) {
+
+        Mascota mascota = repositorioMascota.buscarMascotaPorId(idMascota);
+
+        if (mascota != null && mascota.getDuenio() != null) {
+            Usuario duenio = mascota.getDuenio();
+            duenio.getMascotas().remove(mascota);
+            mascota.setDuenio(null);
+        }
+
+        repositorioMascota.eliminarMascota(mascota);
+
+
+
+    }
+}
+
+

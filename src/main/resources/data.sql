@@ -34,7 +34,7 @@ VALUES ('Felicidades por tu cachorro!', 'Asegurate que tu perrito conozca su amb
         'Perro', 'Cachorro', 'Macho', 'https://articulo.mercadolibre.com.ar/MLA-854035124-kong-puppy-large-juguete-perros-cachorros-_JM');
 
 INSERT INTO Recomendacion (titulo, descripcion, tipo, etapa, sexo, link)
-VALUES ('Vacunaci&oacute;n y Desparasitaci&oacute;n', 'Los primeros meses son claves. Sigue el calendario de vacunas y desparasita regularmente.',
+VALUES ('Vacunacion y Desparasitacion', 'Los primeros meses son claves. Sigue el calendario de vacunas y desparasita regularmente.',
         'Perro', 'Cachorro', 'Ambos', 'https://www.lamatanza.gov.ar/saludpublica/centro-zoonosis');
 
 
@@ -43,7 +43,7 @@ VALUES ('Alimento Sieger', 'Alimento específico para gatitos hasta 1 año. Ayud
        'Gato', 'Cachorro', 'Ambos', 'https://sieger.com.ar/producto/sieger-katze-kitten/'); --
 
 INSERT INTO Recomendacion (titulo, descripcion, tipo, etapa, sexo, link)
-VALUES ('Ejercicio y Paseos', 'Mantén una rutina de ejercicio para prevenir el sobrepeso y problemas de conducta.',
+VALUES ('Ejercicio y Paseos', 'Manten una rutina de ejercicio para prevenir el sobrepeso y problemas de conducta.',
         'Perro', 'Adulto', 'Ambos', 'https://www.mercadolibre.com.ar/correa-retractil-doble-para-2-perros-linterna-y-porta-bolsa-color-negro/p/MLA61388099');
 
 
@@ -58,7 +58,7 @@ VALUES ('Cuidado Urinario', 'Los gatos machos son propensos a problemas urinario
 
 
 INSERT INTO Recomendacion (titulo, descripcion, tipo, etapa, sexo, link)
-VALUES ('Juego Diario', 'Aseg&uacute;rate de jugar al menos 15 minutos al día con tu gato. Es esencial para su salud mental.',
+VALUES ('Juego Diario', 'Asegurate de jugar al menos 15 minutos al día con tu gato. Es esencial para su salud mental.',
         'Gato', 'Adulto', 'Ambos', 'https://www.mercadolibre.com.ar/gimnasio-rascador-para-gatos-juguete-bajo-dakota-felpa-sisal/p/MLA45654436');
 
 

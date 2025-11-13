@@ -46,18 +46,26 @@
                 </div>
             </div>
         </div>
-        <div>
-            <a href="mascotas.html">
-                <button type="button">Agregar Mascota</button>
-            </a>
-        </div>
-        <div>
-            <a href="inicio.html">
-                <button type="button">Volver</button>
-            </a>
-        </div>
+        <form th:action="@{/eliminar-mascota}" method="post"
+              onsubmit="return confirm('¿Estás seguro de que quieres eliminar a esta mascota? Esta acción es irreversible.');">
+            <input type="hidden" name="idMascota" th:value="${m.id}" />
+            <button type="submit" class="btn btn-danger btn-eliminar">Eliminar</button>
+        </form>
     </div>
 </main>
+
+<article class = "botones-mis-mascotas">
+    <div>
+        <a href="mascotas.html">
+            <button type="button">Agregar Mascota</button>
+        </a>
+    </div>
+    <div>
+        <a href="inicio.html">
+            <button type="button">Volver</button>
+        </a>
+    </div>
+</article>
 
 <!-- Footer -->
 <footer>
