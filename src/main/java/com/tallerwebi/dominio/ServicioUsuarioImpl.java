@@ -50,8 +50,7 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 
         if (emailExists) {
             throw new IllegalArgumentException(
-                "Ya existe un cliente con el correo: " + usuario.getEmail()
-            );
+                    "Ya existe un cliente con el correo: " + usuario.getEmail());
         }
 
         // Generate ID if necessary
@@ -92,17 +91,32 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 
     @Transactional
     public Usuario buscarUsuarioPorId(Long id) {
-        Usuario usuario = storage.get(id);
-        if (usuario == null && repositorioUsuario != null) {
-            usuario = repositorioUsuario.buscarPorId(id);
-            if (usuario != null) {
-                usuario.getTurnos().size(); // Initialize lazy collection safely
-            }
+        // 1. Siempre buscar la versión más fresca en la base de datos
+        Usuario usuario = repositorioUsuario.buscarPorId(id);
+
+        if (usuario != null) {
+            // Inicializar colecciones si es necesario
+            usuario.getTurnos().size();
+
+            // 2. Aquí deberías inicializar también las mascotas
+            // Esto depende de cómo se mapea la relación, pero es buena práctica:
+            // usuario.getMascotas().size();
+
+            // 3. (Opcional) Si usas 'storage', actualiza la versión en la caché después de
+            // cargarla de la DB
+            storage.put(id, usuario);
         }
         return usuario;
+        // Usuario usuario = storage.get(id);
+        // if (usuario == null && repositorioUsuario != null) {
+        // usuario = repositorioUsuario.buscarPorId(id);
+        // if (usuario != null) {
+        // usuario.getTurnos().size(); // Initialize lazy collection safely
+        // }
+        // }
+        // return usuario;
     }
 
-    
     @Transactional
     public Usuario buscarUsuarioPorIdConTurnos(Long id) {
         if (repositorioUsuario != null) {
@@ -111,7 +125,8 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 
         // In-memory fallback
         Usuario usuario = storage.get(id);
-        if (usuario != null) usuario.getTurnos().size();
+        if (usuario != null)
+            usuario.getTurnos().size();
         return usuario;
     }
 }

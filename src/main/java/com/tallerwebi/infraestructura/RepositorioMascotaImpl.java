@@ -14,8 +14,9 @@ public class RepositorioMascotaImpl implements RepositorioMascota {
     private final SessionFactory sessionFactory;
 
     @Autowired
-    //Si usamos el autowired sobre el constructor tuviesemos más de un elemento, lo inyectaria a todos.
-    public RepositorioMascotaImpl (SessionFactory sessionFactory){
+    // Si usamos el autowired sobre el constructor tuviesemos más de un elemento, lo
+    // inyectaria a todos.
+    public RepositorioMascotaImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
@@ -32,9 +33,14 @@ public class RepositorioMascotaImpl implements RepositorioMascota {
 
     @Override
     public void eliminarMascota(Mascota mascota) {
-       mascota = buscarMascotaPorId(mascota.getId());
-        if(mascota != null){
+        // Esto es un 'load' forzado, que ya es redundante, pero lo mantendremos por
+        // ahora.
+        mascota = buscarMascotaPorId(mascota.getId());
+
+        if (mascota != null) {
             this.sessionFactory.getCurrentSession().delete(mascota);
+            // Asegura que el DELETE se envíe a la DB.
+            this.sessionFactory.getCurrentSession().flush();
         }
     }
 

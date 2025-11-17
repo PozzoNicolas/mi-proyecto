@@ -15,9 +15,10 @@ public class ServicioMascotaTest {
     public void queAlRegistrarUnaMascotaQuedeAsociadaAlUsuario() {
 
         RepositorioMascota repositorioMascota = mock(RepositorioMascota.class);
+        RepositorioUsuario repositorioUsuario = mock(RepositorioUsuario.class);
         ServicioUsuarioImpl servicioUsuario = new ServicioUsuarioImpl();
 
-        ServicioMascotaImpl servicioMascota = new ServicioMascotaImpl(repositorioMascota ,servicioUsuario);
+        ServicioMascotaImpl servicioMascota = new ServicioMascotaImpl(repositorioMascota ,servicioUsuario, repositorioUsuario);
 
         Mascota mascota = new Mascota();
         Usuario usuario = new Usuario("nicolas", "Pozzo", "npozzo@gmail.com", "11223344");
@@ -32,8 +33,9 @@ public class ServicioMascotaTest {
     @Test
     public void queAlConsultarElDuenioDeLaMascotaTeDevuelvaElDuenioReal(){
         RepositorioMascota repositorioMascota = mock(RepositorioMascota.class);
+        RepositorioUsuario repositorioUsuario = mock(RepositorioUsuario.class);
         ServicioUsuarioImpl servicioUsuario = new ServicioUsuarioImpl();
-        ServicioMascotaImpl servicioMascota = new ServicioMascotaImpl(repositorioMascota, servicioUsuario);
+        ServicioMascotaImpl servicioMascota = new ServicioMascotaImpl(repositorioMascota, servicioUsuario, repositorioUsuario);
 
         Mascota mascota = new Mascota();
         Usuario usuario = new Usuario("nicolas", "Pozzo", "npozzo@gmail.com", "11223344");
@@ -48,8 +50,9 @@ public class ServicioMascotaTest {
     @Test
     public void queAlRegistrarDosMascotasQuedenAmbasEnLaListaDelUsuario() {
         RepositorioMascota repositorioMascota = mock(RepositorioMascota.class);
+        RepositorioUsuario repositorioUsuario = mock(RepositorioUsuario.class);
         ServicioUsuarioImpl servicioUsuario = new ServicioUsuarioImpl();
-        ServicioMascotaImpl servicioMascota = new ServicioMascotaImpl(repositorioMascota, servicioUsuario);
+        ServicioMascotaImpl servicioMascota = new ServicioMascotaImpl(repositorioMascota, servicioUsuario, repositorioUsuario);
 
         Mascota m1 = new Mascota();
         Mascota m2 = new Mascota();
