@@ -25,63 +25,65 @@
     </nav>
 
     <!-- Contenido -->
-    <main id="mascotas" class="container mt-5 pt-4">
-        <h1 class="mb-4">Mis Mascotas</h1>
+    <main>
+        <h1 id="tituloMisMascotas" class="mb-4">Mis Mascotas</h1>
+        <div id="mascotas" class="container mt-5 pt-4">
+            <div th:if="${mascotas == null or #lists.isEmpty(mascotas)}">
+                <p class="text-muted">Sin mascotas</p>
+            </div>
 
-        <div th:if="${mascotas == null or #lists.isEmpty(mascotas)}">
-            <p class="text-muted">Sin mascotas</p>
-        </div>
-
-        <div class="row" th:each="m : ${mascotas}">
-            <div class="col-md-4">
-                <div class="card shadow-sm mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title" th:text="${m.nombre}">Nombre</h5>
-                        <p class="card-text">
-                            <strong>Especie:</strong> <span th:text="${m.tipoDeMascota}">Perro</span><br>
-                            <strong>Raza:</strong> <span th:text="${m.raza}">Mestizo</span><br>
-                            <strong>Edad:</strong> <span th:text="${m.edad}">3</span> a&ntilde;os
-                            <strong>Sexo:</strong> <span th:text="${m.sexo}">Hembra</span>
-                        </p>
+            <div class="row" th:each="m : ${mascotas}">
+                <div class="col-md-4">
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${m.nombre}">Nombre</h5>
+                            <p class="card-text">
+                                <strong>Especie:</strong> <span th:text="${m.tipoDeMascota}">Perro</span><br>
+                                <strong>Raza:</strong> <span th:text="${m.raza}">Mestizo</span><br>
+                                <strong>Edad:</strong> <span th:text="${m.edad}">3</span> a&ntilde;os
+                                <strong>Sexo:</strong> <span th:text="${m.sexo}">Hembra</span>
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <form th:action="@{/eliminar-mascota}" method="post"
+                                onsubmit="return confirm('¿Estás seguro de que quieres eliminar a esta mascota? Esta acción es irreversible.');">
+                                <input type="hidden" name="idMascota" th:value="${m.id}" />
+                                <button type="submit" class="btn btn-danger btn-sm btn-eliminar">Eliminar</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <form th:action="@{/eliminar-mascota}" method="post"
-              onsubmit="return confirm('¿Estás seguro de que quieres eliminar a esta mascota? Esta acción es irreversible.');">
-            <!-- <input type="hidden" name="idMascota" th:value="${m.id}" /> -->
-            <button type="submit" class="btn btn-danger btn-eliminar">Eliminar</button>
-        </form>
-    </div>
-</main>
+    </main>
 
-<article class = "botones-mis-mascotas">
-    <div>
-        <a href="mascotas.html">
-            <button type="button">Agregar Mascota</button>
-        </a>
-    </div>
-    <div>
-        <a href="inicio.html">
-            <button type="button">Volver</button>
-        </a>
-    </div>
-</article>
+    <article class="botones-mis-mascotas">
+        <div>
+            <a href="mascotas.html">
+                <button type="button">Agregar Mascota</button>
+            </a>
+        </div>
+        <div>
+            <a href="inicio.html">
+                <button type="button">Volver</button>
+            </a>
+        </div>
+    </article>
 
-<!-- Footer -->
-<footer>
-    <div>
-        <h6>Integrantes:</h6>
-        <h6>Diego Contreras</h6>
-        <h6>Nicolas Pozzo</h6>
-        <h6>Joaquin A. Diaz</h6>
-    </div>
-    <div>
-        <h6>Fundaci&oacute;n Futuro - 2025</h6>
-        <h6>Taller Web I - Universidad Nacional de La Matanza</h6>
-    </div>
-</footer>
-<script th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.bundle.min.js}"></script>
+    <!-- Footer -->
+    <footer>
+        <div>
+            <h6>Integrantes:</h6>
+            <h6>Diego Contreras</h6>
+            <h6>Nicolas Pozzo</h6>
+            <h6>Joaquin A. Diaz</h6>
+        </div>
+        <div>
+            <h6>Fundaci&oacute;n Futuro - 2025</h6>
+            <h6>Taller Web I - Universidad Nacional de La Matanza</h6>
+        </div>
+    </footer>
+    <script th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.bundle.min.js}"></script>
 </body>
 
 </html>
