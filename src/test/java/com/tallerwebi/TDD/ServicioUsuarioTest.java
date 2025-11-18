@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -15,6 +17,7 @@ import com.tallerwebi.dominio.*;
 import org.junit.jupiter.api.Test;
 import com.tallerwebi.dominio.enums.Especialidad;
 import com.tallerwebi.dominio.enums.Practica;
+import static org.mockito.Mockito.*;
 
 public class ServicioUsuarioTest {
 
@@ -38,14 +41,20 @@ public class ServicioUsuarioTest {
     @Test
     public void queAlBuscarUnUsuarioPorIdSeDevuelvaElUsuarioCorrecto (){
 
-        ServicioUsuarioImpl servicio = new ServicioUsuarioImpl();
+        // Creo el Mock de la Base de Datos
+        RepositorioUsuario repositorioUsuario = mock(RepositorioUsuario.class);
+        // Creo la instancia real del servicio, inyectando el mock.
+        ServicioUsuarioImpl servicio = new ServicioUsuarioImpl(repositorioUsuario);
+        // Creo el Usuario de prueba
         Usuario usuarioNuevo = new Usuario ("Nicolas","Pozzo","npozzo@gmail.com", "1152297244");
-       
-        servicio.registrarUsuario (usuarioNuevo);
-        Usuario c1 = servicio.buscarUsuarioPorId(usuarioNuevo.getId());
+        // Simulo la búsqueda: Cuando el servicio pida el Usuario con ID, el repositorio debe devolver el objeto de prueba.
+        when(repositorioUsuario.buscarPorId(usuarioNuevo.getId())).thenReturn(usuarioNuevo);
 
-        assertThat(usuarioNuevo, is(c1));
-
+        Usuario resultadoBusqueda = servicio.buscarUsuarioPorId(usuarioNuevo.getId());
+        // Verificamos que el resultado es el usuario esperado
+        assertThat(resultadoBusqueda, is(usuarioNuevo));
+        // Verificamos que el servicio realmente llamó al repositorio (la DB) para buscarlo
+        verify(repositorioUsuario, times(1)).buscarPorId(usuarioNuevo.getId());
     }
 
     @Test
