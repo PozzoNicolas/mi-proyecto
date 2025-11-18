@@ -162,6 +162,11 @@ h6 {
     justify-content: space-between;
 }
 
+.credencial {
+    display:flex;
+    flex-direction: column;
+}
+
 #left-turnos {
     display: flex;
     flex-direction: column;
