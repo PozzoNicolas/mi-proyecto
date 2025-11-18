@@ -83,9 +83,22 @@ h2 {
     border-radius: 16px;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
     padding: 2rem 3rem;
-    width: 65%;
+    /* width: 65%; */
+    width: 98%;
     margin: auto;
     text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#tituloMisMascotas {
+    text-align: center;
+    margin-top: 4%;
+}
+
+.col-md-4 {
+width: 90%;
 }
 
 #loginbox{
@@ -114,6 +127,8 @@ h2 {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
+    margin-bottom: 5%;
 }
 
 /* Imagen principal */

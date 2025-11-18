@@ -27,31 +27,59 @@ public class ControladorMisMascotas {
     @GetMapping("/mis-mascotas")
     public String misMascotas(Model model, HttpSession session) {
 
-        Usuario usuarioActual = (Usuario) session.getAttribute("usuarioActual");
+        Usuario usuarioSesion = (Usuario) session.getAttribute("usuarioActual");
 
-        if (usuarioActual == null) {
+        if (usuarioSesion == null) {
             return "redirect:/login";
         }
-        List<Mascota> mascotas = usuarioActual.getMascotas();
+
+        // 🌟 1. Obtener el ID del usuario de la sesión.
+        Long idUsuario = usuarioSesion.getId();
+
+        // 🌟 2. Forzar la recarga del usuario y sus mascotas desde la base de datos.
+        // Esto asegura que la lista de mascotas esté sincronizada con la DB.
+        Usuario usuarioActualizado = servicioUsuario.buscarUsuarioPorId(idUsuario);
+
+        // Si la lista de mascotas está marcada como Lazy, debes asegurarte que el
+        // servicio
+        // o el repositorio la carguen (ej: usando FETCH JOIN en el repositorio).
+        List<Mascota> mascotas = usuarioActualizado.getMascotas();
+
+        // 🌟 3. Opcional: Reemplazar el objeto en la sesión con el actualizado
+        session.setAttribute("usuarioActual", usuarioActualizado);
+
         model.addAttribute("mascotas", mascotas);
         return "mis-mascotas";
 
+        // Usuario usuarioActual = (Usuario) session.getAttribute("usuarioActual");
+
+        // if (usuarioActual == null) {
+        // return "redirect:/login";
+        // }
+        // List<Mascota> mascotas = usuarioActual.getMascotas();
+        // model.addAttribute("mascotas", mascotas);
+        // return "mis-mascotas";
 
     }
 
     @PostMapping("/eliminar-mascota")
     public ModelAndView eliminarMascota(@RequestParam("idMascota") Long idMascota) {
 
-        try {
-            servicioMascota.eliminarMascota(idMascota);
+        // Si hay un error de JPA, esto lo lanzará y obtendrás un HTTP 500
+        servicioMascota.eliminarMascota(idMascota);
 
-            // Redirigir a la vista que lista las mascotas
-            return new ModelAndView("redirect:/mis-mascotas");
+        return new ModelAndView("redirect:/mis-mascotas");
+        // try {
+        // servicioMascota.eliminarMascota(idMascota);
 
-        } catch (Exception e) {
-            // Manejar la excepción si ocurre un error en la eliminación (ej: cascada rota)
-            System.err.println("Error al eliminar mascota: " + e.getMessage());
-            return new ModelAndView("redirect:/mis-mascotas?error=eliminacionFallida");
-        }
+        // // Redirigir a la vista que lista las mascotas
+        // return new ModelAndView("redirect:/mis-mascotas");
+
+        // } catch (Exception e) {
+        // // Manejar la excepción si ocurre un error en la eliminación (ej: cascada
+        // rota)
+        // System.err.println("Error al eliminar mascota: " + e.getMessage());
+        // return new ModelAndView("redirect:/mis-mascotas?error=eliminacionFallida");
+        // }
     }
 }

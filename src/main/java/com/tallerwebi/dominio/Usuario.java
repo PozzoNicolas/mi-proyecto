@@ -22,7 +22,10 @@ public class Usuario {
     private Boolean activo = false;
     /*Uso mappedBy para que no se cree una tabla intermedia y Mascota lleva una FK en su atributo 'duenio'.
     Es una relación de 1:N donde un cliente puede tener muchas mascotas.*/
-    @OneToMany(mappedBy = "duenio", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "duenio", 
+           cascade = {CascadeType.PERSIST, CascadeType.MERGE}, 
+           orphanRemoval = true, // 🔥 IMPORTANTE: Indica a JPA que si eliminas un hijo de la lista, debe borrarlo de la DB.
+           fetch = FetchType.EAGER)
     private List<Mascota> mascotas = new ArrayList<Mascota>();
 
     // Si uso EAGER para turnos, se rompe todo. 

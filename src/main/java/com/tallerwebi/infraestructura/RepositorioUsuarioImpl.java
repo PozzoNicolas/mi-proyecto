@@ -16,10 +16,9 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
     private final SessionFactory sessionFactory;
 
     @Autowired
-    public RepositorioUsuarioImpl(SessionFactory sessionFactory){
+    public RepositorioUsuarioImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
-
 
     @Override
     public Usuario buscarUsuario(String email, String password) {
@@ -31,8 +30,6 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
                 .uniqueResult();
     }
 
-
-
     @Override
     public Usuario buscarUsuarioPorId(Long id) {
         final Session session = sessionFactory.getCurrentSession();
@@ -42,6 +39,8 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
     @Override
     public void guardar(Usuario usuario) {
         sessionFactory.getCurrentSession().saveOrUpdate(usuario);
+        // Asegura que el cambio (romper la lista de mascotas) se persista ahora.
+        sessionFactory.getCurrentSession().flush();
     }
 
     @Override
@@ -73,7 +72,6 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
         return (Usuario) session.get(Usuario.class, id);
     }
 
-
     @Override
     public void eliminar(Usuario usuario) {
 
@@ -91,12 +89,13 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
     public Usuario buscarPorIdConTurnos(Long id) {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery(
-            "SELECT DISTINCT u FROM Usuario u " +
-            "LEFT JOIN FETCH u.turnos t " +
-            "LEFT JOIN FETCH t.veterinaria " +
-            "LEFT JOIN FETCH t.profesional " +
-            "WHERE u.id = :id", Usuario.class)
-            .setParameter("id", id)
-            .uniqueResult();
+                "SELECT DISTINCT u FROM Usuario u " +
+                        "LEFT JOIN FETCH u.turnos t " +
+                        "LEFT JOIN FETCH t.veterinaria " +
+                        "LEFT JOIN FETCH t.profesional " +
+                        "WHERE u.id = :id",
+                Usuario.class)
+                .setParameter("id", id)
+                .uniqueResult();
     }
 }

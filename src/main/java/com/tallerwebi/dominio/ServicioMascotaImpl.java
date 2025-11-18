@@ -10,14 +10,17 @@ public class ServicioMascotaImpl implements ServicioMascota {
 
     private final ServicioUsuario servicioUsuario;
     private final RepositorioMascota repositorioMascota;
+    private final RepositorioUsuario repositorioUsuario;
 
     @Autowired
-    public ServicioMascotaImpl(RepositorioMascota repositorioMascota, ServicioUsuario servicioUsuario) {
+    public ServicioMascotaImpl(RepositorioMascota repositorioMascota, ServicioUsuario servicioUsuario,
+            RepositorioUsuario repositorioUsuario) {
         this.repositorioMascota = repositorioMascota;
         this.servicioUsuario = servicioUsuario;
+        this.repositorioUsuario = repositorioUsuario;
     }
 
-// En ServicioMascotaImpl
+    // En ServicioMascotaImpl
 
     @Override
     @Transactional
@@ -39,20 +42,28 @@ public class ServicioMascotaImpl implements ServicioMascota {
     @Override
     @Transactional // 🔥 CRÍTICO: Abre la transacción para la operación de base de datos
     public void eliminarMascota(Long idMascota) {
-
         Mascota mascota = repositorioMascota.buscarMascotaPorId(idMascota);
 
-        if (mascota != null && mascota.getDuenio() != null) {
-            Usuario duenio = mascota.getDuenio();
-            duenio.getMascotas().remove(mascota);
-            mascota.setDuenio(null);
+        if (mascota != null) {
+            if (mascota.getDuenio() != null) {
+                Usuario duenio = mascota.getDuenio();
+
+                // 1. Romper la relación en Java (eliminar el huérfano)
+                duenio.getMascotas().remove(mascota);
+
+                // 2. Persistir el Dueño
+                // Esto forzará al Dueño a actualizarse, y orphanRemoval=true se encargará de
+                // generar la sentencia DELETE para la Mascota.
+                repositorioUsuario.guardar(duenio);
+
+                // 🔥 NO LLAMES MÁS A ESTA FUNCIÓN: ¡OrphanRemoval lo hace por ti!
+                // repositorioMascota.eliminarMascota(mascota);
+
+            } else {
+                // Si no tiene dueño, la eliminas directamente (esto no debería ocurrir)
+                repositorioMascota.eliminarMascota(mascota);
+            }
         }
-
-        repositorioMascota.eliminarMascota(mascota);
-
-
-
     }
+
 }
-
-
