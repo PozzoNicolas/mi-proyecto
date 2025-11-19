@@ -49,8 +49,9 @@ public class ControladorPerfil {
     }
 
     @PostMapping("/editar")
-    public ModelAndView editarPerfil(@ModelAttribute("usuario") Usuario usuarioEditado,
-                                    HttpSession session) {
+    public ModelAndView editarPerfil(
+            @ModelAttribute("usuario") Usuario usuarioEditado,
+            HttpSession session) {
 
         Usuario usuarioActual = (Usuario) session.getAttribute("usuarioActual");
 
@@ -58,27 +59,39 @@ public class ControladorPerfil {
             return new ModelAndView("redirect:/login");
         }
 
-        // Update only if the field is not empty
-        if (usuarioEditado.getNombre() != null && !usuarioEditado.getNombre().trim().isEmpty()) {
-            usuarioActual.setNombre(usuarioEditado.getNombre());
+        ModelMap modelo = new ModelMap();
+        modelo.put("usuario", usuarioEditado);
+
+        if (usuarioEditado.getNombre() == null || usuarioEditado.getNombre().trim().isEmpty()) {
+            modelo.put("error", "El nombre no puede quedar vacío.");
+            return new ModelAndView("editar-perfil", modelo);
         }
 
-        if (usuarioEditado.getApellido() != null && !usuarioEditado.getApellido().trim().isEmpty()) {
-            usuarioActual.setApellido(usuarioEditado.getApellido());
+        if (usuarioEditado.getApellido() == null || usuarioEditado.getApellido().trim().isEmpty()) {
+            modelo.put("error", "El apellido no puede quedar vacío.");
+            return new ModelAndView("editar-perfil", modelo);
         }
 
-        if (usuarioEditado.getTelefono() != null && !usuarioEditado.getTelefono().trim().isEmpty()) {
-            usuarioActual.setTelefono(usuarioEditado.getTelefono());
+        if (usuarioEditado.getTelefono() == null || usuarioEditado.getTelefono().trim().isEmpty()) {
+            modelo.put("error", "El teléfono no puede quedar vacío.");
+            return new ModelAndView("editar-perfil", modelo);
         }
 
-        if (usuarioEditado.getEmail() != null && !usuarioEditado.getEmail().trim().isEmpty()) {
-            usuarioActual.setEmail(usuarioEditado.getEmail());
+        if (usuarioEditado.getEmail() == null || usuarioEditado.getEmail().trim().isEmpty()) {
+            modelo.put("error", "El email no puede quedar vacío.");
+            return new ModelAndView("editar-perfil", modelo);
         }
+
+        usuarioActual.setNombre(usuarioEditado.getNombre());
+        usuarioActual.setApellido(usuarioEditado.getApellido());
+        usuarioActual.setTelefono(usuarioEditado.getTelefono());
+        usuarioActual.setEmail(usuarioEditado.getEmail());
 
         servicioUsuario.actualizar(usuarioActual);
         session.setAttribute("usuarioActual", usuarioActual);
 
         return new ModelAndView("redirect:/perfil");
     }
+
 
 }

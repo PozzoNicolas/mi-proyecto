@@ -34,10 +34,14 @@
 </nav>
 
 <main id="perfil-contenedor" class="main-body">
-    <form th:action="@{/perfil/editar}" method="post" th:object="${usuario}"
-          th:object="${usuario}" 
-          method="post"
-          class="mascotas-form mx-auto">
+        <form th:action="@{/perfil/editar}"
+            th:object="${usuario}"
+            method="post"
+            class="mascotas-form mx-auto">
+
+        <div th:if="${error}" class="alert alert-danger">
+            <p th:text="${error}"></p>
+        </div>
 
         <div class="mb-3">
             <label for="nombre">Nombre</label>
@@ -56,7 +60,7 @@
 
         <div class="mb-3">
             <label for="email">Email</label>
-            <input class="form-control" th:field="*{email}" placeholder="Email" />
+            <input class="form-control" th:field="*{email}" placeholder="Email" type="email"/>
         </div>
 
         <button type="submit" class="btn btn-success w-80">Actualizar</button>
