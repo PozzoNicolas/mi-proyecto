@@ -32,29 +32,32 @@ import com.tallerwebi.dominio.enums.Especialidad;
 @RequestMapping("/turno")
 @SessionAttributes("turnoDTO")
 public class ControladorSacarTurno {
-    
+
     private final ServicioUsuario servicioUsuario;
-    private final ServicioVeterinaria servicioVeterinaria; 
+    private final ServicioVeterinaria servicioVeterinaria;
     private final ServicioTurnos servicioTurnos;
     private final ServicioVPH servicioVPH;
-    private final ServicioMail servicioMail; 
+    private final ServicioMail servicioMail;
 
     @Autowired
-    public ControladorSacarTurno(ServicioUsuario servicioUsuario, ServicioVeterinaria servicioVeterinaria, ServicioTurnos servicioTurnos, ServicioVPH servicioVPH, ServicioMail servicioMail) {
+    public ControladorSacarTurno(ServicioUsuario servicioUsuario, ServicioVeterinaria servicioVeterinaria,
+            ServicioTurnos servicioTurnos, ServicioVPH servicioVPH, ServicioMail servicioMail) {
         this.servicioUsuario = servicioUsuario;
-        this.servicioVeterinaria = servicioVeterinaria; 
-        this.servicioTurnos = servicioTurnos; 
+        this.servicioVeterinaria = servicioVeterinaria;
+        this.servicioTurnos = servicioTurnos;
         this.servicioVPH = servicioVPH;
-        this.servicioMail = servicioMail; 
+        this.servicioMail = servicioMail;
     }
 
-    //Este model atribute se comparte entre las dos vistas, no? 
+    // Este model atribute se comparte entre las dos vistas, no?
     @ModelAttribute
     public void setAtributosComunes(ModelMap modelo, HttpSession session) {
-        Usuario usuarioActual =  (Usuario)session.getAttribute("usuarioActual");
-        modelo.addAttribute("usuario", usuarioActual); //Para guardar turno en usuario
-        modelo.addAttribute("veterinarias", servicioVeterinaria.listarVeterinarias()); //Necesario para primera vista, saber los turnos
-        modelo.addAttribute("especialidades",Especialidad.values()); //Para el primer campo, el segundo se llena con js
+        Usuario usuarioActual = (Usuario) session.getAttribute("usuarioActual");
+        modelo.addAttribute("usuario", usuarioActual); // Para guardar turno en usuario
+        modelo.addAttribute("veterinarias", servicioVeterinaria.listarVeterinarias()); // Necesario para primera vista,
+                                                                                       // saber los turnos
+        modelo.addAttribute("especialidades", Especialidad.values()); // Para el primer campo, el segundo se llena con
+                                                                      // js
     }
 
     @ModelAttribute("turnoDTO")
@@ -63,21 +66,20 @@ public class ControladorSacarTurno {
     }
 
     @GetMapping("/nuevo-turno")
-    public String mostrarNuevosTurnos(Model modelo, HttpSession session) {
+    public String mostrarNuevosTurnos(Model modelo, HttpSession session, SessionStatus status) {
         if (session.getAttribute("usuarioActual") == null) {
             return "redirect:/inicio";
         }
-
-        // ensure the model has the turnoDTO (the @ModelAttribute method will supply it)
-        // modelo.addAttribute("turnoDTO", new TurnoDTO()); // NOT needed because @ModelAttribute supplies it
+        status.setComplete();
+        session.removeAttribute("turno_flow");
         return "nuevo-turno";
     }
 
     @GetMapping("/resultado-turno")
     public ModelAndView mostrarVeterinarias(@ModelAttribute("turnoDTO") TurnoDTO turnoDTO,
-                                            HttpSession session) {
+            HttpSession session) {
         ModelMap modelo = new ModelMap();
-        if (session.getAttribute("usuarioActual") == null){
+        if (session.getAttribute("usuarioActual") == null) {
             return new ModelAndView("home", modelo);
         }
 
@@ -86,30 +88,32 @@ public class ControladorSacarTurno {
             return new ModelAndView("redirect:/nuevo-turno");
         }
 
-        //Veterinaria v = turno.getVeterinaria();
+        // Veterinaria v = turno.getVeterinaria();
         Veterinaria v = servicioTurnos.getVeterinariaPorTurnoDTO(turnoDTO);
-        //Se carga la/s veterinaria/s que el usuario busco, y se su be al modelo
-        //Aca se transforma los datos del VPH en un mapa Transient para comunicarse con el front
-        if(turnoDTO.getVeterinariaId() == null || turnoDTO.getVeterinariaId() == 0) { //Vet es nula, el usuario no eligio ninguna...
+        // Se carga la/s veterinaria/s que el usuario busco, y se su be al modelo
+        // Aca se transforma los datos del VPH en un mapa Transient para comunicarse con
+        // el front
+        if (turnoDTO.getVeterinariaId() == null || turnoDTO.getVeterinariaId() == 0) { // Vet es nula, el usuario no
+                                                                                       // eligio ninguna...
             List<Veterinaria> todas = servicioVeterinaria.listarVeterinarias();
             for (Veterinaria vet : todas) {
-                List<VeterinariaProfesionalHorario> vphList = servicioVPH.obtenerProfesionalesDeVeterinaria(vet.getId());
+                List<VeterinariaProfesionalHorario> vphList = servicioVPH
+                        .obtenerProfesionalesDeVeterinaria(vet.getId());
                 Map<String, List<Profesional>> mapa = vphList.stream()
-                    .filter(vph -> vph.getHorario() != null && vph.getProfesional() != null)
-                    .collect(Collectors.groupingBy(
-                        vph -> vph.getHorario().toString(),
-                        Collectors.mapping(VeterinariaProfesionalHorario::getProfesional, Collectors.toList())
-                    ));
+                        .filter(vph -> vph.getHorario() != null && vph.getProfesional() != null)
+                        .collect(Collectors.groupingBy(
+                                vph -> vph.getHorario().toString(),
+                                Collectors.mapping(VeterinariaProfesionalHorario::getProfesional,
+                                        Collectors.toList())));
                 vet.setProfesionalesEnHorario(mapa);
             }
             modelo.put("veterinarias", todas);
-        } else { //Vet es un objeto, se carga solo ese
+        } else { // Vet es un objeto, se carga solo ese
             List<VeterinariaProfesionalHorario> vphList = servicioVPH.obtenerProfesionalesDeVeterinaria(v.getId());
             Map<String, List<Profesional>> mapaHorarioProfesionales = vphList.stream()
                     .collect(Collectors.groupingBy(
                             vph -> vph.getHorario().toString(),
-                            Collectors.mapping(VeterinariaProfesionalHorario::getProfesional, Collectors.toList())
-                    ));
+                            Collectors.mapping(VeterinariaProfesionalHorario::getProfesional, Collectors.toList())));
             v.setProfesionalesEnHorario(mapaHorarioProfesionales); // Mapa como existia antes
             modelo.put("veterinaria", v);
         }
@@ -121,19 +125,26 @@ public class ControladorSacarTurno {
 
     @PostMapping("/validar-datos-turno")
     public ModelAndView validarDatos(@ModelAttribute("turnoDTO") TurnoDTO turnoDTO,
-                                    HttpSession session) {
+            HttpSession session) {
 
         System.out.println(">>> VET ID EN VALIDAR = " + turnoDTO.getVeterinariaId());
         ModelMap modelo = new ModelMap();
 
-        if(!servicioTurnos.esTurnoDTOEspPracValidas(turnoDTO)) {
+        if (!servicioTurnos.esTurnoDTOEspPracValidas(turnoDTO)) {
             modelo.put("error", "Debe seleccionar especialidad y práctica");
             modelo.put("datosBusqueda", turnoDTO);
             return new ModelAndView("nuevo-turno", modelo);
         }
 
         session.setAttribute("turno_flow", true);
-
+        // INICIO DE LA MODIFICACIÓN
+        // Si se seleccionó una veterinaria específica, cárgala y agrégala al modelo
+        if (turnoDTO.getVeterinariaId() != null && turnoDTO.getVeterinariaId() != 0) {
+            Veterinaria v = servicioVeterinaria.buscarPorId(turnoDTO.getVeterinariaId().longValue());
+            // Agregamos la veterinaria al modelo para que la vista resultado-turno la use.
+            // Esto previene el error 'veterinaria is null' en el template.
+            modelo.put("veterinaria", v);
+        }
         modelo.put("turnoDTO", turnoDTO);
         return new ModelAndView("resultado-turno", modelo);
     }
@@ -148,10 +159,10 @@ public class ControladorSacarTurno {
 
     @PostMapping("/seleccionar-horario-profesional")
     public String seleccionarHorarioProfesional(@ModelAttribute("turnoDTO") TurnoDTO turnoDTO,
-                                                ModelMap modelo,
-                                                HttpServletRequest request,
-                                                HttpSession session,
-                                                SessionStatus status) {
+            ModelMap modelo,
+            HttpServletRequest request,
+            HttpSession session,
+            SessionStatus status) {
 
         // 1️⃣ Process selection: this should parse turnoDTO.getSeleccion()
         // e.g. formato esperado: "vetId||horarioString||profId"
