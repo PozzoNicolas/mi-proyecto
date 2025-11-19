@@ -25,7 +25,7 @@
     </div>
 </nav>
 
-<main role="main" class="container">
+<main role="main" class="container" style="margin-bottom: 26%;">
   <div class = "container">
     <h1>Resultados: </h1>
     
@@ -48,7 +48,7 @@
     <input type="hidden" th:field="*{practica}" />
     <input type="hidden" th:field="*{veterinariaId}" />
 
-    <button type="submit">Ver turnos disponibles</button>
+    <button type="submit" class="btn btn-lg btn-primary btn-block">Ver turnos disponibles</button>
   </form>
 </div>
 
@@ -106,7 +106,7 @@
     <input type="hidden" th:field="*{fecha}" />
     <input type="hidden" th:if="${turnoDTO.veterinariaId != null}" th:field="*{veterinariaId}" />
 
-    <button type="submit">Reservar turno</button>
+    <button type="submit" class="btn btn-lg btn-primary btn-block">Reservar turno</button>
   </div>
 
 </form>
