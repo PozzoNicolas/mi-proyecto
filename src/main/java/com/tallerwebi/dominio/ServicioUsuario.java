@@ -9,4 +9,5 @@ public interface ServicioUsuario {
     Usuario buscarUsuarioPorId(Long id);
     void cancelarTurno(Usuario usuario, Long id);
     Usuario buscarUsuarioPorIdConTurnos(Long id);
+    void actualizar(Usuario usuairo); 
 }

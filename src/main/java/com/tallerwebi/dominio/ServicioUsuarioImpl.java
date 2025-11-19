@@ -129,4 +129,9 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
             usuario.getTurnos().size();
         return usuario;
     }
+
+    @Override
+    public void actualizar(Usuario usuairo) {
+        repositorioUsuario.actualizar(usuairo);
+    }
 }
