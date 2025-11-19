@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil - VetConnect</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}" />
 
-    <!-- Estilos personalizados -->
     <link rel="stylesheet" th:href="@{/css/main.css}" />
 </head>
 <body>
@@ -35,19 +33,43 @@
     </div>
 </nav>
 
-<main id = "perfil-contenedor" class="main-body" >
-    <h2 class="mb-4 text-success">Tu Perfil</h2>
+<main id="perfil-contenedor" class="main-body">
+        <form th:action="@{/perfil/editar}"
+            th:object="${usuario}"
+            method="post"
+            class="mascotas-form mx-auto">
 
-    <div class="card p-4 shadow-sm" style="max-width: 500px;">
-        <p><strong>Nombre:</strong> <span th:text="${usuario.nombre}">Juan</span></p>
-        <p><strong>Apellido:</strong> <span th:text="${usuario.apellido}">Pérez</span></p>
-        <p><strong>Correo:</strong> <span th:text="${usuario.email}">correo@ejemplo.com</span></p>
-        <p><strong>Tel&eacute;fono:</strong> <span th:text="${usuario.telefono}">123456789</span></p>
-    </div>
+        <div th:if="${error}" class="alert alert-danger">
+            <p th:text="${error}"></p>
+        </div>
 
-    <div class="mt-4">
-        <a class="btn btn-success" th:href="@{/perfil/editar}">Editar Perfil</a>
-    </div>
+        <div class="mb-3">
+            <label for="nombre">Nombre</label>
+            <input class="form-control" th:field="*{nombre}" placeholder="Nombre" />
+        </div>
+
+        <div class="mb-3">
+            <label for="apellido">Apellido</label>
+            <input class="form-control" th:field="*{apellido}" placeholder="Apellido" />
+        </div>
+
+        <div class="mb-3">
+            <label for="telefono">Teléfono</label>
+            <input class="form-control" th:field="*{telefono}" placeholder="Teléfono" />
+        </div>
+
+        <div class="mb-3">
+            <label for="email">Email</label>
+            <input class="form-control" th:field="*{email}" placeholder="Email" type="email"/>
+        </div>
+
+        <button type="submit" class="btn btn-success w-80">Actualizar</button>
+        <br>
+
+        <a class="btn-volver" th:href="@{/perfil}">Regresar</a>
+    </form>
+</main>
+
 </main>
 
 <br>
