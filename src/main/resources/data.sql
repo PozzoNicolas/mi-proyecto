@@ -26,7 +26,12 @@ VALUES
 -- Vet Dos
 (2, 2, '10:00'),
 (2, 3, '08:00'),
-(2, 3, '09:00');
+(2, 3, '09:00'),
+
+-- Vet Tres
+(3, 2, '10:00'),
+(3, 3, '08:00'),
+(3, 3, '09:00');
 
 INSERT INTO Recomendacion (titulo, descripcion, tipo, etapa, sexo, link)
 
