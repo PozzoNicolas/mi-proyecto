@@ -1,5 +1,7 @@
 package com.tallerwebi.presentacion;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -86,7 +88,6 @@ public class ControladorInicioTest {
 
         @Test
         public void siHayUsuarioEnSesion_llamaAlServicioParaCargarTurnos() throws Exception {
-
                 // 1) Usuario simulado en sesión
                 Usuario usuarioEnSesion = new Usuario();
                 usuarioEnSesion.setId(10L);
