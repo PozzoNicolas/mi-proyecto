@@ -32,7 +32,7 @@
       <div th:if="${mascotas != null}">
       <div class="row g-4">
         <div class="col-md-6" th:each="mascota : ${mascotas}">
-          <div class="card shadow-sm">
+          <div class="card shadow-sm" style="margin-bottom: 5%;">
             <div class="card-header bg-primary text-white">
               <h5 th:text="${mascota.nombre}"></h5>
             </div>
@@ -60,7 +60,7 @@
                   </tbody>
               </table>
 
-              <div class="text-end">
+              <div class="text-end" style="text-align: center !important;">
                 <a th:href="@{'/modificar-historial-de-vacunacion?id=' + ${mascota.historialDeVacunas.id}}"
                    class="btn btn-outline-primary btn-sm">Modificar historial</a>
               </div>
@@ -84,17 +84,15 @@
 <br>
 <br>
 <br>
-<footer>
+<footer style="margin-top: 18%;">
     <div>
         <h6>Integrantes:</h6>
         <h6>Diego Contreras</h6>
         <h6>Nicolas Pozzo</h6>
-        <h6>Andrea Callejas</h6>
-        <h6>Mauricio Medina</h6>
         <h6>Joaquin A. Diaz</h6>
     </div>
     <div>
-        <h6>Fundación Futuro - 2025</h6>
+        <h6>Fundaci&oacute;n Futuro - 2025</h6>
         <h6>Taller Web I - Universidad Nacional de La Matanza</h6>
     </div>
 </footer>
