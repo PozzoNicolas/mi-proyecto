@@ -19,31 +19,29 @@ public class ServicioRecomendacionesImpl implements ServicioRecomendaciones {
 
     @Override
     public List<Recomendacion> generarRecomendaciones(Usuario usuario) {
-        List<Recomendacion> recomendacionesFinales = new ArrayList<>();
-        if (usuario == null || usuario.getMascotas() == null || usuario.getMascotas().isEmpty()) {
 
+        if (usuario == null || usuario.getMascotas() == null || usuario.getMascotas().isEmpty()) {
             return new ArrayList<>();
         }
 
-        Mascota mascota = usuario.getMascotas().get(0);
+        List<Recomendacion> recomendaciones = new ArrayList<>();
 
-        String tipo = mascota.getTipoDeMascota() != null ? mascota.getTipoDeMascota() : "General";
-        String sexo = mascota.getSexo() != null ? mascota.getSexo() : "Ambos";
+        for (Mascota mascota : usuario.getMascotas()) {
 
-        // Lógica de mapeo de edad a Etapa (Cachorro, Adulto, Senior)
-        String etapa;
-        int edad = mascota.getEdad();
+            String tipo = determinarTipo(mascota);
+            String etapa = determinarEtapa(mascota);
+            String sexo = determinarSexo(mascota);
 
-        if (edad <= 1) {
-            etapa = "Cachorro";
-        } else if (edad <= 7) {
-            etapa = "Adulto";
-        } else {
-            etapa = "Senior";
+            List<Recomendacion> recomendacionesPorMascota =
+                    repositorioRecomendacion.buscarPorCriterios(tipo, etapa, sexo);
+
+            recomendaciones.addAll(recomendacionesPorMascota);
         }
 
-
-        return repositorioRecomendacion.buscarPorCriterios(tipo, etapa, sexo);
+        // Opcional: evitar duplicados si el repositorio puede devolver iguales
+        return recomendaciones.stream()
+                .distinct()
+                .toList();
     }
 
     // --- Métodos de apoyo para estandarizar los filtros ---
