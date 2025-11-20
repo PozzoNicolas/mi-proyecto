@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+//Import para que funcione los cambios de Diego.
+import java.util.stream.Collectors;
 
 @Service ("servicioRecomendaciones")
 public class ServicioRecomendacionesImpl implements ServicioRecomendaciones {
@@ -41,7 +43,7 @@ public class ServicioRecomendacionesImpl implements ServicioRecomendaciones {
         // Opcional: evitar duplicados si el repositorio puede devolver iguales
         return recomendaciones.stream()
                 .distinct()
-                .toList();
+                .collect(Collectors.toList());
     }
 
     // --- Métodos de apoyo para estandarizar los filtros ---
