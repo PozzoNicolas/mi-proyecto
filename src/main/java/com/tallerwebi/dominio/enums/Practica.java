@@ -1,14 +1,15 @@
 package com.tallerwebi.dominio.enums;
 
-/*
- * De momento dejo todo en un enum. Pero también podemos hacer
- * uno por cada especialidad en caso de agregar cositas a la hora
- * de sacar turnos, ej: Para tal estudio, recorda q tu mascota
- * tiene que estar en ayuno, etc etc...
- */
 public enum Practica {
-    VACUNA_1("Rabia"),
-    VACUNA_2("Moquillo"),
+    VACUNA_1("Moquillo"),
+    VACUNA_2("Parvovirus"),
+    VACUNA_3("Hepatitis infecciosa canina"),
+    VACUNA_4("Leptospirosis"),
+    VACUNA_5("Rabia"),
+    VACUNA_6("Tos de las perreras (Bordetella)"),
+    VACUNA_7("Triple felina (Panleucopenia, Rinotraqueítis, Calicivirus)"),
+    VACUNA_8("Leucemia felina (FeLV)"),
+
     ESTUDIO_1("Radiografía"),
     ESTUDIO_2("Análisis de sangre"),
     CONTROL_1("Chequeo"); 
