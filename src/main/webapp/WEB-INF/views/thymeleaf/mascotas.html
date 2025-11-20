@@ -61,10 +61,6 @@
             <input type="date" class="form-control" id="fechaDeNacimiento" th:field="*{fechaDeNacimiento}" th:attr="max=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"/>
         </div>
 
-        <div class="mb-3">
-            <label for="foto" class="form-label">Foto de la mascota</label>
-            <input class="form-control" type="file" id="foto" name="foto" accept="image/*">
-        </div>
         <button type="submit" class="btn btn-success w-80">Registrar</button>
         <br>
         <a href="inicio" > <button type="button" class="btn-volver">Regresar</button></a>

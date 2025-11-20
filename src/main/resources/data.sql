@@ -31,7 +31,8 @@ VALUES
 -- Vet Tres
 (3, 2, '10:00'),
 (3, 3, '08:00'),
-(3, 3, '09:00');
+(3, 3, '09:00'),
+(3, 1, '11:00');
 
 INSERT INTO Recomendacion (titulo, descripcion, tipo, etapa, sexo, link)
 
@@ -86,7 +87,7 @@ INSERT INTO EnlaceAdopcion (nombre, url, descripcion, provincia) VALUES
      'El refugio mas grande de perrros rescatados, ubicado en Esteban Echeverria', 'Buenos Aires');
 
 INSERT INTO EnlaceAdopcion (nombre, url, descripcion, provincia) VALUES
-    ('El Campito Refugio', 'https://www.fundacionvivalavida.com.ar/',
+    ('Fundacion Viva la Vida', 'https://www.fundacionvivalavida.com.ar/',
     'Promueve la adopcion, esterilizacion y educacion para la convivencia responsable con mascotas', 'Buenos Aires' );
 
 INSERT INTO EnlaceAdopcion (nombre, url, descripcion, provincia) VALUES
