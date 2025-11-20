@@ -1,7 +1,12 @@
 package com.tallerwebi.dominio;
 
 import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.ColumnText;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+
 import org.springframework.stereotype.Service;
 import java.io.OutputStream;
 
@@ -11,45 +16,113 @@ public class ServicioPDFImpl implements ServicioPDF {
     @Override
     public void generarCredencial(Usuario usuario, OutputStream outputStream) throws Exception {
 
-        // Crear el documento PDF
-        Document document = new Document(PageSize.A5); // Tamaño de credencial
-        PdfWriter.getInstance(document, outputStream);
+        Document document = new Document(PageSize.A5);
+        PdfWriter writer = PdfWriter.getInstance(document, outputStream);
         document.open();
 
-        // 1. FUENTES Y ESTILOS
-        Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD, BaseColor.DARK_GRAY);
-        Font fontSubtitulo = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD);
+        BaseColor brandColor = new BaseColor(0x43, 0xA0, 0x47); // #43a047
+
+        Font fontLogo = new Font(Font.FontFamily.HELVETICA, 28, Font.BOLD, BaseColor.WHITE);
+        Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD, brandColor);
+        Font fontSubtitulo = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.DARK_GRAY);
         Font fontNormal = new Font(Font.FontFamily.HELVETICA, 10, Font.NORMAL);
 
-        // 2. TÍTULO
-        Paragraph titulo = new Paragraph("Credencial de Usuario VetConnect", fontTitulo);
-        titulo.setAlignment(Element.ALIGN_CENTER);
-        titulo.setSpacingAfter(20);
-        document.add(titulo);
+        PdfContentByte canvas = writer.getDirectContent();
 
-        // 3. DATOS DEL DUEÑO
-        document.add(new Paragraph("DATOS DEL PROPIETARIO", fontSubtitulo));
-        document.add(new Paragraph("Nombre: " + usuario.getNombre() + " " + usuario.getApellido(), fontNormal));
-        document.add(new Paragraph("ID de Usuario: " + usuario.getId(), fontNormal));
-        document.add(Chunk.NEWLINE); // Salto de línea
+        canvas.setColorFill(brandColor);
+        canvas.rectangle(0, document.getPageSize().getHeight() - 70,
+                        document.getPageSize().getWidth(), 70);
+        canvas.fill();
 
-        // 4. DATOS DE LAS MASCOTAS
-        document.add(new Paragraph("MASCOTAS REGISTRADAS (" + usuario.getMascotas().size() + ")", fontSubtitulo));
+        Phrase phrase = new Phrase(0, "VetConnect", fontLogo); 
+
+        ColumnText.showTextAligned(
+                canvas,
+                Element.ALIGN_CENTER,
+                phrase,
+                document.getPageSize().getWidth() / 2,
+                document.getPageSize().getHeight() - 45,
+                0
+        );
+
+
+
+        document.add(Chunk.NEWLINE);
         document.add(Chunk.NEWLINE);
 
+        Paragraph titulo = new Paragraph("Credencial de Usuario", fontTitulo);
+        titulo.setAlignment(Element.ALIGN_CENTER);
+        titulo.setSpacingAfter(15);
+        document.add(titulo);
+
+        Paragraph ownerTitle = new Paragraph("DATOS DEL PROPIETARIO", fontSubtitulo);
+        ownerTitle.setSpacingAfter(5);
+        document.add(ownerTitle);
+
+        document.add(new Paragraph("Nombre: " + usuario.getNombre() + " " + usuario.getApellido(), fontNormal));
+        document.add(new Paragraph("ID de Usuario: " + usuario.getId(), fontNormal));
+        document.add(Chunk.NEWLINE);
+
+        canvas.setLineWidth(1f);
+        canvas.setColorStroke(brandColor);
+        canvas.moveTo(40, writer.getVerticalPosition(true) - 5);
+        canvas.lineTo(document.getPageSize().getWidth() - 40, writer.getVerticalPosition(true) - 5);
+        canvas.stroke();
+        document.add(Chunk.NEWLINE);
+
+        Paragraph petsTitle = new Paragraph(
+                "MASCOTAS REGISTRADAS (" + usuario.getMascotas().size() + ")",
+                fontSubtitulo
+        );
+        petsTitle.setSpacingBefore(10);
+        petsTitle.setSpacingAfter(10);
+        document.add(petsTitle);
+
         if (usuario.getMascotas().isEmpty()) {
-            document.add(new Paragraph("No hay mascotas registradas asociadas a esta credencial.", fontNormal));
+
+            document.add(new Paragraph("No hay mascotas registradas asociadas.", fontNormal));
+
         } else {
+
             for (Mascota mascota : usuario.getMascotas()) {
-                document.add(new Paragraph("- - - - - - - - - - - - - - - - - - - -", fontNormal));
-                document.add(new Paragraph("Nombre: " + mascota.getNombre(), fontNormal));
-                document.add(new Paragraph("Especie: " + mascota.getTipoDeMascota(), fontNormal));
-                document.add(new Paragraph("Raza: " + mascota.getRaza(), fontNormal));
-                // Opcional: Agregar ID de mascota si lo necesitas
-                // document.add(new Paragraph("ID Mascota: " + mascota.getId(), fontNormal));
+
+                PdfPTable table = new PdfPTable(1);
+                table.setWidthPercentage(100);
+
+                PdfPCell cell = new PdfPCell();
+                cell.setPadding(8);
+                cell.setBorderColor(brandColor);
+                cell.setBorderWidth(1.5f);
+
+                Paragraph info = new Paragraph(
+                        "Nombre: " + mascota.getNombre() + "\n" +
+                        "Especie: " + mascota.getTipoDeMascota() + "\n" +
+                        "Raza: " + mascota.getRaza(),
+                        fontNormal
+                );
+
+                cell.addElement(info);
+                table.addCell(cell);
+                document.add(table);
+
+                document.add(Chunk.NEWLINE);
             }
         }
 
+        canvas.setColorFill(brandColor);
+        canvas.rectangle(0, 0, document.getPageSize().getWidth(), 25);
+        canvas.fill();
+
+        ColumnText.showTextAligned(
+                canvas, Element.ALIGN_CENTER,
+                new Phrase("VetConnect", 
+                new Font(Font.FontFamily.HELVETICA, 9, Font.BOLD, BaseColor.WHITE)),
+                document.getPageSize().getWidth() / 2,
+                10,
+                0
+        );
+
         document.close();
     }
+
 }
